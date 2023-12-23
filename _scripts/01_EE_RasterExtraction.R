@@ -10,13 +10,13 @@ ee_Initialize(drive = TRUE)
 # Python Path: /Users/EC13/.virtualenvs/rgee/bin/python 
 
 # set path names
-vector <- "~/Documents/Projects/USACE/NextGen IPR/Data/GIS/Kansas/Vector/"
-raster <- "~/Documents/Projects/USACE/NextGen IPR/Data/GIS/Kansas/Raster/"
+vector <- "~/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/Vector/"
+raster <- "~/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/Raster/"
 
-river <- st_read(paste0(vector,'Clean/river_corridor.shp')) %>%
+river <- sf::st_read(paste0(vector,'Clean/river_corridor.shp')) %>%
   sf_as_ee()
 
-aoi <- st_read(paste0(vector,'Clean/aoi.shp')) %>%
+aoi <- sf::st_read(paste0(vector,'Clean/aoi.shp')) %>%
   sf_as_ee()
 
 images <- ee$ImageCollection('LANDSAT/LC09/C02/T1_L2') %>%
@@ -26,22 +26,19 @@ images <- ee$ImageCollection('LANDSAT/LC09/C02/T1_L2') %>%
   ee$ImageCollection$select('SR_B[1-7]')
 
 images_original <- images
-images <- clip(images,river, return_tidyee = FALSE)
+images <- tidyrgee::clip(images,river, return_tidyee = FALSE)
 
 training <- images$sort('Cloud Cover')$first()$sample(
-  region = river,
-  scale = 30,
-  numPixels = 2000,
-  seed = 0,
+  region = river, scale = 30, numPixels = 2000, seed = 0,
   geometries = TRUE
-)
+  )
 
 n_clusters = 5
 
 clusterer = ee$Clusterer$wekaKMeans(
   nClusters = n_clusters,
   distanceFunction = 'Manhattan'
-)
+  )
 
 clusterer = clusterer$train(training)
 
