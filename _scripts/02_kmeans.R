@@ -1,3 +1,6 @@
+source("~/Documents/Projects/USACE/ML Mesohabitats/Data/R/Mesohabitat_Detection/ML-Mesohabitats/_scripts/00_libraries.R")
+source('~/Documents/Projects/USACE/ML Mesohabitats/Data/R/Mesohabitat_Detection/ML-Mesohabitats/_scripts/00_funcRasterPrep.R')
+
 # kmeans
 
 ## filepaths
@@ -22,19 +25,6 @@ r <- rast(paste0(raster,'Landsat/Raw/',file.names[1]))
 # It is important to set the seed generator because `kmeans`
 # initiates the centers in random locations
 set.seed(99)
-
-# creat a function preparing the raster
-raster_prep <- function(r, mask.polygon, crs){
-  # reproject to crs
-  r <- terra::project(r, crs, method="near")
-  
-  # crop to the extent then mask to the river
-  # this insures that the raster grid remains the same across rasters
-  r <- crop(r, mask.polygon, ext=TRUE)
-  r <- mask(r, mask.polygon)
-  
-  return(r)
-}
 
 r <- raster_prep(r, river, crs)
 
@@ -97,20 +87,3 @@ for (i in 1:length(file.names)){
 write.csv(knr, paste0(raster,'Analysis/Kmeans/kmeansStack05.csv'))
 writeRaster(knr, paste0(raster,'Analysis/Kmeans/kmeansStack05.tif'),
             overwrite=TRUE)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -29,5 +29,6 @@ usgsData <- usgsData %>%
 usgsData <- usgsData %>%
   mutate(dischargeNormalized = normalise(avgDischarge))
 
+# save data
 write.csv(usgsData,'~/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/USGS/usgsData.csv',
           row.names = FALSE)

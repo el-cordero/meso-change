@@ -11,60 +11,41 @@ ee_Initialize(drive = TRUE)
 
 # set path names
 vector <- "~/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/Vector/"
-raster <- "~/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/Raster/"
 
-river <- sf::st_read(paste0(vector,'Clean/river_corridor.shp')) %>%
-  sf_as_ee()
+# read in AOI as an sf vector and convert to ee
+aoi <- vect(paste0(vector,'Clean/aoi.shp'))
+aoi <- ee$Geometry$Rectangle(c(xmin(aoi),ymin(aoi),xmax(aoi),ymax(aoi)))
 
-aoi <- sf::st_read(paste0(vector,'Clean/aoi.shp')) %>%
-  sf_as_ee()
-
+# extract image data
 images <- ee$ImageCollection('LANDSAT/LC09/C02/T1_L2') %>%
   ee$ImageCollection$filterBounds(aoi) %>%
   ee$ImageCollection$filterDate('2020-01-01', '2023-12-01') %>%
   ee$ImageCollection$filter(ee$Filter$lt('CLOUD_COVER',20)) %>%
   ee$ImageCollection$select('SR_B[1-7]')
 
-images_original <- images
-images <- tidyrgee::clip(images,river, return_tidyee = FALSE)
-
-training <- images$sort('Cloud Cover')$first()$sample(
-  region = river, scale = 30, numPixels = 2000, seed = 0,
-  geometries = TRUE
-  )
-
-n_clusters = 5
-
-clusterer = ee$Clusterer$wekaKMeans(
-  nClusters = n_clusters,
-  distanceFunction = 'Manhattan'
-  )
-
-clusterer = clusterer$train(training)
-
-multi_cluster <- function(image){
-  image <- image %>% ee$Image$cluster(clusterer)
+img_scaling <- function(image){
+  image <- image$multiply(0.0000275)$add(-0.2)
   return(image)
 }
 
-results <- images$map(multi_cluster)
+images <- images$map(img_scaling)
 
-# Move results from Earth Engine to Drive
-task_img <- ee_imagecollection_to_local(
-  ic = results,
-  region = river$geometry(),
-  dsn = "/Users/EC13/Documents/Projects/USACE/NextGen IPR/Data/GIS/Kansas/Raster/Analysis/Kmeans/Raw/ten/"
-)
 
 task_img <- ee_imagecollection_to_local(
-  ic = images_original,
+  ic = images,
   region = aoi,
-  dsn = "/Users/EC13/Documents/Projects/USACE/NextGen IPR/Data/GIS/Kansas/Raster/Landsat/Raw/"
+  dsn = "/Users/EC13/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/Raster/Landsat/Raw/"
 )
 
-pnts <- vect(ee_as_sf(training))
-write.csv(pnts, paste0(vector,'Analysis/Kmeans/','training.csv'), 
-          row.names = FALSE)
-writeVector(pnts,paste0(vector,'Analysis/Kmeans/','training_pnts.shp'),
-            overwrite = TRUE)
+# extract image data
+images <- ee$ImageCollection('LANDSAT/LC09/C02/T1') %>%
+  ee$ImageCollection$filterBounds(aoi) %>%
+  ee$ImageCollection$filterDate('2022-08-08', '2023-12-01') %>%
+  ee$ImageCollection$filter(ee$Filter$lt('CLOUD_COVER',20)) %>%
+  ee$ImageCollection$select('B[2-4]')
 
+task_img <- ee_imagecollection_to_local(
+  ic = images,
+  region = aoi,
+  dsn = "/Users/EC13/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/Raster/Landsat/Color/"
+)
