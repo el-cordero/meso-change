@@ -19,24 +19,135 @@ crs <- "EPSG:32614"
 river <- vect(paste0(vector,'Clean/river_corridor.shp'))
 river <- terra::project(river, crs)
 
-userPolygons <- vect(vectorFiles[1])
-userPolygons$id <- 1
+userData <- vect(paste0(vector,'userDelineated.shp'))
+userData <- terra::project(userData, crs)
 
-for (i in 2:length(vectorFiles)){
-  userPolygons.addition <- vect(vectorFiles[i])
-  userPolygons.addition$id <- i
-  userPolygons <- rbind(userPolygons,userPolygons.addition)
+# read in the training raster
+r <- rast(rasterFiles[1])
+r <- raster_prep(r, river, crs, doMask = FALSE)
+
+for (i in 2:length(rasterFiles)){
+  # read in and prepare raster
+  r2 <- rast(rasterFiles[i])
+  r2 <- raster_prep(r2, river, crs, doMask = FALSE)
+  r <- c(r,r2)
+  rm(r2)
 }
 
-userPolygons <- terra::project(userPolygons,river)
-userPolygons$date <- as.Date(userPolygons$date)
+userData$class <- as.factor(userData$class)
+r[['class']]  <- rasterize(userData, r, field = "class")
 
-r <- rast(rasterFiles[1])
-r <- raster_prep(r, river, crs)
+df <- as.data.frame(r, cell=FALSE, na.rm=TRUE)
+df$class <- as.factor(df$class)
+df <- df[,c(ncol(df),1:(ncol(df)-1))]
 
-sampleDates <- unique(userPolygons$date)
-userPolygons.r <- userPolygons[userPolygons$date == sampleDates[1],]
-userPolygons.r <- rasterize(userPolygons.r, r, field = "class")
+set.seed(9)
+inTraining <- createDataPartition(df$class, p=0.80,list=FALSE)
+training <- df[ inTraining,]
+testing <- df[-inTraining,]
+
+fitControl<- trainControl(
+  method = "repeatedcv",
+  number = 5,
+  repeats = 5)
+
+cl <- makePSOCKcluster(5)
+registerDoParallel(cl)
+
+timeStart <- proc.time()
+
+rf_model <- train(class~.,data=training, method="rf",
+                  trControl=fitControl,
+                  prox=TRUE,
+                  fitBest = FALSE,
+                  returnData = TRUE)
+
+stopCluster(cl)
+proc.time() - timeStart
+
+pathRF <- "~/Documents/Projects/USACE/ML Mesohabitats/Data/ML/Models/Random Forest/"
+saveRDS(rf_model, file = paste0(pathRF,"rf_model_all.rds"))
+
+pred_rf <- predict(rf_model$finalModel, newdata = testing)
+names(r)[1:154] <- names(df)[2:155]
+r <- r[[-155]]
+rasterRF <- predict(r,rf_model,na.rm=TRUE)
+
+for (i in 3:length(rasterFiles)){
+# for (i in 1:length(rasterFiles)){
+  subsetDate.df <- c(1,(2:8)+7*(i-1))
+  cl <- makePSOCKcluster(5)
+  registerDoParallel(cl)
+  
+  timeStart <- proc.time()
+  rf_model_single <- train(class~.,data=training[,subsetDate.df], 
+                           method="rf",
+                            trControl=fitControl,
+                            prox=TRUE,
+                            fitBest = FALSE,
+                            returnData = TRUE)
+  stopCluster(cl)
+  print(proc.time() - timeStart)
+  saveRDS(rf_model_single, file = paste0(pathRF,"rf_model_",i,".rds"))
+  pred_rf <- predict(rf_model_single$finalModel, 
+                     newdata = testing[,subsetDate.df])
+  subsetDate.r <- (1:7)+7*(i-1)
+  rasterRF[[paste0("date_",i)]] <- predict(r[[subsetDate.r]],
+                                           rf_model_single,na.rm=TRUE)
+}
+
+
+names(rasterRF[[1]]) <- 'date_all'
+
+for (i in 1:23){
+  plot(rasterRF[[i]])
+}
+
+writeRaster(rasterRF,paste0(raster,'Analysis/RandomForest/combined/rfStack.tif'),
+            overwrite=TRUE)
+# model_list[12+24*21]
+
+
+
+""             "method"       "modelInfo"    "modelType"   
+[5] "results"      "pred"         "bestTune"     "call"        
+[9] "dots"         "metric"       "control"      "finalModel"  
+[13] "preProcess"   "trainingData" "ptype"        "resample"    
+[17] "resampledCM"  "perfNames"    "maximize"     "yLimits"     
+[21] "times"        "levels"       "terms"        "coefnames"   
+[25] "xlevels"      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+LC_ 84_Multdate <- gplot(LC_rf_84_Multdate) + geom_ra
+ster(aes(fill = factor(value, labels=c("Agriculture", "
+Bareland", "Green Spaces", "Urban", "Water")))) + scale
+_fill_manual(values = c("yellow", "grey", "green3", "re
+d", "blue3"), name= "Land Cover") + ggtitle("Random For
+est Classification") +theme(plot.title = element_text(l
+                                                      ineheight=.4, face="bold")) + coord_equal()
+
+
+
+
+
+
 
 for (i in 2:length(sampleDates)){
   userPolygons.date <- userPolygons[userPolygons$date == sampleDates[i],]

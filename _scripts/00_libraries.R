@@ -14,4 +14,17 @@ library(parallel)
 library(doParallel)
 library(MLmetrics)
 
+library(sp)
+library(rgdal)
+library(raster)
+library(reshape)
+library(grid)
+library(gridExtra)
+# library(RStoolbox)
+library(caret)
+library(rasterVis)
+library(corrplot)
+library(doParallel)
+library(NeuralNetTools)
+
 # tmpFiles(old=TRUE, remove=TRUE) # gets rid of temp files
