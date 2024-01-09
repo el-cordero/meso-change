@@ -87,7 +87,6 @@ stopCluster(cl)
 pathRF <- "~/Documents/Projects/USACE/ML Mesohabitats/Data/ML/Models/Random Forest/"
 saveRDS(rfModel, file = paste0(pathRF,"rf_model_all.rds"))
 
-# # run the model on testing data
 # pred_rf <- predict(rf_model$finalModel, newdata = testing)
 
 # remove class raster
