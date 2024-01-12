@@ -61,7 +61,7 @@ set.seed(9)
 # Partition the data for training and testing
 # 80% of the data will be used for the training
 inTraining <- createDataPartition(df$class, p=0.80,list=FALSE)
-training <- df[ inTraining,]
+training <- df[inTraining,]
 testing <- df[-inTraining,]
 
 # set training control parameters
@@ -87,10 +87,19 @@ stopCluster(cl)
 pathRF <- "~/Documents/Projects/USACE/ML Mesohabitats/Data/ML/Models/Random Forest/"
 saveRDS(rfModel, file = paste0(pathRF,"rf_model_all.rds"))
 
-# pred_rf <- predict(rf_model$finalModel, newdata = testing)
+# create training raster
+df <- as.data.frame(r[['class']], cell=TRUE, na.rm=TRUE)
+df$training <- 0
+df[inTraining,]$training <- 1
+r[['training']] <- NA
+r[['training']][df$cell] <- df[,c('training')]
+
+# save the raster for future use
+writeRaster(r[[c('class','training')]], paste0(raster,'Analysis/classes.tif'),
+            overwrite=TRUE)
 
 # remove class raster
-r <- r[[-155]]
+r <- r[[-(155:156)]]
 
 # run the model on the raster
 rasterRF <- predict(r,rfModel,na.rm=TRUE)
@@ -135,9 +144,17 @@ for (i in 1:length(rasterFiles)){
   stopCluster(cl)
 }
 
+# landsat files list
+rasterNames <- list.files(path=paste0(raster,'Landsat/Raw/'),
+                          pattern=".tif$", full.names = FALSE)
+names(rasterRF) <- sub(".tif.*", "", rasterNames)
+
 for (i in 1:length(names(rasterRF))){
   plot(rasterRF[[i]])
 }
+
+
+
 
 writeRaster(rasterRF,paste0(raster,'Analysis/RandomForest/combined/rfStack.tif'),
             overwrite=TRUE)

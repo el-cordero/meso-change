@@ -13,6 +13,9 @@ library(caret)
 library(parallel)
 library(doParallel)
 library(MLmetrics)
+library(ggplot2)
+library(scales) # ggplot datetime scale
+library(paletteer) # colors
 
 library(sp)
 library(rgdal)
@@ -27,4 +30,4 @@ library(corrplot)
 library(doParallel)
 library(NeuralNetTools)
 
-# tmpFiles(old=TRUE, remove=TRUE) # gets rid of temp files
+tmpFiles(old=TRUE, remove=TRUE) # gets rid of temp files

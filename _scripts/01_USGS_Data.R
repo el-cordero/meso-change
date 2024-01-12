@@ -29,6 +29,22 @@ usgsData <- usgsData %>%
 usgsData <- usgsData %>%
   mutate(dischargeNormalized = normalise(avgDischarge))
 
+# calculate mean discharge over three sites
+siteNo <- as.integer(siteNo)
+columns <- c('Date','avgDischarge')
+meanData <- usgsData[usgsData$site_no==siteNo[1],columns] %>%
+  left_join(usgsData[usgsData$site_no==siteNo[2],columns], by=c("Date")) %>%
+  left_join(usgsData[usgsData$site_no==siteNo[3],columns], by=c("Date")) 
+
+names(meanData) <- c('Date',siteNo)
+meanData$meanDischarge <- rowMeans(meanData[,-1])
+
+# normalize mean discharge
+meanData <- meanData %>%
+  mutate(dischargeNormalized = normalise(meanDischarge))
+
 # save data
 write.csv(usgsData,'~/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/USGS/usgsData.csv',
+          row.names = FALSE)
+write.csv(meanData,'~/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/USGS/meanData.csv',
           row.names = FALSE)
