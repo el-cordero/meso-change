@@ -12,7 +12,7 @@ r <- rast(paste0(raster,"Landsat/Raw/LC09_027033_20211121.tif"))
 #                'Band 5','Band 6','Band 7')
 
 band.names <- c("Coastal Aerosol", "Blue", "Green", "Red", "Near Infrared",
-"Shortwave Infrared", "Shortwave Infrared")
+"Shortwave Infrared", "Shortwave Infrared 2")
 
 file.output <- '~/Documents/Projects/USACE/ML Mesohabitats/Documentation/Written/media/fig_landsat_bands.png'
 png(filename=file.output, height=5,width=12,units="in",res=300)
