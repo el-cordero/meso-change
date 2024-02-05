@@ -86,7 +86,6 @@ kmeansRaster <- c(kmr,knr)
 rm(kmr);rm(knr)
 
 # save the raster stack as a dataset
-write.csv(kmeansRaster, paste0(raster,'Analysis/Kmeans/combined/kmeansStack05.csv'))
 writeRaster(kmeansRaster, paste0(raster,'Analysis/Kmeans/combined/kmeansStack05.tif'),
             overwrite=TRUE)
 
