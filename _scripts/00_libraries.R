@@ -16,6 +16,7 @@ library(ggplot2)
 library(scales) # ggplot datetime scale
 library(paletteer) # colors
 library(ggspatial)
+library(plotly) # for exploring plots
 
 library(sp)
 library(rgdal)

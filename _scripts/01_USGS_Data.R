@@ -43,8 +43,37 @@ meanData$meanDischarge <- rowMeans(meanData[,-1])
 meanData <- meanData %>%
   mutate(dischargeNormalized = normalise(meanDischarge))
 
-# save data
-write.csv(usgsData,'~/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/USGS/usgsData.csv',
-          row.names = FALSE)
-write.csv(meanData,'~/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/USGS/meanData.csv',
-          row.names = FALSE)
+# # save data
+# write.csv(usgsData,'~/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/USGS/usgsData.csv',
+#           row.names = FALSE)
+# write.csv(meanData,'~/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/USGS/meanData.csv',
+#           row.names = FALSE)
+
+# # read the data for ease of use
+# usgsData <- read.csv('~/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/USGS/usgsData.csv')
+
+# review the data
+usgsData %>% 
+  filter(site_no == 6887500) %>%
+  plot_ly(x = ~Date, y = ~avgDischarge, type='scatter', mode = 'lines')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
