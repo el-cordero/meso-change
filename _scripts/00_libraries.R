@@ -1,30 +1,29 @@
 # load libraries
 
-library(terra)
-library(sf)
+library(terra)          # geospatial functions
+library(tidyterra)      # tidy functions for terra objects
 library(tidyverse)
-library(tidyrgee)
-library(raster)
-library(rgee)
-library(dataRetrieval)
-library(plotly)
-library(caret)
-library(parallel)
-library(doParallel)
-library(MLmetrics)
-library(ggplot2)
-library(scales) # ggplot datetime scale
-library(paletteer) # colors
+library(tidyrgee) 
+library(tidymodels)     # 
+library(rgee)           # r wrapper for google earth engine
+library(dataRetrieval)  # USGS data
+library(caret)          # for ML functions
+library(parallel)       # parallel processing
+library(doParallel)     # parallel processing
+library(MLmetrics)      
+library(ggplot2)        # for plotting
+library(scales)         # ggplot datetime scale
+library(paletteer)      # colors
 library(ggspatial)
-library(plotly) # for exploring plots
-
+library(plotly)         # for exploring plots
+library(cluster)        # for the silhouette method
+library(ranger)
 library(sp)
 library(rgdal)
 library(reshape)
 library(grid)
 library(gridExtra)
 # library(RStoolbox)
-library(caret)
 library(rasterVis)
 library(corrplot)
 library(doParallel)
