@@ -1,27 +1,33 @@
 source('_scripts/00_libraries.R')
 source('_scripts/01_functions/raster_prep.R')
 
-r <- rast('_data/GIS/Raster/Clean/planet_22dates.tif')
-r <- trim(r)
+planet <- rast('_data/GIS/Raster/Clean/planet_22dates.tif')
+planet <- trim(planet)
 
-s <- rast(ext=ext(r),crs=crs(r),res=50)
-r <- resample(r,s)
+planet_median <- rast('_data/GIS/Raster/Clean/planet_22dates_median.tif')
+planet_median <- trim(planet_median)
 
-# for (i in 1:nlyr(r)) r <- mask(r,r[[i]])
-r <- scale(r)
+s <- rast(ext=ext(planet_median),crs=crs(planet_median),res=50)
+planet <- resample(planet,s)
+planet_median <- resample(planet_median,s)
+
+
+# for (i in 1:nlyr(planet_median)) planet_median <- mask(planet_median,planet_median[[i]])
+planet <- scale(planet)
+planet_median <- scale(planet_median)
 
 # inputed user polygons with observations
 userData <- vect('_data/GIS/Vector/userDelineated.shp')
-userData <- terra::project(userData, crs(r))
+userData <- terra::project(userData, crs(planet_median))
 
 # change userData classes to factor to retain class values
 userData$class <- as.factor(userData$class)
 
 # add as a raster layer to raster
-r[['class']]  <- rasterize(userData, r, field = "class")
+planet_median[['class']]  <- rasterize(userData, planet_median, field = "class")
 
 # create dataframe from raster stack
-df_original <- as.data.frame(r, cell=FALSE,na.rm=FALSE)
+df_original <- as.data.frame(planet_median, cell=FALSE,na.rm=FALSE)
 
 # change classes to factor to retain class values
 df_original$class <- as.factor(df_original$class)
@@ -60,9 +66,23 @@ predictions <- predict(rf_workflow, new_data = df_original[-na_rows,-1])  # Comb
 df_original$predictions <- NULL
 df_original[-na_rows,'predictions'] <- predictions$.pred_class
 
-rf_raster <- init(r[[1]],NA)
+rf_raster <- init(planet_median[[1]],NA)
 values(rf_raster) <- df_original$predictions
 names(rf_raster) <- 'randomforest'
+
+for (i in 1:22){
+  subset_raster <- c((1:4)+4*(i-1))
+  subset_df <- as.data.frame(planet[[subset_raster]], cell=FALSE,na.rm=FALSE)
+  subset_na <- which(apply(subset_df, 1, function(x) any(is.na(x))))
+  names(subset_df) <- c("blue", "green", "red", "nir")
+  subset_pred <- predict(rf_workflow, new_data = subset_df[-subset_na,])  # Combine predictions with true outcomes for evaluation
+  subset_df$predictions <- NULL
+  subset_df[-subset_na,'predictions'] <- subset_pred$.pred_class
+  rf_raster[[paste0('date_',i+1)]] <- init(rf_raster[[1]],NA)
+  values(rf_raster[[paste0('date_',i+1)]]) <- subset_df$predictions
+}
+
+plot(rf_raster[[8]])
 
 # For classification, you might calculate accuracy, ROC AUC, etc.
 rf_results <- predictions %>%
