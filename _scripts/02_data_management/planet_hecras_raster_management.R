@@ -2,7 +2,6 @@ source('_scripts/00_libraries.R')
 
 # load in the area of interest
 aoi <- rast('_data/GIS/Raster/Clean/mesohabitats.tif',lyrs=1)
-aoi
 
 
 planet_files <- list.files(

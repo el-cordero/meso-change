@@ -1,22 +1,40 @@
 source('_scripts/00_libraries.R')
 source('_scripts/01_functions/random_forest_raster.R')
 
-# read raster
-r <- rast('_data/GIS/Raster/Clean/planet_22dates.tif')
+# landsat files list
+rasterFiles <- list.files(path='_data/GIS/Raster/Raw/Landsat/Raw',
+                         pattern=".tif$", full.names = TRUE)
+
+# set crs
+crs <- 'EPSG:32614'
+
+# read in rasters
+r <- c()
+# add raster files to a list
+for (raster in rasterFiles){
+    s <- rast(raster)
+    s <- terra::project(s,crs)
+    r <- c(r,s)
+    rm(s)
+}
+
+# apply crop and mask over list elements
+for (i in 1:length(r)) {
+    r <- lapply(r, crop, y = r[[i]], ext = TRUE)
+    r <- lapply(r, mask, mask = r[[i]])
+}
+
+# combine into one raster
+r <- rast(r)
 
 # trim an NA values
 r <- trim(r)
-
-# resample according to your needs/capacity
-s <- rast(ext=ext(r),crs=crs(r),res=10)
-r <- resample(r,s)
 
 # scale the values
 r <- scale(r)
 
 # acquire the sampling dates
-dates <- sub("^(\\d{8})_.*$", "\\1", names(r))
-dates <- unique(dates)
+dates <- sub(".*_(\\d{8}).*", "\\1", rasterFiles)
 
 # import user polygons with observations
 userData <- vect('_data/GIS/Vector/userDelineated.shp')
@@ -43,41 +61,6 @@ na_rows <- which(apply(df_original[-1], 1, function(x) any(is.na(x))))
 # set the seed
 set.seed(99)
 
-# #hyperparameter tuning
-# df_clean <- na.omit(df_original[-na_rows,])
-
-# # Partition the data for training and testing
-# # 80% of the data will be used for the training
-# data_split <- initial_split(df_clean, prop = 0.80, strata=class)  # Adjust the proportion as needed
-# train_data <- training(data_split)
-# test_data <- testing(data_split)
-
-# rf_model_spec <- rand_forest(
-#   mtry = tune(),
-#   trees = 1000,
-#   min_n = tune()
-#   ) %>%
-#     set_engine("ranger") %>%
-#     set_mode("classification") 
-
-# rf_recipe <- recipe(class ~ ., data = train_data) #%>%
-#     # step_normalize(all_predictors())  # Example step to normalize predictors
-
-# rf_workflow <- workflow() %>%
-#   add_model(rf_model_spec) %>%
-#   add_recipe(rf_recipe)
-
-# df_folds <- vfold_cv(train_data)
-
-# doParallel::registerDoParallel()
-# set.seed(123)
-# rf_grid <- tune_grid(
-#   rf_workflow,
-#   resamples = df_folds,
-#   grid = 20
-# )
-### this led to mtry = 78 and min_n = 6 for a res of 100
-
 # run the rf model on all the data
 rf_output <- random_forest_raster(
   r = r, 
@@ -89,8 +72,8 @@ rf_output <- random_forest_raster(
 # run a new rf model for each sampling date
 for (i in 1:22){
   # subset columns with the class column being first
-  # adjust according to # of bands - 4 in this case
-  subset_cols <- c(1,1+(1:4)+4*(i-1))
+  # adjust according to # of bands - 7 in this case
+  subset_cols <- c(1,1+(1:7)+7*(i-1))
 
   # run model
   subset_rf_output <- random_forest_raster(
@@ -108,9 +91,9 @@ for (i in 1:22){
 }
 
 # save data
-writeRaster(rf_output$raster,'_data/GIS/Raster/Analysis/RandomForest/rf_planet.tif',
+writeRaster(rf_output$raster,'_data/GIS/Raster/Analysis/RandomForest/rf_landsat.tif',
             overwrite=TRUE)
-write.csv(rf_output$results,'rf_results_planet.csv')
+write.csv(rf_output$results,'rf_results_landsat.csv')
 
 # remove junk
 rm(list = ls())

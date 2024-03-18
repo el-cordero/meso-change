@@ -1,6 +1,4 @@
 random_forest_raster <- function(r, df, na_rows, model_date){
-    # set the seed
-    set.seed(99)
     df_clean <- na.omit(df[-na_rows,])
 
     # Partition the data for training and testing
@@ -9,12 +7,13 @@ random_forest_raster <- function(r, df, na_rows, model_date){
     train_data <- training(data_split)
     test_data <- testing(data_split)
 
-    rf_model_spec <- rand_forest() %>%
-    set_engine("ranger") %>%
-    set_mode("classification")  # Use "regression" for a regression problem
+    rf_model_spec <- rand_forest(
+        trees = 1000, min_n = 6, mtry = 78) %>%
+        set_engine("ranger") %>%
+        set_mode("classification")  
 
-    rf_recipe <- recipe(class ~ ., data = train_data) %>%
-    step_normalize(all_predictors())  # Example step to normalize predictors
+    rf_recipe <- recipe(class ~ ., data = train_data) #%>%
+        # step_normalize(all_predictors())  # Example step to normalize predictors
 
     rf_workflow <- workflow() %>%
     add_model(rf_model_spec) %>%
@@ -31,7 +30,7 @@ random_forest_raster <- function(r, df, na_rows, model_date){
     df[-na_rows,'predictions'] <- predictions$.pred_class
 
     rf_raster <- init(r[[1]],NA)
-    values(rf_raster) <- df_original$predictions
+    values(rf_raster) <- df$predictions
     names(rf_raster) <- model_date
 
     return(list(raster = rf_raster, results = rf_results))
