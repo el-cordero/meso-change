@@ -1,127 +1,40 @@
-source("~/Documents/Projects/USACE/ML Mesohabitats/Data/R/Mesohabitat_Detection/ML-Mesohabitats/_scripts/00_libraries.R")
-source("~/Documents/Projects/USACE/ML Mesohabitats/Data/R/Mesohabitat_Detection/ML-Mesohabitats/_scripts/00_funcNormalise.R")
+source('_scripts/00_libraries.R')
 
-## filepaths
-raster <- "~/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/Raster/"
+mesohabitats <- rast('_data/GIS/Raster/Clean/mesohabitats.tif',lyrs=1:7)
+km <- rast('_data/GIS/Raster/Analysis/Kmeans/km_planet_hecras.tif',lyrs=2:8)
 
-classRaster <- rast(paste0(raster,'Analysis/classes.tif'))
+# check names
+names(km) == names(mesohabitats)
 
-# read in raster stacks
-kmRaster <- rast(paste0(raster,'Analysis/Kmeans/combined/kmeansStack05.tif'))
-rfRaster <- rast(paste0(raster,'Analysis/RandomForest/combined/rfStack.tif'))
+old_class <- c(1:8)
+labs <- c(
+  'Raceway','Med Pool','Fast Rifle','Deep Pool',
+  'Undefined','Shallow Pool','Slow Riffle','Shallow Pool'
+  )
+new_class <- c(6,2,5,3,99,1,4,1) # 99 is bridge crossings
+rcl <- data.frame(label=labs,old=old_class,new=new_class)
+rcl <- rcl[order(rcl$new),]
 
-r <- c(classRaster, kmRaster[[1]],rfRaster[[1]])
-names(r) <- c('class','training','kmeans','randomforest')
-rm(classRaster,kmRaster, rfRaster)
+km <- classify(km,rcl[c('old','new')])
 
-r <- mask(r, r$class)
-r <- mask(r, r$kmeans)
+km_cats <- rcl[-duplicated(rcl$label),c('new','label')]
+km <- categories(km, layer=0, rep(list(km_cats),nlyr(km)))
+names(km) <- names(mesohabitats)
 
-# create dataframe from raster stack
-df <- as.data.frame(r, cell=FALSE, na.rm=TRUE)
+meso_median <- median(mesohabitats,na.rm = TRUE)
+vals <- unique(meso_median)
+round(vals)
 
-df$kmean <- ''
-df[df$kmeans==1,]$kmean <- 'cropland'
-df[df$kmeans==2,]$kmean <- 'bareland'
-df[df$kmeans==3,]$kmean <- 'mixed'
-df[df$kmeans==4,]$kmean <- 'forest'
-df[df$kmeans==5,]$kmean <- 'water'
-df <- df[,c('training','class','kmean','randomforest')]
+# km <- terra::project(km,mesohabitats,method='near')
+mesohabitats <- terra::project(mesohabitats,km,method='near')
 
-for (i in 1:length(names(df))){
-  df[,i] <- as.factor(df[,i])
-}
 
-df <- df[df$kmean != 'mixed',]
-# confMatrix <- 
-# kmeansVclass <- confusionMatrix(df[df$training == 0,]$kmean,df[df$training == 0,]$class)
-kmeansVclass <- confusionMatrix(df$kmean,df$class)
-rfVclass <- confusionMatrix(df[df$training == 0,]$randomforest,df[df$training == 0,]$class)
-# confusionMatrix(df$randomforest,df$class)
+df <- as.data.frame(c(km,mesohabitats),na.rm=NA,cells=TRUE)
+km_df <- df[,c(1,2:8)]; meso_df <- df[,c(1,9:15)]
+rm(df)
 
 
 
 
-classRaster <- rast(paste0(raster,'Analysis/classes.tif'))
 
-# read in raster stacks
-kmRaster <- rast(paste0(raster,'Analysis/Kmeans/combined/kmeansStack05.tif'))
-rfRaster <- rast(paste0(raster,'Analysis/RandomForest/combined/rfStack.tif'))
-
-r <- c(classRaster, kmRaster[[1]],rfRaster[[1]])
-names(r) <- c('class','training','kmeans','randomforest')
-rm(classRaster,kmRaster, rfRaster)
-
-
-r <- mask(r, r$kmeans)
-
-# create dataframe from raster stack
-df <- as.data.frame(r[[c('kmeans','randomforest')]], cell=FALSE, na.rm=TRUE)
-
-df$kmean <- ''
-df[df$kmeans==1,]$kmean <- 'cropland'
-df[df$kmeans==2,]$kmean <- 'bareland'
-df[df$kmeans==3,]$kmean <- 'mixed'
-df[df$kmeans==4,]$kmean <- 'forest'
-df[df$kmeans==5,]$kmean <- 'water'
-df <- df[,c('kmean','randomforest')]
-
-for (i in 1:length(names(df))){
-  df[,i] <- as.factor(df[,i])
-}
-
-df <- df[df$kmean != 'mixed',]
-
-kmeanVrf <- confusionMatrix(df$kmean,df$randomforest)
-
-# confusion matrix table
-conftb <- data.frame(cbind(c('kmeans - observed',rep(NA,5),
-                             'random forest - observed',rep(NA,5),
-                             'kmeans - random forest', rep(NA,5)) ,
-  rbind(NA,kmeansVclass$table,NA,rfVclass$table,NA,kmeanVrf$table)))
-row.names(conftb) <- NULL
-conftb$`landcover type` <- rep(c(NA,'bareland','cropland','forest','urban','water'),3)
-
-conftb <- conftb[,c("V1","landcover type", "bareland", "cropland", 
-                    "forest", "urban", "water")]
-names(conftb) <- c("Prediction v Reference","Landcover Type", "bareland", 
-                   "cropland", "forest", "urban", "water")
-
-# confusion matrix overall statistics
-overalltb <- data.frame(
-  cbind(c('kmeans - observed','random forest - observed','kmeans - random forest'),
-        rbind(kmeansVclass$overall,rfVclass$overall,kmeanVrf$overall)))
-overalltb <- overalltb[,c("V1", "Kappa","Accuracy","AccuracyLower","AccuracyUpper",
-                          "AccuracyNull","AccuracyPValue","McnemarPValue")]
-names(overalltb) <- c("Prediction v Reference", "Kappa","Accuracy","AccuracyLower","AccuracyUpper",
-                      "AccuracyNull","AccuracyPValue","McnemarPValue")
-
-# confusion matrix statistics by class
-byclasstb <- data.frame(cbind(c('kmeans - observed',rep(NA,5),
-                             'random forest - observed',rep(NA,5),
-                             'kmeans - random forest', rep(NA,5)) ,
-                           rbind(NA,kmeansVclass$byClass,NA,rfVclass$byClass,NA,kmeanVrf$byClass)))
-row.names(byclasstb) <- NULL
-byclasstb$`landcover type` <- rep(c(NA,'bareland','cropland','forest','urban','water'),3)
-
-
-byclasstb <- byclasstb[,c("V1","landcover type","Sensitivity","Specificity",
-                          "Pos.Pred.Value","Neg.Pred.Value","Precision", 
-                          "Recall","F1","Prevalence","Detection.Rate", 
-                          "Detection.Prevalence","Balanced.Accuracy")
-]
-names(byclasstb) <- c("Prediction v Reference","landcover type","Sensitivity","Specificity",
-                      "Positive Predictions","Negative Predictions","Precision", 
-                      "Recall","F1 Score","Prevalence","Detection Rate", 
-                      "Detection Prevalence","Balanced Accuracy")
-
-write.csv(conftb, '~/Documents/Projects/USACE/ML Mesohabitats/Data/Tables/comparisonConfusionTable.csv',
-          row.names = FALSE)
-
-write.csv(overalltb, '~/Documents/Projects/USACE/ML Mesohabitats/Data/Tables/comparisonConfusionTable_overall.csv',
-          row.names = FALSE)
-
-write.csv(byclasstb, '~/Documents/Projects/USACE/ML Mesohabitats/Data/Tables/comparisonConfusionTable_byclass.csv',
-          row.names = FALSE)
-
-
+rm(list=ls())

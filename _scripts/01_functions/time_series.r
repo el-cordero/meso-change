@@ -41,15 +41,10 @@ time_series <- function(r){
         arrange(class, date) %>% 
         group_by(class) 
 
-    dfAlldates <-   df %>% filter(date == '2021-11-01') 
-    n <- length(names(r)) - 1
-    dfAlldates <- do.call("rbind", replicate(n, dfAlldates, simplify = FALSE))
-    dfAlldates <- dfAlldates %>% arrange(class) %>% group_by(class)
-
-    # remove dummy date as a seperate dataframe and add the columns
+    dfAlldates <-  df %>% filter(date == '2021-11-01') 
+    names(dfAlldates) <- c('date','class','n_baseline','n_percent_baseline','area_baseline')
     df <- df %>% filter(date != '2021-11-01' ) 
-    df[,c('n_baseline','n_percent_baseline','area_baseline')] <- 
-    dfAlldates[,c('n','n_percent','area')]
+    df <- full_join(df,dfAlldates[,-1],by='class')
 
     # Calculate changes over time
     # change in area from one date to the following date

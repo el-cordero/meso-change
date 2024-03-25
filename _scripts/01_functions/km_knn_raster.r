@@ -1,13 +1,13 @@
 
-km_knn_raster <- function(r,n_bands,model_date){
+km_knn_raster <- function(r,n_bands,model_date,optimal_k=6,na_rm=TRUE){
     # convert the raster to a data.frame
-    nr <- as.data.frame(r, cell=TRUE, na.rm=TRUE)
+    nr <- as.data.frame(r, cell=TRUE, na.rm=na_rm)
 
     # Create 15 clusters, allow 500 iterations, 
     # 15 clusters based off the elbow method
     # start with 50 random sets using "Hartigan-Wong" method. 
     # Do not use the first column (cell number).
-    kmncluster <- kmeans(nr[,-1], centers=6, iter.max = 500, 
+    kmncluster <- kmeans(nr[,-1], centers=optimal_k, iter.max = 500, 
                         nstart = 50, algorithm="Hartigan-Wong")
 
 

@@ -5,7 +5,7 @@ aoi <- rast('_data/GIS/Raster/Clean/mesohabitats.tif',lyrs=1)
 
 
 planet_files <- list.files(
-    path = '_data/GIS/Raster/Raw/Planet',
+    path = '_data/GIS/Raster/Raw/Planet/b',
     pattern = '_SR_clip.tif$',
     full.names = TRUE,
     recursive = TRUE

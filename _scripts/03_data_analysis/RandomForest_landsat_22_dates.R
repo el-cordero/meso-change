@@ -93,7 +93,7 @@ for (i in 1:22){
 # save data
 writeRaster(rf_output$raster,'_data/GIS/Raster/Analysis/RandomForest/rf_landsat.tif',
             overwrite=TRUE)
-write.csv(rf_output$results,'rf_results_landsat.csv')
+write.csv(rf_output$results,'_data/Tables/rf_results_landsat.csv')
 
 # remove junk
 rm(list = ls())
