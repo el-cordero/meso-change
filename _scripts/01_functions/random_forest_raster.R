@@ -1,4 +1,4 @@
-random_forest_raster <- function(r, df, na_rows, model_date){
+random_forest_raster <- function(r, df, na_rows, model_date, trees, min_n, mtry){
     df_clean <- na.omit(df[-na_rows,])
 
     # Partition the data for training and testing
@@ -8,7 +8,7 @@ random_forest_raster <- function(r, df, na_rows, model_date){
     test_data <- testing(data_split)
 
     rf_model_spec <- rand_forest(
-        trees = 1000, min_n = 6, mtry = 78) %>%
+        trees = trees, min_n = min_n, mtry = mtry) %>%
         set_engine("ranger") %>%
         set_mode("classification")  
 
@@ -33,5 +33,6 @@ random_forest_raster <- function(r, df, na_rows, model_date){
     values(rf_raster) <- df$predictions
     names(rf_raster) <- model_date
 
+    print(paste0('rf_raster ',model_date,' processed.'))
     return(list(raster = rf_raster, results = rf_results))
 }

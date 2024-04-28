@@ -14,6 +14,8 @@ km_knn_raster <- function(r,n_bands,model_date,optimal_k=6,na_rm=TRUE){
     kmr <- rast(r, nlyr=1)
     kmr[nr$cell] <- kmncluster$cluster
 
+    print(paste0('baseline km_raster processed'))
+
     # Use the training raster object to set the cluster values to a new raster
     # with the same amount of layers as there are rasters
     knr <- rast(r,nlyr=nlyr(r)/n_bands)
@@ -37,6 +39,8 @@ km_knn_raster <- function(r,n_bands,model_date,optimal_k=6,na_rm=TRUE){
 
         # remove testing rasters
         rm(nr2)
+        
+        print(paste0('km_raster',i,' processed'))
     }
 
     # set the layer names for the raster stack
