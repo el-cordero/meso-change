@@ -18,8 +18,15 @@ ls_df_rf_bareland <- ls_df %>% filter(class == 'bareland', method == 'randomfore
 cor(ls_df_rf_water$area_diff,ls_df_rf_bareland$area_diff, 
     method = "kendall", 
     use ='complete.obs')
+cor(ls_df_rf_water$area_diff_baseline,ls_df_rf_bareland$area_diff_baseline, 
+    method = "kendall", 
+    use ='complete.obs')
+cor(ls_df_km_water$area_diff,ls_df_km_bareland$area_diff, 
+    method = "kendall", 
+    use ='complete.obs')
 cor(ls_df_km_water$area_diff_baseline,ls_df_km_bareland$area_diff_baseline, 
-    method = "kendall")
+    method = "kendall", 
+    use ='complete.obs')
 
 # cor(ls_df_rf_water$area_diff,ls_df_rf_bareland$area_diff, 
 #     method = "spearman", 
@@ -42,8 +49,15 @@ pl_df_rf_bareland <- pl_df %>% filter(class == 'bareland', method == 'randomfore
 cor(pl_df_rf_water$area_diff,pl_df_rf_bareland$area_diff, 
     method = "kendall", 
     use ='complete.obs')
+cor(pl_df_rf_water$area_diff_baseline,pl_df_rf_bareland$area_diff_baseline, 
+    method = "kendall", 
+    use ='complete.obs')
+cor(pl_df_km_water$area_diff,pl_df_km_bareland$area_diff, 
+    method = "kendall", 
+    use ='complete.obs')
 cor(pl_df_km_water$area_diff_baseline,pl_df_km_bareland$area_diff_baseline, 
-    method = "kendall")
+    method = "kendall", 
+    use ='complete.obs')
 
 # cor(pl_df_rf_water$area_diff,pl_df_rf_bareland$area_diff, 
 #     method = "spearman", 
