@@ -22,7 +22,7 @@ r <- crop(r,aoi,ext=TRUE)
 
 # reorganize by date
 r_names <- c("Dec22_2021","Feb12_2022","Apr17_2022",
-    "May31_2022","Jun20_2022","Jul18_2022","Sep28_2022")
+    "May31_2022","Jun20_2022","July18_2022","Sep28_2022")
 r <- r[[r_names]]
 names(r) <- paste0(rep(0,7),1:7,'_',names(r))
 

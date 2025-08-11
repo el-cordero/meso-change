@@ -19,7 +19,6 @@ library(plotly)         # for exploring plots
 library(cluster)        # for the silhouette method
 library(ranger)
 library(sp)
-library(rgdal)
 library(reshape)
 library(grid)
 library(gridExtra)

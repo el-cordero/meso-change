@@ -1,5 +1,6 @@
 source('_scripts/00_libraries.R')
 source('_scripts/01_functions/normalise.R')
+source('_scripts/01_functions/time_series.r')
 
 # river mask
 river <- vect('_data/GIS/Vector/Clean/river_corridor.shp')
@@ -37,13 +38,18 @@ comparisonDF <- full_join(
   mlDF %>% 
     filter(method == 'kmeans') %>% 
     group_by(class) %>% 
-    reframe(total_area = sum(area)),
+    reframe(total_area = sum(area),
+            avg_area = mean(area)),
   mlDF %>% 
     filter(method == 'randomforest') %>% 
     group_by(class) %>% 
-    reframe(total_area = sum(area)),
+    reframe(total_area = sum(area),
+            avg_area = mean(area)),
   by = 'class')
-names(comparisonDF) <- c('class','kmeans_area','randomforest_area')
+names(comparisonDF) <- c('class','kmeans_area_tot','kmeans_area_avg',
+                         'randomforest_area_tot','randomforest_area_avg')
+comparisonDF <- comparisonDF[c('class','kmeans_area_tot','randomforest_area_tot',
+                               'kmeans_area_avg','randomforest_area_avg')]
 
 # save dataset
 write.csv(mlDF, '_data/Tables/resultsTimeSeries_landsat.csv',
