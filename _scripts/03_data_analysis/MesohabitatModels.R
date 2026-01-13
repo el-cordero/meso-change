@@ -2,6 +2,7 @@
 # Mesohabitat classification (ALL 8 labels)
 # LOO across 7 dates + final model on all dates
 # Verbose logging throughout
+# UPDATED: removes kappa, adds balanced accuracy (macro recall) + macro F1
 # ==============================================
 
 suppressPackageStartupMessages({
@@ -127,24 +128,12 @@ build_xy_for_date <- function(meso_r, planet_pref) {
   names(df) <- c("blue","green","red","nir","NDVI","NDWI","NBR")
   df$meso_code <- as.integer(meso_vals)
   
-  # keep <- is.finite(df$blue) & is.finite(df$green) & is.finite(df$red) & is.finite(df$nir) &
-  #   is.finite(df$NDVI) & is.finite(df$NDWI) & is.finite(df$NBR) &
-  #   !is.na(df$meso_code) & df$meso_code %in% as.integer(names(class_lbls))
-  
   keep <- is.finite(df$blue) & is.finite(df$green) & is.finite(df$red) & is.finite(df$nir) &
     is.finite(df$NDVI) & is.finite(df$NDWI) & is.finite(df$NBR) &
     !is.na(df$meso_code) & df$meso_code %in% codes
   
   df <- df[keep, , drop = FALSE]
-  
-  # df$meso <- factor(
-  #   df$meso_code,
-  #   levels = as.integer(names(class_lbls)),
-  #   labels = unname(class_lbls)
-  # )
-  
   df$meso <- factor(df$meso_code, levels = codes, labels = labels)
-  
   df$meso_code <- NULL
   
   log_step("Built XY for {planet_pref}: rows={nrow(df)}; class counts -> {paste(capture.output(print(table(df$meso))), collapse=' ')}")
@@ -219,12 +208,7 @@ run_one <- function(train_ids, test_id,
   # Make the test factor use the SAME levels as training (some classes might be absent)
   test_df$meso  <- factor(test_df$meso, levels = levels(train_df$meso))
   
-  # warn if any canonical classes are missing from training in this fold
-  # OLD:
-  # missing_in_train <- setdiff(unname(class_lbls), levels(train_df$meso))
-  
   missing_in_train <- setdiff(labels, levels(train_df$meso))
-  
   if (length(missing_in_train)) {
     log_step("WARNING: Classes absent in training this fold: {paste(missing_in_train, collapse=', ')}")
   }
@@ -244,11 +228,9 @@ run_one <- function(train_ids, test_id,
   if (nrow(train_df) < 100 || dplyr::n_distinct(train_df$meso) < 2 ||
       nrow(test_df)  < 100 || dplyr::n_distinct(test_df$meso)  < 2) {
     log_step("!! Insufficient data/classes for fold; skipping metrics.")
-    return(tibble::tibble(
-      test_id = test_id,
-      model   = c("SemiSupervised","SupervisedRF"),
-      .metric = c("accuracy","kappa"),
-      .estimate = c(NA_real_, NA_real_)
+    return(dplyr::bind_rows(
+      tibble::tibble(test_id=test_id, model="SemiSupervised", .metric=c("accuracy","bal_accuracy","macro_f1"), .estimate=NA_real_),
+      tibble::tibble(test_id=test_id, model="SupervisedRF",   .metric=c("accuracy","bal_accuracy","macro_f1"), .estimate=NA_real_)
     ))
   }
   
@@ -303,8 +285,12 @@ run_one <- function(train_ids, test_id,
   
   semi_cm  <- yardstick::conf_mat(semi_eval_df, truth = obs, estimate = pred)
   semi_acc <- yardstick::accuracy(semi_eval_df, obs, pred)$.estimate
-  semi_kap <- yardstick::kap(semi_eval_df, obs, pred)$.estimate
-  log_step("Semi-supervised metrics: Acc={round(semi_acc,4)} | Kappa={round(semi_kap,4)}")
+  
+  semi_pc  <- per_class_metrics(semi_cm)
+  semi_bal <- mean(semi_pc$recall, na.rm = TRUE)  # balanced accuracy (macro recall)
+  semi_f1m <- mean(semi_pc$f_meas, na.rm = TRUE)  # macro F1
+  
+  log_step("Semi-supervised metrics: Acc={round(semi_acc,4)} | BalAcc={round(semi_bal,4)} | MacroF1={round(semi_f1m,4)}")
   
   # ---------- SUPERVISED (Random Forest via ranger) ----------
   log_step("RF: training (class weights={use_class_weights})...")
@@ -314,21 +300,25 @@ run_one <- function(train_ids, test_id,
   if (use_class_weights) {
     cw_tbl <- train_df %>% count(meso) %>% mutate(w = 1 / n)
     cw_tbl$w <- cw_tbl$w / sum(cw_tbl$w)  # normalize
-    # IMPORTANT: named vector keyed by class labels that EXACTLY match levels(train_df$meso)
     cw_vec <- setNames(cw_tbl$w, as.character(cw_tbl$meso))
     log_step("Class weights (post-droplevels): {paste(sprintf('%s=%.4f', names(cw_vec), cw_vec), collapse=', ')}")
   }
   
-  rec <- recipes::recipe(meso ~ ., data = rf_train) %>% recipes::step_zv(recipes::all_predictors())
+  rec <- recipes::recipe(meso ~ ., data = rf_train) %>%
+    recipes::step_zv(recipes::all_predictors())
   
-  rf_spec <- parsnip::rand_forest(trees = 800,
-                                  mtry  = min(6, ncol(rf_train)-1),
-                                  min_n = 5) %>%
+  rf_spec <- parsnip::rand_forest(
+    trees = 800,
+    mtry  = min(6, ncol(rf_train)-1),
+    min_n = 5
+  ) %>%
     parsnip::set_mode("classification") %>%
     parsnip::set_engine("ranger", importance = "impurity",
                         class.weights = cw_vec)
   
-  wf <- workflows::workflow() %>% workflows::add_model(rf_spec) %>% workflows::add_recipe(rec)
+  wf <- workflows::workflow() %>%
+    workflows::add_model(rf_spec) %>%
+    workflows::add_recipe(rec)
   
   t_rf <- Sys.time()
   rf_fit <- parsnip::fit(wf, rf_train)
@@ -345,8 +335,12 @@ run_one <- function(train_ids, test_id,
   
   rf_cm  <- yardstick::conf_mat(rf_eval_df, truth = obs, estimate = pred)
   rf_acc <- yardstick::accuracy(rf_eval_df, obs, pred)$.estimate
-  rf_kap <- yardstick::kap(rf_eval_df, obs, pred)$.estimate
-  log_step("RF metrics: Acc={round(rf_acc,4)} | Kappa={round(rf_kap,4)}")
+  
+  rf_pc  <- per_class_metrics(rf_cm)
+  rf_bal <- mean(rf_pc$recall, na.rm = TRUE)
+  rf_f1m <- mean(rf_pc$f_meas, na.rm = TRUE)
+  
+  log_step("RF metrics: Acc={round(rf_acc,4)} | BalAcc={round(rf_bal,4)} | MacroF1={round(rf_f1m,4)}")
   
   # ---------- WRITE PREDICTION RASTERS ----------
   log_step("Writing prediction rasters for {test_id}...")
@@ -373,30 +367,28 @@ run_one <- function(train_ids, test_id,
   
   # ---------- RF (all finite cells) ----------
   df_all_raw <- as.data.frame(vals_all[keep_all, , drop = FALSE])
-
-  # FIX: bake with the same recipe the model was trained with
+  
+  # bake with the same recipe the model was trained with
   df_all_baked <- recipes::bake(prep_rec, new_data = df_all_raw)
-
+  
   rf_pred_all <- predict(rf_fit, new_data = df_all_baked, type = "class")$.pred_class
   rf_codes    <- rep(NA_integer_, nrow(vals_all))
-
-  # Map predicted labels -> integer codes using the canonical map
+  
   miss <- setdiff(unique(rf_pred_all), names(label_to_code))
   if (length(miss)) {
     warning("Unmatched RF labels (will become NA): ", paste(miss, collapse = ", "))
   }
-
+  
   rf_codes[keep_all] <- unname(label_to_code[as.character(rf_pred_all)])
-
-  # Build categorical raster with codes, attach stable RAT
+  
   rf_r <- test_feat_rast[[1]]
   terra::values(rf_r) <- rf_codes
   rf_r <- terra::as.factor(rf_r)
   levels(rf_r) <- cat_tbl
-
+  
   f_rf <- file.path(pred_out_dir, glue("rf_pred_{test_id}.tif"))
   writeRaster(rf_r, filename = f_rf, overwrite = TRUE, datatype = "INT2U")
-
+  
   # ---------- SAVE MODELS ----------
   semi_model <- list(
     kmeans         = km_fit,
@@ -419,17 +411,19 @@ run_one <- function(train_ids, test_id,
   log_step("====== Fold END | Test={test_id} ======")
   
   dplyr::bind_rows(
-    tibble::tibble(test_id = test_id, model = "SemiSupervised", .metric = "accuracy", .estimate = semi_acc),
-    tibble::tibble(test_id = test_id, model = "SemiSupervised", .metric = "kappa",    .estimate = semi_kap),
-    tibble::tibble(test_id = test_id, model = "SupervisedRF",   .metric = "accuracy", .estimate = rf_acc),
-    tibble::tibble(test_id = test_id, model = "SupervisedRF",   .metric = "kappa",    .estimate = rf_kap)
+    tibble::tibble(test_id = test_id, model = "SemiSupervised", .metric = "accuracy",     .estimate = semi_acc),
+    tibble::tibble(test_id = test_id, model = "SemiSupervised", .metric = "bal_accuracy", .estimate = semi_bal),
+    tibble::tibble(test_id = test_id, model = "SemiSupervised", .metric = "macro_f1",     .estimate = semi_f1m),
+    
+    tibble::tibble(test_id = test_id, model = "SupervisedRF",   .metric = "accuracy",     .estimate = rf_acc),
+    tibble::tibble(test_id = test_id, model = "SupervisedRF",   .metric = "bal_accuracy", .estimate = rf_bal),
+    tibble::tibble(test_id = test_id, model = "SupervisedRF",   .metric = "macro_f1",     .estimate = rf_f1m)
   )
 }
 
 # ------------------------------
 # LOO across all 7 dates
 # Train on the other 6 dates for each held-out test date.
-# Change to sample(..., 4) if you want to train on 4 dates per fold.
 # ------------------------------
 all_dates <- names(meso_gt)
 log_step("Starting LOO across {length(all_dates)} dates...")
@@ -437,7 +431,7 @@ log_step("Starting LOO across {length(all_dates)} dates...")
 loo <- purrr::map_dfr(seq_along(all_dates), function(i) {
   td <- all_dates[i]
   log_step("=== LOO fold {i}/{length(all_dates)} | Test={td} ===")
-  train_set <- setdiff(all_dates, td)[1:6]  # change to sample(setdiff(all_dates, td), 4) for 4 train dates
+  train_set <- setdiff(all_dates, td)[1:6]
   run_one(train_ids = train_set,
           test_id   = td,
           k_clusters = 12,
@@ -448,9 +442,11 @@ loo <- purrr::map_dfr(seq_along(all_dates), function(i) {
 
 loo_summary <- loo %>%
   dplyr::group_by(model, .metric) %>%
-  dplyr::summarize(mean = mean(.estimate, na.rm = TRUE),
-                   sd   = stats::sd(.estimate,   na.rm = TRUE),
-                   .groups = "drop")
+  dplyr::summarize(
+    mean = mean(.estimate, na.rm = TRUE),
+    sd   = stats::sd(.estimate, na.rm = TRUE),
+    .groups = "drop"
+  )
 
 readr::write_csv(loo,         file.path(tables_out_dir, "loo_fold_metrics.csv"))
 readr::write_csv(loo_summary, file.path(tables_out_dir, "loo_summary.csv"))
@@ -473,11 +469,7 @@ log_step("Full training rows={nrow(full_df)}; class counts -> {paste(capture.out
 # Align levels for FINAL fit
 full_df$meso <- droplevels(full_df$meso)
 
-# Optional: warn if any canonical classes are missing in FINAL training
-# OLD:
-# missing_in_final <- setdiff(unname(class_lbls), levels(full_df$meso))
 missing_in_final <- setdiff(labels, levels(full_df$meso))
-
 if (length(missing_in_final)) {
   log_step("WARNING (FINAL): Classes absent in training: {paste(missing_in_final, collapse=', ')}")
 }
@@ -533,27 +525,30 @@ saveRDS(semi_model_final, file.path(models_out_dir, "semi_kmeans_FINAL.rds"), co
 # --- RF (class-weighted) on ALL rows ---
 cw_tbl <- full_df %>% dplyr::count(meso) %>% dplyr::mutate(w = 1 / n)
 cw_tbl$w <- cw_tbl$w / sum(cw_tbl$w)
-cw_vec <- setNames(cw_tbl$w, as.character(cw_tbl$meso))  # names must match levels(full_df$meso)
+cw_vec <- setNames(cw_tbl$w, as.character(cw_tbl$meso))
 log_step("Final RF class weights: {paste(sprintf('%s=%.4f', names(cw_vec), cw_vec), collapse=', ')}")
 
 rec_final <- recipes::recipe(meso ~ ., data = full_df) %>%
   recipes::step_zv(recipes::all_predictors())
 
-rf_spec_final <- parsnip::rand_forest(trees = 1000,
-                                      mtry  = min(6, ncol(full_df)-1),
-                                      min_n = 5) %>%
+rf_spec_final <- parsnip::rand_forest(
+  trees = 1000,
+  mtry  = min(6, ncol(full_df)-1),
+  min_n = 5
+) %>%
   parsnip::set_mode("classification") %>%
   parsnip::set_engine("ranger", importance = "impurity",
                       class.weights = cw_vec)
 
-wf_final <- workflows::workflow() %>% workflows::add_model(rf_spec_final) %>%
+wf_final <- workflows::workflow() %>%
+  workflows::add_model(rf_spec_final) %>%
   workflows::add_recipe(rec_final)
 
 t_rf_final <- Sys.time()
 rf_fit_final <- parsnip::fit(wf_final, full_df)
 log_step("Final RF trained in {round(difftime(Sys.time(), t_rf_final, units='secs'),1)} s")
 
-# ADD THIS: prep the recipe once for later baking
+# prep the recipe once for later baking
 rec_final_prep <- recipes::prep(rec_final, training = full_df, retain = TRUE)
 
 saveRDS(rf_fit_final, file.path(models_out_dir, "rf_workflow_FINAL.rds"), compress = "xz")
