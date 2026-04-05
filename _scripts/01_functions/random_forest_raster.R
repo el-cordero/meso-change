@@ -6,6 +6,24 @@ random_forest_raster <- function(r, df, na_rows, model_date, trees, min_n, mtry)
     data_split <- initial_split(df_clean, prop = 0.80, strata=class)  # Adjust the proportion as needed
     train_data <- training(data_split)
     test_data <- testing(data_split)
+    
+    # balance ONLY the training data
+    train_data <- train_data %>%
+      dplyr::group_by(class) %>%
+      dplyr::group_modify(~ {
+        n_rows <- nrow(.x)
+        if (n_rows > 50000) {
+          .x[sample.int(n_rows, 50000), ]
+        } else {
+          .x
+        }
+      }) %>%
+      dplyr::ungroup()
+    
+    cat("Total clean rows:", nrow(df_clean), "\n")
+    cat("Training rows:", nrow(train_data), "\n")
+    cat("Testing rows:", nrow(test_data), "\n")
+    print(table(train_data$class))
 
     rf_model_spec <- rand_forest(
         trees = trees, min_n = min_n, mtry = mtry) %>%

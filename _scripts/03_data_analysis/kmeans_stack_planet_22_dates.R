@@ -8,8 +8,8 @@ r <- rast('_data/GIS/Raster/Clean/planet_22dates.tif')
 r <- trim(r)
 
 # resample according to your needs/capacity
-s <- rast(ext=ext(r),crs=crs(r),res=10)
-r <- resample(r,s)
+# s <- rast(ext=ext(r),crs=crs(r),res=10)
+# r <- resample(r,s)
 
 # scale the values
 r <- scale(r)

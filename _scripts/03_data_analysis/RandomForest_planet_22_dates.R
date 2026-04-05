@@ -7,9 +7,9 @@ r <- rast('_data/GIS/Raster/Clean/planet_22dates.tif')
 # trim an NA values
 r <- trim(r)
 
-# resample according to your needs/capacity
-s <- rast(ext=ext(r),crs=crs(r),res=10)
-r <- resample(r,s)
+# # resample according to your needs/capacity
+# s <- rast(ext=ext(r),crs=crs(r),res=10)
+# r <- resample(r,s)
 
 # scale the values
 r <- scale(r)
@@ -43,74 +43,52 @@ na_rows <- which(apply(df_original[-1], 1, function(x) any(is.na(x))))
 # set the seed
 set.seed(99)
 
-# #hyperparameter tuning
-# df_clean <- na.omit(df_original[-na_rows,])
-
-# # Partition the data for training and testing
-# # 80% of the data will be used for the training
-# data_split <- initial_split(df_clean, prop = 0.80, strata=class)  # Adjust the proportion as needed
-# train_data <- training(data_split)
-# test_data <- testing(data_split)
-
-# rf_model_spec <- rand_forest(
-#   mtry = tune(),
-#   trees = 1000,
-#   min_n = tune()
-#   ) %>%
-#     set_engine("ranger") %>%
-#     set_mode("classification") 
-
-# rf_recipe <- recipe(class ~ ., data = train_data) #%>%
-#     # step_normalize(all_predictors())  # Example step to normalize predictors
-
-# rf_workflow <- workflow() %>%
-#   add_model(rf_model_spec) %>%
-#   add_recipe(rf_recipe)
-
-# df_folds <- vfold_cv(train_data)
-
-# doParallel::registerDoParallel()
-# set.seed(123)
-# rf_grid <- tune_grid(
-#   rf_workflow,
-#   resamples = df_folds,
-#   grid = 20
-# )
-### this led to mtry = 78 and min_n = 6 for a res of 100
-
 # run the rf model on all the data
 rf_output <- random_forest_raster(
   r = r, 
+  trees = 500,
   df = df_original, 
   na_rows = na_rows, 
-  model_date = 'baseline'
-  )
+  model_date = 'baseline',
+  mtry = 7,
+  min_n = 2
+)
 
 # run a new rf model for each sampling date
-for (i in 1:22){
+for (i in 1:22) {
+  t1 <- Sys.time()
   # subset columns with the class column being first
   # adjust according to # of bands - 4 in this case
-  subset_cols <- c(1,1+(1:4)+4*(i-1))
-
-  # run model
+  subset_cols <- c(1, 1 + (1:4) + 4 * (i - 1))
+  
+  subset_df <- df_original[, subset_cols, drop = FALSE]
+  
+  subset_na_rows <- which(
+    apply(subset_df[-1], 1, function(x) any(is.na(x)))
+  )
+  
   subset_rf_output <- random_forest_raster(
     r = r, 
-    df = df_original[subset_cols], 
-    na_rows = na_rows, 
-    model_date = dates[i]
-    )
-
+    trees = 300,
+    df = subset_df, 
+    na_rows = subset_na_rows, 
+    model_date = dates[i],
+    mtry = 2,
+    min_n = 2
+  )
+  
   # save to raster stack
   rf_output$raster[[dates[i]]] <- subset_rf_output$raster
-
+  
   # append results to results table
-  rf_output$results <- rbind(rf_output$results,subset_rf_output$results)
+  rf_output$results <- rbind(rf_output$results, subset_rf_output$results)
+  Sys.time() - t1
 }
 
 # save data
 writeRaster(rf_output$raster,'_data/GIS/Raster/Analysis/RandomForest/rf_planet.tif',
             overwrite=TRUE)
-write.csv(rf_output$results,'_data/Tables/rf_results_landsat.csv')
+write.csv(rf_output$results,'_data/Tables/rf_results_planet.csv')
 
 # remove junk
 rm(list = ls())

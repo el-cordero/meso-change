@@ -21,7 +21,7 @@ dir.create(tables_out_dir, recursive = TRUE, showWarnings = FALSE)
 # ------------------------------
 # Settings: MUST match modeling
 # ------------------------------
-FACT_AGG <- 5  # you used fact <- 5 in the modeling script
+FACT_AGG <- 1  # you used fact <- 5 in the modeling script
 
 ALLOW_RESAMPLE_IF_MISMATCH <- TRUE
 

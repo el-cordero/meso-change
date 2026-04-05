@@ -7,9 +7,9 @@ r <- rast('_data/GIS/Raster/Clean/planet_7dates.tif')
 # trim an NA values
 r <- trim(r)
 
-# resample according to your needs/capacity
-s <- rast(ext=ext(r),crs=crs(r),res=10)
-r <- resample(r,s)
+# # resample according to your needs/capacity
+# s <- rast(ext=ext(r),crs=crs(r),res=10)
+# r <- resample(r,s)
 
 # scale the values
 r <- scale(r)
@@ -53,9 +53,9 @@ rf_output <- random_forest_raster(
   df = df_original, 
   na_rows = na_rows, 
   model_date = 'baseline',
-  trees = 1000,
+  trees = 500,
   mtry = 7,
-  min_n = 6
+  min_n = 2
   )
 
 # run a new rf model for each sampling date
@@ -70,9 +70,9 @@ for (i in 1:7){
     df = df_original[subset_cols], 
     na_rows = na_rows, 
     model_date = dates[i],
-    trees = 1000,
-    mtry = 7,
-    min_n = 6
+    trees = 500,
+    mtry = 2,
+    min_n = 2
     )
 
   # save to raster stack

@@ -64,30 +64,44 @@ set.seed(99)
 # run the rf model on all the data
 rf_output <- random_forest_raster(
   r = r, 
+  trees = 500,
   df = df_original, 
   na_rows = na_rows, 
-  model_date = 'baseline'
+  model_date = 'baseline',
+  mtry = 7,
+  min_n = 6
   )
 
 # run a new rf model for each sampling date
 for (i in 1:22){
+  t1 <- Sys.time()
   # subset columns with the class column being first
   # adjust according to # of bands - 7 in this case
   subset_cols <- c(1,1+(1:7)+7*(i-1))
 
   # run model
+  subset_df <- df_original[, subset_cols, drop = FALSE]
+  
+  subset_na_rows <- which(
+    apply(subset_df[-1], 1, function(x) any(is.na(x)))
+  )
+  
   subset_rf_output <- random_forest_raster(
     r = r, 
-    df = df_original[subset_cols], 
-    na_rows = na_rows, 
-    model_date = dates[i]
-    )
-
+    trees = 300,
+    df = subset_df, 
+    na_rows = subset_na_rows, 
+    model_date = dates[i],
+    mtry = 7,
+    min_n = 6
+  )
+  
   # save to raster stack
   rf_output$raster[[dates[i]]] <- subset_rf_output$raster
-
+  
   # append results to results table
-  rf_output$results <- rbind(rf_output$results,subset_rf_output$results)
+  rf_output$results <- rbind(rf_output$results, subset_rf_output$results)
+  Sys.time() - t1
 }
 
 # save data

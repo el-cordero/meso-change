@@ -16,7 +16,15 @@ r <- rast(r)
 
 # load in the area of interest
 aoi <- vect('_data/GIS/Vector/Confluence_AOI.shp')
+aoi <- ext(c(
+  -96.532,
+  -96.522,
+  39.184,
+  39.188
+))
+aoi <- vect(aoi,crs="EPSG:4326")
 aoi <- terra::project(aoi,crs(r))
+
 
 r <- crop(r,aoi,ext=TRUE)
 
