@@ -1,15 +1,16 @@
 # ==============================================
 # Mesohabitat classification (ALL labels present in RAT)
 # LOO across 7 dates + final model on all dates
-# OPTIMIZED + CORRECTED VERSION
+# FULL REPLACEMENT VERSION
 #
-# Key fixes:
-# - RF cap is actually used
-# - class weights are computed from rf_train, not full train_df
-# - cache filenames include aggregation factor
-# - fixed typo in rf_trees argument
-# - fixed semi_model feature_names reference
-# - no NDVI/NDWI/NBR (4 Planet bands only)
+# Key fixes in this version:
+# - uses a NEW cache directory so stale XY tables do not contaminate labels
+# - explicitly normalizes legacy labels if encountered
+# - preserves categorical labels on meso_gt after projection
+# - writes prediction rasters from a fresh categorical template
+# - uses RF cap = 50000 and RF trees = 500 consistently
+# - uses nearest-neighbor projection for categorical GT
+# - avoids mixed old/new labels in training data
 # ==============================================
 
 suppressPackageStartupMessages({
@@ -41,13 +42,14 @@ log_step("Using {N_THREADS} CPU threads for ranger where possible.")
 # ------------------------------
 # Paths / outputs
 # ------------------------------
-tables_out_dir   <- "_data/Tables/meso_classification"
-pred_out_dir     <- "_data/GIS/Raster/Outputs/meso_predictions"
-models_out_dir   <- "_data/Models/meso_models"
+tables_out_dir <- "_data/Tables/meso_classification"
+pred_out_dir   <- "_data/GIS/Raster/Outputs/meso_predictions"
+models_out_dir <- "_data/Models/meso_models"
 
-cache_dir        <- "_data/Cache/meso_classification"
-aligned_dir      <- file.path(cache_dir, "aligned_features")
-xy_cache_dir     <- file.path(cache_dir, "xy_tables")
+# IMPORTANT: new cache dir so old stale caches are not reused
+cache_dir    <- "_data/Cache/meso_classification_v2"
+aligned_dir  <- file.path(cache_dir, "aligned_features")
+xy_cache_dir <- file.path(cache_dir, "xy_tables")
 
 dir.create(tables_out_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(pred_out_dir,   recursive = TRUE, showWarnings = FALSE)
@@ -56,12 +58,27 @@ dir.create(cache_dir,      recursive = TRUE, showWarnings = FALSE)
 dir.create(aligned_dir,    recursive = TRUE, showWarnings = FALSE)
 dir.create(xy_cache_dir,   recursive = TRUE, showWarnings = FALSE)
 
+# Set TRUE the first time you run this replacement script
+FORCE_REBUILD_CACHE <- TRUE
+
 # ------------------------------
 # Load rasters
 # ------------------------------
 log_step("Loading rasters...")
-meso_gt <- rast("_data/GIS/Raster/Clean/mesohabitats.tif", lyrs = 1:7)
-planet  <- rast("_data/GIS/Raster/Clean/planet_7dates.tif")
+meso_gt_src <- rast("_data/GIS/Raster/Clean/Mesohabitats_v2.tif", lyrs = 1:7)
+planet      <- rast("_data/GIS/Raster/Clean/planet_7dates.tif")
+
+# Preserve original RAT before projection
+orig_levels <- levels(meso_gt_src)
+
+meso_names <- names(meso_gt_src)
+
+# Project categorical GT with nearest neighbor
+meso_gt <- terra::project(meso_gt_src, planet, method = "near")
+# meso_gt <- resample(meso_gt, planet[[1]],method="mean")
+meso_gt <- as.factor(meso_gt)
+levels(meso_gt) <- orig_levels
+names(meso_gt) <- meso_names
 
 log_step("Loaded meso_gt layers: {paste(names(meso_gt), collapse=', ')}")
 log_step("Loaded planet bands: {length(names(planet))} bands; sample: {paste(head(names(planet), 6), collapse=', ')}")
@@ -84,17 +101,28 @@ log_step("New res     | meso={paste(terra::res(meso_gt), collapse=' x ')} | plan
 # Map meso layer names -> Planet prefixes
 # ------------------------------
 map_tbl <- tribble(
-  ~meso_layer,        ~planet_prefix,
-  "01_Apr17_2022",    "03_April17_2022",
-  "02_Dec22_2021",    "01_Dec22_2021",
-  "03_Feb12_2022",    "02_Feb12_2022",
-  "04_July18_2022",   "06_July18_2022",
-  "05_Jun20_2022",    "05_June20_2022",
-  "06_May31_2022",    "04_May31_2022",
-  "07_Sep28_2022",    "07_Sep28_2022"
+  ~meso_layer,         ~planet_prefix,
+  "01_Dec22_2021",     "20211222",
+  "02_Feb12_2022",     "20220212",
+  "03_April17_2022",   "20220418",
+  "04_May31_2022",     "20220531",
+  "05_June20_2022",    "20220620",
+  "06_July18_2022",    "20220718",
+  "07_Sep28_2022",     "20220928"
 )
 
 log_step("Date mapping:\n{paste(apply(map_tbl, 1, function(r) glue('  {r[[1]]} -> {r[[2]]}')), collapse='\n')}")
+
+# ------------------------------
+# Normalize labels helper
+# ------------------------------
+normalize_meso_label <- function(x) {
+  x <- trimws(as.character(x))
+  x[x == "Med Pool"] <- "Medium Pool"
+  x[x == "Faster than a Raceway"] <- "Faster than Raceway"
+  x[x == "Faster than a Deep Pool"] <- "Faster than Deep Pool"
+  x
+}
 
 # ------------------------------
 # Class labels from raster RAT
@@ -104,24 +132,51 @@ lbl_col <- setdiff(names(lvl_df), c("value"))[1]
 lvl_df  <- arrange(lvl_df, value)
 
 codes  <- as.integer(lvl_df$value)
-labels <- trimws(as.character(lvl_df[[lbl_col]]))
+labels <- normalize_meso_label(lvl_df[[lbl_col]])
+
+# Rebuild a clean RAT table with normalized labels
+cat_tbl <- data.frame(value = codes, label = labels, stringsAsFactors = FALSE)
+
+# Re-attach normalized levels to GT
+for (i in 1:nlyr(meso_gt)) {
+  levels(meso_gt[[i]]) <- cat_tbl
+}
+
+names(meso_gt) <- meso_names
 
 label_to_code <- setNames(codes, labels)
 code_to_label <- setNames(labels, codes)
-
-cat_tbl <- data.frame(value = codes, label = labels, stringsAsFactors = FALSE)
 
 log_step("Detected {length(labels)} classes: {paste(labels, collapse=', ')}")
 
 # ------------------------------
 # Helpers
 # ------------------------------
+get_meso_layer <- function(meso_layer) {
+  idx <- match(meso_layer, names(meso_gt))
+  if (is.na(idx)) {
+    stop(
+      "meso_layer not found: ", meso_layer,
+      "\nAvailable meso_gt names:\n",
+      paste(names(meso_gt), collapse = ", ")
+    )
+  }
+  meso_gt[[idx]]
+}
+
 planet_for_prefix <- function(pref) {
   nm <- paste0(pref, "_", c("blue", "green", "red", "nir"))
-  if (!all(nm %in% names(planet))) {
-    stop("Planet bands not found for prefix: ", pref, "\nExpected: ", paste(nm, collapse = ", "))
+  idx <- match(nm, names(planet))
+  
+  if (anyNA(idx)) {
+    stop(
+      "Planet bands not found for prefix: ", pref,
+      "\nExpected:\n", paste(nm, collapse = ", "),
+      "\nAvailable planet names:\n", paste(names(planet), collapse = ", ")
+    )
   }
-  out <- planet[[nm]]
+  
+  out <- planet[[idx]]
   names(out) <- c("blue", "green", "red", "nir")
   out
 }
@@ -143,7 +198,8 @@ build_aligned_feature_raster <- function(meso_layer, planet_prefix, overwrite = 
   }
   
   log_step("Building aligned feature raster for {meso_layer} ...")
-  meso_r <- meso_gt[[meso_layer]]
+  
+  meso_r <- get_meso_layer(meso_layer)
   r4 <- planet_for_prefix(planet_prefix)
   
   if (!compareGeom(r4, meso_r, stopOnError = FALSE)) {
@@ -170,18 +226,20 @@ build_xy_for_date_cached <- function(meso_layer, planet_prefix, overwrite = FALS
   
   if (file.exists(out_path) && !overwrite) {
     log_step("Using cached XY table for {meso_layer}")
-    return(readRDS(out_path))
+    df <- readRDS(out_path)
+    df$meso <- factor(normalize_meso_label(df$meso), levels = labels)
+    return(df)
   }
   
   log_step("Building XY table for {meso_layer} ...")
-  meso_r <- meso_gt[[meso_layer]]
+  meso_r <- get_meso_layer(meso_layer)
   feat_r <- build_aligned_feature_raster(meso_layer, planet_prefix, overwrite = overwrite)
   
   X_vals    <- values(feat_r, mat = TRUE)
   meso_vals <- values(meso_r, mat = TRUE)
   
   if (!is.numeric(meso_vals)) {
-    meso_vals <- label_to_code[as.character(meso_vals)]
+    meso_vals <- label_to_code[normalize_meso_label(as.character(meso_vals))]
   }
   
   df <- as.data.frame(X_vals)
@@ -209,59 +267,30 @@ build_feat_rast_for_date_cached <- function(meso_layer, planet_prefix) {
   build_aligned_feature_raster(meso_layer, planet_prefix, overwrite = FALSE)
 }
 
-per_class_metrics <- function(cm) {
-  tbl <- cm$table
-  classes <- rownames(tbl)
-  total <- sum(tbl)
+make_cat_raster <- function(template, codes_vec, cat_tbl, layer_name) {
+  out <- rast(template)
+  values(out) <- as.integer(codes_vec)
+  out <- as.factor(out)
   
-  out <- lapply(classes, function(cl) {
-    tp <- tbl[cl, cl]
-    fn <- sum(tbl[cl, ]) - tp
-    fp <- sum(tbl[, cl]) - tp
-    
-    prec_den <- tp + fp
-    rec_den  <- tp + fn
-    
-    precision <- if (prec_den > 0) tp / prec_den else NA_real_
-    recall    <- if (rec_den  > 0) tp / rec_den  else NA_real_
-    f1 <- if (!is.na(precision) && !is.na(recall) && (precision + recall) > 0) {
-      2 * precision * recall / (precision + recall)
-    } else {
-      NA_real_
-    }
-    
-    data.frame(
-      .level = cl,
-      precision = precision,
-      recall = recall,
-      f_meas = f1,
-      support = sum(tbl[cl, ]),
-      stringsAsFactors = FALSE
-    )
-  })
+  # attach category table
+  levels(out) <- cat_tbl
   
-  do.call(rbind, out)
+  # explicitly set active category column if available
+  try(terra::activeCat(out) <- 1, silent = TRUE)
+  
+  names(out) <- layer_name
+  out
 }
-
-clean_numeric_rows <- function(df) {
-  num_cols <- names(df)[sapply(df, is.numeric)]
-  if (length(num_cols)) {
-    df <- df %>%
-      dplyr::filter(dplyr::if_all(dplyr::all_of(num_cols), ~ is.finite(.)))
-  }
-  tidyr::drop_na(df)
-}
-
 # ------------------------------
-# Precompute/cache all per-date aligned rasters and XY tables once
+# Rebuild/cache all per-date aligned rasters and XY tables
 # ------------------------------
 log_step("Precomputing cached aligned rasters and XY tables for all dates...")
 purrr::walk2(
   map_tbl$meso_layer,
   map_tbl$planet_prefix,
   ~{
-    build_aligned_feature_raster(.x, .y, overwrite = FALSE)
-    build_xy_for_date_cached(.x, .y, overwrite = FALSE)
+    build_aligned_feature_raster(.x, .y, overwrite = FORCE_REBUILD_CACHE)
+    build_xy_for_date_cached(.x, .y, overwrite = FORCE_REBUILD_CACHE)
   }
 )
 log_step("Caching complete.")
@@ -274,8 +303,8 @@ run_one <- function(train_ids, test_id,
                     use_class_weights = TRUE,
                     write_fold_rasters = FALSE,
                     km_n_max = 500000,
-                    rf_cap_per_class = 25000,
-                    rf_trees = 300) {
+                    rf_cap_per_class = 50000,
+                    rf_trees = 500) {
   
   log_step("====== Fold START | Test={test_id} | Train={paste(train_ids, collapse=', ')} ======")
   
@@ -317,7 +346,7 @@ run_one <- function(train_ids, test_id,
   all_lvls <- levels(train_df$meso)
   test_df$meso <- factor(test_df$meso, levels = all_lvls)
   
-  # ---------- SEMI-SUPERVISED (K-means + majority) ----------
+  # ---------- SEMI-SUPERVISED ----------
   log_step("K-means: k={k_clusters} ...")
   X_train_full <- train_df %>% dplyr::select(-meso) %>% as.matrix()
   
@@ -476,10 +505,12 @@ run_one <- function(train_ids, test_id,
     semi_codes <- rep(NA_integer_, nrow(vals_all))
     semi_codes[keep_all] <- label_to_code[as.character(semi_pred_lbl_all[keep_all])]
     
-    semi_r <- test_feat_rast[[1]]
-    values(semi_r) <- semi_codes
-    semi_r <- as.factor(semi_r)
-    levels(semi_r) <- cat_tbl
+    semi_r <- make_cat_raster(
+      template = test_feat_rast[[1]],
+      codes_vec = semi_codes,
+      cat_tbl = cat_tbl,
+      layer_name = test_id
+    )
     
     f_semi <- file.path(pred_out_dir, glue("semi_pred_{test_id}.tif"))
     writeRaster(
@@ -497,10 +528,12 @@ run_one <- function(train_ids, test_id,
     rf_codes <- rep(NA_integer_, nrow(vals_all))
     rf_codes[keep_all] <- unname(label_to_code[as.character(rf_pred_all)])
     
-    rf_r <- test_feat_rast[[1]]
-    values(rf_r) <- rf_codes
-    rf_r <- as.factor(rf_r)
-    levels(rf_r) <- cat_tbl
+    rf_r <- make_cat_raster(
+      template = test_feat_rast[[1]],
+      codes_vec = rf_codes,
+      cat_tbl = cat_tbl,
+      layer_name = test_id
+    )
     
     f_rf <- file.path(pred_out_dir, glue("rf_pred_{test_id}.tif"))
     writeRaster(
@@ -563,8 +596,8 @@ loo <- purrr::map_dfr(seq_along(all_dates), function(i) {
     use_class_weights = TRUE,
     write_fold_rasters = FALSE,
     km_n_max = 500000,
-    rf_cap_per_class = 25000,
-    rf_trees = 300
+    rf_cap_per_class = 50000,
+    rf_trees = 500
   )
 })
 
@@ -659,7 +692,7 @@ semi_model_final <- list(
 saveRDS(semi_model_final, file.path(models_out_dir, "semi_kmeans_FINAL.rds"), compress = "gzip")
 
 # --- FINAL RF ---
-rf_cap_per_class_final <- 25000
+rf_cap_per_class_final <- 50000
 if (!is.null(rf_cap_per_class_final)) {
   set.seed(42)
   rf_train_final <- full_df %>%
@@ -714,10 +747,19 @@ log_step("Saved FINAL models to: {normalizePath(models_out_dir)}")
 # --- OPTIONAL: Write FINAL predictions for each date ---
 write_final_preds <- TRUE
 
+print(getwd())
+print(pred_out_dir)
+print(normalizePath(pred_out_dir, winslash = "/", mustWork = FALSE))
+
+dir.create(pred_out_dir, recursive = TRUE, showWarnings = FALSE)
+pred_out_dir <- normalizePath(pred_out_dir, winslash = "/", mustWork = FALSE)
+
 if (isTRUE(write_final_preds)) {
   log_step("Writing FINAL prediction rasters for each date...")
   
   purrr::walk2(map_tbl$meso_layer, map_tbl$planet_prefix, function(ml, pref) {
+    log_step("---- {ml} ----")
+    
     feat_r <- build_feat_rast_for_date_cached(ml, pref)
     vals   <- values(feat_r, mat = TRUE)
     keep   <- apply(is.finite(vals), 1, all)
@@ -730,19 +772,27 @@ if (isTRUE(write_final_preds)) {
     dist2   <- outer(rsx_all, rsc, "+") - 2 * (X_all_scaled %*% t(semi_model_final$kmeans$centers))
     cl      <- max.col(-dist2, ties.method = "first")
     
-    cl2lbl  <- setNames(as.character(semi_model_final$cluster_labels$meso),
-                        semi_model_final$cluster_labels$cluster)
+    cl2lbl <- setNames(
+      as.character(semi_model_final$cluster_labels$meso),
+      semi_model_final$cluster_labels$cluster
+    )
     
     semi_lbl  <- cl2lbl[as.character(cl)]
     semi_code <- rep(NA_integer_, nrow(vals))
     semi_code[keep] <- label_to_code[as.character(semi_lbl[keep])]
     
-    r <- feat_r[[1]]
-    values(r) <- semi_code
-    r <- as.factor(r)
-    levels(r) <- cat_tbl
+    log_step("Semi unique labels for {ml}: {paste(sort(unique(na.omit(semi_lbl))), collapse=', ')}")
+    log_step("Semi NA codes for {ml}: {sum(is.na(semi_code))}/{length(semi_code)}")
+    
+    r <- make_cat_raster(
+      template = feat_r[[1]],
+      codes_vec = semi_code,
+      cat_tbl = cat_tbl,
+      layer_name = ml
+    )
     
     f1 <- file.path(pred_out_dir, glue("semi_pred_FINAL_{ml}.tif"))
+    log_step("Writing semi raster to: {f1}")
     writeRaster(
       r,
       f1,
@@ -755,17 +805,25 @@ if (isTRUE(write_final_preds)) {
     df_all_baked <- recipes::bake(rec_final_prep, new_data = df_all_raw)
     
     rf_lbl <- rep(NA_character_, nrow(vals))
-    rf_lbl[keep] <- predict(rf_fit_final, new_data = df_all_baked, type = "class")$.pred_class
+    rf_lbl[keep] <- as.character(
+      predict(rf_fit_final, new_data = df_all_baked, type = "class")$.pred_class
+    )
     
     rf_code <- rep(NA_integer_, nrow(vals))
-    rf_code[keep] <- unname(label_to_code[as.character(rf_lbl[keep])])
+    rf_code[keep] <- unname(label_to_code[rf_lbl[keep]])
     
-    r2 <- feat_r[[1]]
-    values(r2) <- rf_code
-    r2 <- as.factor(r2)
-    levels(r2) <- cat_tbl
+    log_step("RF unique labels for {ml}: {paste(sort(unique(na.omit(rf_lbl))), collapse=', ')}")
+    log_step("RF NA codes for {ml}: {sum(is.na(rf_code))}/{length(rf_code)}")
+    
+    r2 <- make_cat_raster(
+      template = feat_r[[1]],
+      codes_vec = rf_code,
+      cat_tbl = cat_tbl,
+      layer_name = ml
+    )
     
     f2 <- file.path(pred_out_dir, glue("rf_pred_FINAL_{ml}.tif"))
+    log_step("Writing RF raster to: {f2}")
     writeRaster(
       r2,
       f2,

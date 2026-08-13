@@ -1,0 +1,113 @@
+
+===== PAGE 1 =====
+Response to Reviewers
+Dear Editor and Reviewers,
+We thank you for the careful evaluation of our manuscript and for the constructive comments 
+that have improved its clarity, rigor, and reproducibility. Below we provide a point-by-point 
+summary of the revisions made. For clarity, reviewer comments are paraphrased in italics, 
+followed by our responses.
+Reviewer 1
+**Comment 1. The machine learning framework requires clearer justification and improved 
+robustness, particularly regarding class imbalance and model stability. **
+Response: We substantially revised the Random Forest (RF) workflow to address these 
+concerns:
+ The number of trees was increased from 300 to 500 to improve model stability.
+ Class imbalance was explicitly addressed by capping the number of training samples at 
+50,000 observations per class.
+ Importantly, this sampling is applied after the train/test split, ensuring that validation 
+metrics reflect the original class distribution.
+ Leave-one-out (LOO) validation models were updated to use the same configuration (500 
+trees; 50,000 samples per class), ensuring consistency between validation and final model 
+outputs.
+The Methods section has been revised to state:
+“To reduce class imbalance while maintaining sufficient representation of dominant classes, the 
+training dataset was balanced by randomly sampling up to 50,000 observations per class. 
+Random forest models were trained using 500 trees.”
+**Comment 2. The observed model artifacts suggest potential issues with model configuration 
+or training data. **
+Response: We clarified that the previously observed artifacts were primarily due to class 
+imbalance, not insufficient model complexity. The revised manuscript now emphasizes that 
+training data composition is the dominant control on model behavior, whereas increasing the 
+number of trees alone does not resolve bias.
+
+===== PAGE 2 =====
+Reviewer 2
+**Comment 3. The unsupervised clustering approach requires clearer justification and 
+methodological transparency. **
+Response: The K-means clustering workflow was revised as follows:
+ The number of clusters was standardized to k = 6 for both PlanetScope and Landsat 
+datasets, based on combined evaluation using elbow and silhouette methods.
+ The clustering function was improved to remove reliance on global variables and to 
+ensure consistent handling of raster structure.
+ NA handling was refined to operate on a per-date basis, preventing unnecessary loss of 
+valid observations.
+The manuscript now clearly describes K-means as a step to partition spectral space prior to 
+supervised classification.
+**Comment 4. Geospatial preprocessing and data provenance require additional clarification. 
+**
+Response: We expanded the preprocessing section to include:
+ Explicit identification of data levels:
+o PlanetScope imagery as surface reflectance (Level 3B)
+o Landsat imagery as Collection 2 Level-2 surface reflectance
+ Clarification of temporal alignment between datasets.
+ Documentation of a second set of PlanetScope dates used for mesohabitat comparison.
+ Improved description of raster stacking and band standardization procedures.
+Reviewer 3
+**Comment 5. The mesohabitat classification workflow requires clearer methodological 
+justification and improved efficiency. **
+Response: We revised the mesohabitat workflow to improve both interpretability and 
+performance:
+ Mesohabitat classes are now derived directly from depth and velocity rasters using a 
+consistent classification function.
+ Median conditions are computed from median depth and velocity, rather than from 
+classified rasters.
+
+===== PAGE 3 =====
+ Raster processing was optimized to reduce redundant reprojection and resampling 
+operations.
+ A revised color scheme was implemented to improve interpretability, with pools 
+represented by blue gradients and high-velocity environments by warm colors.
+Reviewer 4
+**Comment 6. Statistical interpretation requires clarification, particularly regarding 
+correlations between land cover classes. **
+Response: The statistical analysis section was revised to:
+ Clearly distinguish between moderate negative correlations observed in semi-supervised 
+models and weak relationships in supervised models.
+ Provide explicit geomorphic interpretation linking these relationships to river dynamics 
+(submergence vs exposure).
+ Improve explanation of differences between PlanetScope and Landsat results in terms of 
+spatial resolution and sensitivity to fine-scale features.
+Reviewer 5
+**Comment 7. Figures require improvement in clarity, layout, and interpretability. **
+Response: All figures were redesigned to improve visual quality and communication:
+ The study area figure was completely restructured using a hierarchical layout with a 
+dominant study-reach panel and supporting locator maps.
+ Time series figures were consolidated to reduce redundancy and improve readability.
+ Model comparison figures were refined with improved legend placement, consistent 
+panel sizing, and reduced clutter.
+Reviewer 6
+**Comment 8. Tables and overall manuscript organization require simplification and improved 
+clarity. **
+Response:
+
+===== PAGE 4 =====
+ Tables were reorganized to reduce redundancy and improve readability.
+ Average and total values were grouped logically.
+ Formatting issues (spacing, alignment, and LaTeX rendering) were corrected.
+Additional Revisions
+Beyond reviewer comments, we implemented the following improvements:
+ Enhanced methodological clarity throughout the manuscript.
+ Improved consistency in terminology and notation.
+ Refined figure referencing (use of “Fig.”) and LaTeX formatting.
+ Removed redundant or overly interpretive language.
+Summary
+The revised manuscript includes:
+ Improved model robustness through balanced training data
+ Greater methodological transparency and reproducibility
+ Clearer linkage between geomorphology and model outputs
+ Substantially improved figures and tables
+We believe these revisions fully address the reviewer comments and significantly strengthen the 
+manuscript.
+Thank you again for your time and consideration.
+Sincerely,
+The Authors

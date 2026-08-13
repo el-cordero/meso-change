@@ -3,7 +3,7 @@ source('_scripts/00_libraries.R')
 # river mask
 river <- vect('_data/GIS/Vector/Clean/river_corridor.shp')
 
-mesohabitats <- rast('_data/GIS/Raster/Clean/mesohabitats.tif',lyrs=8:10)
+mesohabitats <- rast('_data/GIS/Raster/Clean/Mesohabitats_v2.tif',lyrs=8)
 km <- rast('_data/GIS/Raster/Analysis/Kmeans/km_planet_7.tif',lyrs=1)
 rf <- rast('_data/GIS/Raster/Analysis/RandomForest/rf_planet_7.tif',lyrs=1)
 
@@ -13,7 +13,8 @@ rf <- mask(rf, river)
 km <- crop(km, rf)
 km <- mask(km,river)
 
-obs <- mask(mesohabitats$median_low, river)
+river_clip_meso <- terra::project(river, mesohabitats)
+obs <- mask(mesohabitats$median, river_clip_meso)
 obs <- terra::project(obs, rf, method='near')
 
 obs <- mask(obs, river)
@@ -22,8 +23,8 @@ obs <- classify(obs,cbind(NA,0))
 
 obs <- mask(obs,river)
 
-extent <- ext(c(1720603, 1736513, 308455.5, 321400))
-obs <- crop(obs,extent)
+# extent <- ext(c(1720603, 1736513, 308455.5, 321400))
+# obs <- crop(obs,extent)
 km <- crop(km,obs)
 rf <- crop(rf,obs)
 

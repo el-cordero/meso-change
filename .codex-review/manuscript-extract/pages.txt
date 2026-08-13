@@ -1,0 +1,1010 @@
+
+===== PAGE 1 =====
+Semi-Supervised and Supervised Machine Learning Approaches to Predicting 
+Fluvial Mesohabitats from Satellite Data
+Elvin Cordero¹˒² and Aubrey Harris³
+Affiliation:
+¹ Department of Marine Sciences, University of Puerto Rico-Mayagüez, PO Box 9000 Mayagüez, 
+PR, USA
+² SeaMount Geospatial Labs, Brooklyn, NY, USA
+³ US Army Corps of Engineers, Engineering Research and Development Center, Environmental 
+Laboratory, Albuquerque, NM, USA
+Corresponding Author: Aubrey Harris
+ Aubrey.E.Harris@USACE.army.mil
+ Phone: +1 (505) 342-3329
+Research Domain: Remote Sensing, Machine Learning, Ecosystem Modeling
+Highlights:
+ Open-source semi-supervised and supervised workfloows were evaluated for satellite-
+based flouvial mesohabitat mapping.
+ Thee semi-supervised workfloow recovered river-corridor inundation with strong 
+agreement and robust class-balanced performance.
+ Landsat-9, Sentinal-2, and PlanetScope produced comparable inundation change 
+patteerns, though PlanetScope retained finner spatial detail.
+ Direct mesohabitat prediction across floow conditions was more difficcult than binary 
+inundation mapping, but the supervised model consistently outperformed the semi-
+supervised approach.
+ Results support operational use of satellite-based inundation products and provide a 
+proof of concept for direct mesohabitat classifincation.
+Date: July 08, 2026
+Abstract
+Mapping dynamic riverine habitats presents a particular challenge, ofteen requiring high 
+resolution bathymetric measurement and advanced sediment transport and hydraulic 
+computational methods. To bypass these resource-intensive requirements, this study 
+establishes a benchmarking framework to assess the limits of Hhigh-cadence satellite imagery 
+
+===== PAGE 2 =====
+creates new opportunities for riverscape assessment when methods are reproducible, efficcient, 
+and robust to changing floow conditionst. Theis study evaluates two open-source workfloows for 
+mapping flouvial mesohabitats from optical satellite data: a semi-supervised clustering pipeline 
+and a class-weighted supervised random forest. Two complementaryIncreasingly complex 
+targets were consideredtested: (i) inundation dynamics, definned as surface water versus 
+exposed land within the river corridor, and (ii) direct prediction of hydraulically derived 
+mesohabitat classes. Using PlanetScope (~3 m), Sentinel-2 (10–20 m), and Landsat-9 (30 m) 
+imagery co-registered to 2D hydraulic model outputs, the semi-supervised workfloow recovered 
+inundation with strong agreement and preserved the expected inverse temporal relationship 
+between surface water and exposed land. Surface-water validation against a baseline mask 
+derived from median 2D hydraulic model mesohabitat extent showed that the semi-supervised 
+model outperformed the supervised baseline on class-balanced metrics, including balanced 
+accuracy and Mattehews Correlation Coefficcient. In a leave-one-date-out evaluation across 
+seven floow conditions, direct mesohabitat classifincation from PlanetScope features yielded 
+lower and more variable performance than binary inundation mapping, although the 
+supervised model consistently exceeded the semi-supervised approach and both produced 
+spatially coherent predictions. Theese results demonstrate that lightweight, open workfloows can 
+provide decision-ready inundation products while also capturing hydrologically meaningful 
+temporal dynamics, whereas direct image-based mesohabitat prediction remains a promising 
+but more challenging task. Future gains will likely require retaining native spatial resolution, 
+incorporating texture and morphological context, and integrating hydraulic predictors.
+Keywords: Machine Learning, Google Earth Engine, Mesohabitats, Land Classifincation, 
+Remote Sensing
+Introduction
+High-resolution remote sensing (RS) has transformed observation of riverscapes by enabling 
+routine, synoptic mapping of water extent, channel morphology, and habitat structure at 
+organism-relevant spatial grains and operational cadences (Marcus and Fonstad, 2010). 
+Expanding public and commercial image archives, cloud platforms, and open analytical 
+ecosystems now support ecological assessment at spatial and temporal resolutions that fineld 
+data collection campaigns alone cannot sustain (Cavender-Bares et al., 2022). Field surveys 
+remain indispensable yet are constrained by access, safety, and personnel, particularly during 
+high floows or across difficcult flooodplain terrain, creating persistent gaps in coverage and 
+frequency (Calderon and An, 2016; Gri fficn and Lasko, 2020; Johansen et al., 2022; Suir et al., 
+2023).  Deep learning and modern ML offeer stronger representation capacity but remain 
+sensitive to label scarcity, class imbalance, and domain shifte across color/turbidity/illumination 
+(Aggarwal, 2018; Fix and Hodges, 1989; Ma et al., 2019; Maskey et al., 2018; Vahidi et al., 2023; 
+Wang et al., 2019; Wurm et al., 2019). Moreover, ecohydraulic mapping at scale is constrained 
+by the cost and data demands of LiDAR-driven or fully calibrated hydraulic models 
+(Lindenschmidt and Carr, 2018; Schwartz, 2016). Because mesohabitat composition shi ftes with 
+streamfloow, models must respect floow dependence and test temporal generalization (Aadland, 
+1993; Harris et al., 2024).  
+
+===== PAGE 3 =====
+Within hierarchical river habitat frameworks, mesohabitats (e.g., pools, rifflees/glides, 
+runs/raceways) occupy the intermediate scale between microhabitats and reaches and exert 
+finrst-order control on hydraulics, sediment processes, and aquatic assemblages (Aadland, 1993; 
+Wegscheider et al., 2020). Thee spatial confinguration of these mesohabitats shiftes with 
+streamfloow and sediment dynamics, highlighting the need for mapping approaches that are 
+both spatially extensive and temporally responsive (Van Rooijen and Lotsari, 2024; Zaimes et 
+al., 2021). Conventional delineation via expert fineld mapping and ecohydraulic modeling can 
+achieve high findelity but is typically limited to short river segments and sparse floow snapshots 
+given the demands for detailed topography, boundary conditions, and calibration (Harris et al., 
+2024; Schwartz, 2016; Wiest et al., 2024).
+Remote sensing provides an opportunity to upscale mesohabitat assessment by exploiting 
+spectral, textural, and morphological signals. Habitat studies are increasingly using RS tools 
+such as supervised/unsupervised land-cover classifincation, spectral indices (e.g., Normalized 
+Diffeerence Vegetation Index [NDVI], Normalized Diffeerence Water Index [NDWI], Normalized 
+Burn Ratio [NBR]), texture metrics, and Digital Elevation Model (DEM) derived context 
+(e.g. slope, curvature) (Demir et al., 2018; Farwell et al., 2021; Ganesh et al., 2023; Jin et al., 2021;  
+Li et al., 2018; McKay et al., 2022; Niedballa et al., 2022; Su tteidate et al., 2023). A large body of 
+work has leveraged geographic object-based image analysis (OBIA) to map Rriverscape units 
+have been mapped via geographic object-based image analysis (OBIA) by coupling image 
+segmentation, spectral features, and contextual/topographic constraints. Hierarchical, 
+multiscale OBIA that fuses very high resolution (VHR) imagery with LiDAR has produced 
+accurate maps of channels, bars, riparian vegetation, and, in some cases, in-channel 
+mesohabitats (Demarchi et al., 2016, 2016; Kutz et al., 2022; Shabat and Tapamo, 2017). Yet 
+performance can be sensitive to segmentation parameters and scene complexity, with 
+transferability across dates, sites, and floow states ofteen requiring retuning, especially where 
+specular refloection, turbidity, shadows, and narrow channels degrade separability (Wang et al., 
+2019; Wurm et al., 2019; Zhang et al., 2023).
+Despite substantial advances in data availability, an operational gap remains: can mesohabitat 
+types be predicted directly from satellite features across streamfloow regimes without reliance 
+on site-specifinc LiDAR or dense fineld annotation, and evaluated using temporally independent, 
+hydrologically relevant validation? Object-based pipelines ofteen require site/timestep retuning 
+and can degrade under heterogeneous riverscape conditions (i.e. specular refloection, shadows, 
+turbidity), limiting transferability in dynamic flouvial environments (Demarchi et al., 2016, 2016;  
+Kutz et al., 2022; Zhang et al., 2023).
+Change-detection frameworks further enable assessment of temporal dynamics across seasons 
+and events (Choukiker and Dohare, 2021; Lim et al., 2018; Romero et al., 2016; Zimmermann et 
+al., 2007).  Sensor choice is important; medium spatial resolution sensors (5–30 m) incur mixed 
+pixels in narrow channel widths, whereas most VHR (<5 m) constellations trade spatial grain 
+for temporal cadence. PlanetScope (~3 m, near-daily) offeers a pragmatic balance for riverscape 
+monitoring and has seen wide uptake across aquatic and terrestrial applications (Planet Labs 
+PBC, 2024). National aerial programs (e.g., National Agriculture Imagery Program [NAIP]; U.S. 
+Geological Survey [USGS] 1-m orthoimagery) provide sub-meter data but at lower or irregular 
+temporal frequency, complicating multi-date analyses tied to floow (USDA, n.d.; USGS, 2023a, 
+2023b, 2011).
+
+===== PAGE 4 =====
+A large body of work has leveraged geographic object-based image analysis (OBIA) to map 
+riverscape units by coupling image segmentation, spectral features, and contextual/topographic 
+constraints. Hierarchical, multiscale OBIA that fuses very high resolution (VHR) imagery with 
+LiDAR has produced accurate maps of channels, bars, riparian vegetation, and, in some cases, 
+in-channel mesohabitats (Demarchi et al., 2016, 2016; Kutz et al., 2022; Shabat and Tapamo, 
+2017). Yet performance can be sensitive to segmentation parameters and scene complexity, 
+with transferability across dates, sites, and floow states ofteen requiring retuning, especially 
+where specular refloection, turbidity, shadows, and narrow channels degrade separability (Wang 
+et al., 2019; Wurm et al., 2019; Zhang et al., 2023).
+Machine learning (ML) and deep learning have expanded capabilities by learning features 
+directly from data. For example, convolutional neural networks (CNNs), classifincation and 
+representation learning models, and other classical ML models provide robust baselines and 
+ensembles for tabular/image features (Aggarwal, 2018; Howard and Gugger, 2020; Kuhn, 2008; 
+Lantz, 2023; Ma et al., 2019; Theompson and Brodrick, 2021). In flouvial contexts, deep learning 
+networks at sub-meter resolution can exploit texture and spatial context to classify water and 
+hydraulically relevant surface states—even with limited spectral bands—while hybrid 
+workfloows integrating image-derived floow texture with terrain cues have distinguished glides, 
+rifflees, and pools across discharge conditions (Brostow et al., 2009; Moortgat et al., 2022; 
+Romero et al., 2016; Shashikant, 2019; Verma et al., 2021). Theese developments suggest that 
+mesohabitat categories may be predictable from imagery when provided appropriate 
+annotations and cross-date validation.
+Sensor choice is important; medium spatial resolution sensors (5–30 m) incur mixed pixels in 
+narrow channel widths, whereas most VHR (<5 m) constellations trade spatial grain for 
+temporal cadence. PlanetScope (~3 m, near-daily) offeers a pragmatic balance for riverscape 
+monitoring and has seen wide uptake across aquatic and terrestrial applications (Planet Labs 
+PBC, 2024). National aerial programs (e.g., National Agriculture Imagery Program [NAIP]; U.S. 
+Geological Survey [USGS] 1-m orthoimagery) provide sub-meter data but at lower or irregular 
+temporal frequency, complicating multi-date analyses tied to floow (USDA, n.d.; USGS, 2023a, 
+2023b, 2011).
+Persistent challenges include assembling labeled datasets at scale, coping with class imbalance 
+(i.e. uneven distribution) among mesohabitat types, and ensuring robustness to domain shiftes 
+in color, turbidity, substrate, and illumination (Mandlik and Mundhe, 2018; Maskey et al., 2018; 
+Vahidi et al., 2023 , Aggarwal, 2018; Fix and Hodges, 1989; Ma et al., 2019; Maskey et al., 2018; 
+Vahidi et al., 2023; Wang et al., 2019; Wurm et al., 2019). ). Mesohabitat distributions are 
+typically imbalanced, with dominant units (e.g., runs or raceways) comprising most of the 
+channel, while pools and rifflees occupy comparatively limited area (Aadland, 1993). Imbalances 
+biases model training toward majority classes and reducing sensitivity to rarer units. Domain 
+shifte further limits transferability, as variations in water optical properties, sediment load, bed 
+composition, channel morphology, and illumination alter spectral responses, causing models 
+trained under one set of conditions to degrade when applied across rivers or floow states (Ma et 
+al., 2019).
+Despite substantial advances in data availability, an operational gap remains: can mesohabitat 
+types be predicted directly from satellite features across streamfloow regimes without reliance 
+
+===== PAGE 5 =====
+on site-specifinc LiDAR or dense fineld annotation, and evaluated using temporally independent, 
+hydrologically relevant validation? Object-based pipelines ofteen require site/timestep retuning 
+and can degrade under heterogeneous riverscape conditions (i.e. specular refloection, shadows, 
+turbidity), limiting transferability in dynamic flouvial environments (Demarchi et al., 2016, 2016;  
+Kutz et al., 2022; Zhang et al., 2023). Deep learning and modern ML offeer stronger 
+representation capacity but remain sensitive to label scarcity, class imbalance, and domain 
+shifte across color/turbidity/illumination (Aggarwal, 2018; Fix and Hodges, 1989; Ma et al., 2019; 
+Maskey et al., 2018; Vahidi et al., 2023; Wang et al., 2019; Wurm et al., 2019). Moreover, 
+ecohydraulic mapping at scale is constrained by the cost and data demands of LiDAR-driven or 
+fully calibrated hydraulic models (Lindenschmidt and Carr, 2018; Schwartz, 2016). Because 
+mesohabitat composition shiftes with streamfloow, models must respect floow dependence and test 
+temporal generalization (Aadland, 1993; Harris et al., 2024). Theese considerations motivate a 
+label-efficcient, imagery-finrst strategy that exploits high-cadence VHR sources (e.g., 
+PlanetScope) for multi-date coverage while limiting mixed-pixel issues typical of coarser 
+sensors in narrow channel widths (e.g. Planet Labs PBC, 2024; USGS, 2023c).
+Theis study advances riverscape mapping by testing whether mesohabitat classes can be 
+inferred directly from high-resolution satellite features across varying discharges, rather than 
+relying on physical parameters (e.g. depth and velocity). Using the Big Blue–Kansas Rivers 
+conflouence as a case study, the work (i) establishes reach-scale baseline landcover land-use 
+(LULC) and mesoscale change products for context and continuity, and (ii) evaluates image-
+based prediction of eight hydraulically definned mesohabitats using PlanetScope imagery 
+(Planet Labs PBC, 2024) due to its consistent, near-same-day coverage of all modelled dates . 
+Thee central objective is to quantify how well satellite-only predictors recover mesohabitat 
+labels under temporally out-of-sample conditions and to benchmark those results against the 
+simpler inundation classifincation (i.e., binary water versus non-water derived from spectral 
+refloectance and indices), delivering categorical prediction maps and cross-date performance 
+summaries suitable for monitoring and management. All analyses are implemented with open, 
+reusable tooling to maximize transparency and transferability.
+Methodology
+Theis study employs two complementary classifincation workfloows to evaluate riverscape 
+mapping from satellite imagery: (i) a semi-supervised clustering approach (K-means with KNN 
+labeling) and (ii) a supervised random forest classifiner. Both methods were applied to satellite 
+imagery with diffeerent spatial resolutions to generate landcover and inundation products 
+across the full 22-image time series. Theese classifincations were then used to quantify temporal 
+dynamics in surface water and exposed land within the river corridor. In a separate analysis, 
+image-based predictors derived from PlanetScope imagery were used to directly classify 
+hydraulically definned mesohabitats for seven dates corresponding to 2D hydraulic model 
+outputs, evaluated using a leave-one-date-out framework to assess temporal generalization 
+across floow conditions.
+Software & Data Requirements
+Thee geospatial processing procedure was completed for the data prior to the statistical analysis 
+utilizing the R statistical language (R Core Team, 2026). A suite of R spatial tools including the 
+
+===== PAGE 6 =====
+terra, in concert with the tidyterra and rgee, were used for the data acquisition steps (Aybar et 
+al., 2020; Hernangómez, 2023; Hijmans et al., 2026). Thee rgee package is a nested wrapper that 
+connects R to the Google Earth Engine (GEE) Web REST API via the GEE Python API (Aybar et 
+al., 2024; Eltayeb Elmahal and Mahmoud Ibrahim Musa, 2023). Thee USGS discharge data from 
+the nearest sites on the Kansas River (#688 798100 Fort Riley and #688 87 8500 Wamego) and the Big 
+Blue River (#688 87 8000 Manhattean) were downloaded by using the R package dataRetrievel (De 
+Cicco et al., 2023) (Fig. 1b-c). Thee R package tidymodels was used to employ the ML methods 
+(Kuhn and Wickham, 2020). Polygon dra fteing and editing was done in the QGIS geographic 
+information system softeware (QGIS Development Team, 2024).
+Geospatial Preprocessing
+Thee area of interest (AOI) is located at the conflouence of the Big Blue and Kansas Rivers in the 
+greater Manhattean, Kansas area (Fig. 1). Thee analysis domain was restricted to the river 
+corridor by applying a 30-m (98.425 22 -fte) buffeer to the USGS Watershed Boundary Dataset’s 
+(WBD) waterbody layer (USGS, 2023d). Thee river corridor was subsequently refinned to include 
+point bars and other geomorphic features beyond the initial buffeer.
+Study area at the confluuence of the Big Blue and Kansas Rivers near Manhattaan, Kansas, USA. Thee 
+area of interest (AOI) is delineated by the black outline and represents the domain used for 
+inundation classificcation and time-series analyses. Thee dashed inset box identifices a representative 
+subreach used for detailed visualization in subsequent ficgures, where hydraulic model outputs and 
+image-based predictions are compared at ficner spatial resolution.
+Tributaries were excluded from the analysis because their widths were ofteen below the 
+effeective spatial resolution of coarser imagery, which would result in mixed pixels and 
+
+===== PAGE 7 =====
+inconsistent representation across sensors; restricting the domain ensured comparability 
+among Landsat-9, Sentinel-2, and PlanetScope-derived products. To ensure consistency across 
+sensors, analysis was restricted to spectrally comparable bands (blue, green, red, and near-
+infrared (NIR); corresponding band designations, wavelength ranges, and spatial resolutions 
+are summarized in Table 1. Although all datasets represent surface refloectance, diffeerences in 
+sensor design, spectral response functions, and atmospheric correction approaches may 
+introduce subtle radiometric inconsistencies. To minimize cross-sensor bias, all predictor 
+variables were standardized prior to model development.
+Comparison of spectral bands used across Landsat-9, Sentinel-2, and PlanetScope.
+Band Landsat-9 Sentinel-2 PlanetScope
+Blue B2 (452–512 nm, 30 m) B2 (458–523 nm, 10 m) Blue (455–515 nm, ~3 m)
+Green B3 (533–590 nm, 30 m) B3 (543–578 nm, 10 m) Green (500–590 nm, ~3 m)
+Red B4 (636–673 nm, 30 m) B4 (650–680 nm, 10 m) Red (590–670 nm, ~3 m)
+NIR B5 (851–879 nm, 30 m) B8A (855–875 nm, 20 m) NIR (780–860 nm, ~3 m)
+Landsat-9 (30-m) satellite images collected between November 21, 2021 and November 14, 2023 
+were retrieved via GEE (Aybar et al., 2024; USGS, 2023c). Images with more than 20% cloud 
+cover were excluded, resulting in a refinned collection of 22 images spanning all seasons. 
+Landsat-9 imagery consisted of Collection 2, Tier 1 Level-2 surface re floectance products, which 
+are atmospherically corrected using the Land Surface Refloectance Code (LaSRC), ensuring 
+radiometric consistency across dates. For comparability with higher-resolution sensors, 
+analysis was restricted to the blue, green, red, and NIR bands.
+Sentinel-2 (10-20-m) imagery retrieved via GEE (Aybar et al., 2024; European Space Agency, 
+2023) was included to provide an intermediate spatial resolution dataset that bridges the scale 
+gap between Landsat-9 and PlanetScope (~3 m). Bands were limited to the blue, green, red, and 
+narrow NIR for direct comparison with the other sensors. Sentinel-2 Level-2A surface 
+refloectance products were used, which are atmospherically corrected using the Sen2Cor 
+processor. While the visible bands are provided at 10-m spatial resolution, the narrow NIR 
+band is natively 20 m and was resampled to 10 m using bilinear interpolation to ensure 
+consistent spatial resolution across all predictor layers.
+Because multiple PlanetScope scenes were ofteen available per day, image selection was 
+constrained to those with 0% cloud cover and minimal atmospheric or illumination artifacts; 
+when multiple candidates met these criteria, scenes acquired closest to local solar noon were 
+preferentially selected to reduce shadow effeects and ensure radiometric consistency. 
+PlanetScope imagery was limited to the blue, green, red, and NIR bands and consisted of 
+Level-3 surface refloectance products (AnalyticMS_SR), which are atmospherically corrected and 
+provided as analysis-ready refloectance data. Thee PlanetScope scenes were not always acquired 
+on the exact same datesat the same time as the Landsat-9 imagery due to diffeerences in revisit 
+schedules and data availability; however, images were selected to be temporally proximate (i.e., 
+same day or within a 48-hr window) to maintain consistency in surface conditions across 
+datasets. Sentinel-2 imagery followed a similar temporal matching approach, though a slightly 
+wider tolerance window (±11 days) was permitteed where necessary.
+
+===== PAGE 8 =====
+Thee data for the 22 images were combined into three raster stacks corresponding to Landsat-9, 
+Sentinel-2, and PlanetScope. In addition to this multi-temporal dataset used for inundation 
+classifincation, a second set of PlanetScope images collected between December 22, 2021 and 
+September 28, 2022 corresponding to seven hydrologic conditions was compiled for 
+comparison with modeled aquatic mesohabitat distributions described in the subsequent 
+section.
+Aquatic Mesohabitat Types and Surface-Water Baseline Distribution
+Aquatic mesohabitat types were definned from a  2D 2D HEC-RAS v6.3.1 hydraulic model 
+simulation on a 3-m grid using depth–velocity thresholds consistent with mesoscale typologies 
+(Wiest et al., 2024).  Thee 2D HEC-RAS was calibrated to fineld-measured water surface elevation 
+to a 0.09m RMSE, approximately 17% of the depth range [Manhattean (#688 87 8000) was at 12 cms 
+at time of data collection, and Wamego (#688 87 8500) at 22 cms, see Wiest et al. 2024 for more 
+information]. 
+Mesohabitat classes were derived by applying threshold depth and velocity ranges from 
+Aadland (1993) to modeled hydraulic simulation variables resultsfrom Aadland (1993), 
+primarily water depth and floow velocity,  such that combinations of low/high depth and 
+velocity corresponded to distinct habitat types (e.g., low velocity and greater depth for pools; 
+higher velocity and shallow depth for rifflees). Classes comprised (1) shallow pool, (2) medium 
+pool, (3) deep pool, (4) slow rifflee, (5) fast rifflee, (6) raceway, (7) faster than a raceway, and (8) 
+faster than a deep pool (Table 2 ). Seven hydrologic snapshots spanning the site’s discharge 
+regime were selected from USGS mean-daily floow records from nearby Fort Riley 
+(No.# 688 798100), Manhattean (No.# 688 87 8000), and Wamego (No.# 688 87 8500) stations via the 
+dataRetrieval package (De Cicco et al., 2023): December 22, 2021; February 12, 2022; April 17, 
+2022; May 31, 2022; June 20, 2022; July 18, 2022; and September 28, 2022 (Fig. 2 ).
+(a) Stream gauge locations from three USGS sites (Fort Riley No. #688798:; ;  [orange line], 
+Manhattaan No.# 688878;; ;  [green line], Wamego No.# 688878?;;  [blue line]) near the AOI (outlined 
+in red). (b) Continuous mean daily streamfluow (cubic ft/As) from January 2; 22 through January 
+2; 24, used to characterize hydrologic variability at the site. Seven discrete dates spanning a range 
+of fluow conditions were selected from this record for hydraulic modeling (ficlled circles), while open 
+circles denote the full set of satellite image acquisition dates.
+
+===== PAGE 9 =====
+Mesohabitat classificcation thresholds based on depth (m) and velocity (m s⁻¹). Classificcation follows 
+a hierarchical threshold scheme in which depth is evaluated ficrst, followed by velocity within each 
+depth bin, aft/er Aadland ( : 993).
+Class Mesohabitat Depth (m) Velocity (m s ¹)⁻
+Shallow Pool < 0.61 < 0.30
+Medium Pool ≥ 0.61 and < 1.37 < 0.30
+Deep Pool ≥ 1.37 < 0.30
+Slow Rifflee < 0.61 ≥ 0.30 and < 0.61
+Fast Rifflee < 0.61 ≥ 0.61
+Raceway ≥ 0.61 and < 1.37 ≥ 0.30 and < 0.61
+Faster than Raceway ≥ 0.61 and < 1.37 ≥ 0.61
+Faster than Deep Pool ≥ 1.37 ≥ 0.30
+ML Classificcation
+Semi-Supervised Classification
+A semi-supervised classifincation approach was used to categorize the imagery into finve classes 
+based offe the Anderson land cover classifincation (Anderson et al., 1976): urban (e.g. roads, 
+buildings, etc), bare land, herbaceous vegetation (e.g., grasses, agricultural cover), forested land, 
+and surface water. Theis approach was applied consistently across sensors to enable direct 
+comparison across sensors.
+Thee workfloow combined unsupervised clustering with supervised classifincation. K-means 
+clustering (Hartigan–Wong algorithm) was finrst used to partition the spectral feature space by 
+minimizing within-cluster sum of squares (Hartigan and Wong, 1979). Thee resulting clusters 
+were then assigned class labels and used to train a K-Nearest Neighbors (KNN) classifiner, which 
+predicts class membership for unseen pixels based on the majority class of neighboring 
+observations in feature space.
+Thee number of clusters (k) was evaluated using both the elbow method and silhouettee analysis. 
+Thee elbow method identifines the point of diminishing returns in within-cluster variance 
+reduction, while silhouettee analysis evaluates cluster separation by comparing within- and 
+between-cluster similarity. Although silhouettee analysis indicated optimal clustering at low k 
+values (k = 2–3), these solutions primarily separated broad landcover groups and did not 
+capture the level of thematic detail required intended for this study. Theerefore, an elbow at a 
+higher values of k (> 5) are preferredwas selected based on a balance between statistical 
+performance and interpretability of landcover classes.
+Supervised Classification
+A supervised classifincation approach was used to assign pixels to the finve landcover classes 
+described in the previous section. Landcover classes were manually delineated as vector 
+polygons within the AOI using QGIS (QGIS Development Team, 2024) and subsequently 
+rasterized to generate labeled training pixels. To reduce temporal noise in the training data, 
+
+===== PAGE 10 =====
+only areas that appeared visually stable across the study period (i.e., exhibited no observable 
+landcover change between dates) were selected.
+Model training was conducted using a random forest classifiner, with 80% of the labeled pixels 
+used for training and the remaining 20% reserved for validation. Thee number of trees was finxed 
+at 500 for all models. Hyperparameter tuning was performed using finve-fold cross-validation on 
+a stratifined subset of the training data, where a maximum of 10,000 samples per class were 
+randomly selected to reduce computational demand while preserving class balance. Thee 
+optimal model confinguration was selected based on classifincation performance metrics, 
+including overall accuracy and Receiver Operating Characteristic Area Under the Curve (ROC 
+AUC). Two key hyperparameters were tuned: (1) min_n, the minimum number of observations 
+required to split a node, and (2) mtry, the number of predictors randomly sampled at each split.
+Thee finnal models were trained at their original spatial resolutions using the full set of labeled 
+pixels and the tuned hyperparameters. For the baseline classifincation, predictor variables 
+consisted of multi-band raster stacks in which each pixel contained spectral information from 
+all image acquisition dates for a given sensor. Theis formulation allows the model to learn a 
+temporally integrated representation of surface conditions, producing a classifincation that 
+refloects the dominant or persistent landcover state over the study period.
+In addition, separate random forest models were trained for each image date using only the 
+spectral bands associated with that date. Theese date-specifinc models preserve short-term 
+variability in landcover conditions and were used to generate temporally explicit classifined 
+rasters. Because the baseline model was trained using a multi-band stack containing predictors 
+from all image dates, the tuned mtry refloects a high-dimensional feature space. In contrast, the 
+date-specifinc models were trained using only four spectral predictors per date. As a result, mtry 
+was constrained to 2 for the date-speci finc models to ensure consistency with the reduced 
+predictor set.
+Time Series Analysis
+Although finve landcover classes were definned to characterize general surface conditions, the 
+time series analyses focused on surface water and bare land within the river corridor. Urban, 
+herbaceous vegetation, and bare land substrates were not reliably separable spectral categories 
+and were therefore grouped as “bare land, ” while riparian trees and shrubs classes were 
+retained for completeness but not emphasized in downstream change analyses.
+Thee classifined rasters generated from both the semi-supervised (K-means + KNN) and 
+supervised (random forest) workfloows—hereafteer referred to as ML-classifined rasters—were 
+masked to the river corridor to limit noise from surrounding landcover. For each date, class-
+specifinc area was calculated by multiplying the number of pixels assigned to each class by the 
+pixel area (1 m² = 0.00022 48711 acres) and summing across the AOI.
+Two complementary diffeerencing techniques were implemented to quantify temporal change. 
+Thee finrst captures stepwise change between consecutive observations, while the second 
+quantifines cumulative change relative to a finxed baseline condition:
+are aδ 1 =∑i=1
+n
+a re atn
+- ∑i=1
+n
+a re atn+1
+,
+
+===== PAGE 11 =====
+are aδ 2 =∑i=1
+n
+a re at0
+- ∑i=1
+n
+a re atn
+,
+where area is the total area of a given landcover class, are aδ1 is the temporal change in area 
+between consecutive dates, are aδ 2 is the change relative to the baseline condition, t0 represents 
+the baseline date (November 21, 2021), tn represents a given sampling date, and tn+1 represents 
+the subsequent sampling date in the time series.
+To further evaluate relationships between landcover classes, Kendall’s tau (τ) rank correlation 
+coefficcient was computed between surface water and bare land area time series. Kendall’s τ is a 
+nonparametric measure of monotonic association that is robust to non-normality and small 
+sample sizes. It is calculated based on the diffeerence between concordant and discordant pairs 
+of observations and ranges from -1 to +1, where negative values indicate an inverse 
+relationship, positive values indicate a direct relationship, and values near zero indicate littele or 
+no association. In this study, Kendall’s τ was used to assess whether increases in surface water 
+correspond to decreases in exposed bare land, as expected under varying floow conditions.
+Model Evaluation
+Surfae Water Validation (Water vs. Non-Water)
+For the water versus non-water validation, a baseline surface-water mask was derived from the 
+seven 2D hydraulic model–derived mesohabitat maps by taking the per-pixel median 
+mesohabitat state across dates. Thee dates were specifincally chosen to represent a range of 
+diverse floow conditions to remove bias, resulting in changing floow volumes and diffeerent 
+mesohabitat distributions across time. Pixels within the median mesohabitat footprint were 
+classifined as water, whereas pixels outside this footprint were classifined as non-water.
+PlanetScope imagery acquired on the same seven dates was co-registered to the hydraulic grid 
+and used as input to the semi-supervised and supervised classifincation workfloows. Thee resulting 
+classifined products were then evaluated against the baseline mask using confusion matrices. 
+Theis analysis was designed to assess whether image-based classifincations could recover the 
+spatial extent of surface water consistent with hydraulically derived conditions.
+Model performance was summarized using overall accuracy, sensitivity, specifincity, precision, 
+negative predictive value, balanced accuracy, Mattehews Correlation Coefficcient (MCC), and F-
+measure. Theese metrics were used to evaluate both overall agreement and the ability of each 
+model to recover surface water under class imbalance, with particular emphasis on balanced 
+accuracy and MCC because they are less sensitive to unequal class frequencies than overall 
+accuracy alone.
+Mesohabitat Classification
+To evaluate whether mesohabitat types can be predicted directly from satellite data, rather 
+than inferred indirectly through inundation, 3-m resolution 2D hydraulic model–derived 
+mesohabitat distribution maps were used as categorical ground truth, and image-based models 
+were trained to predict seven aquatic mesohabitat types described in Section 2.3. PlanetScope 
+imagery corresponding to the seven hydraulic model dates specifined in Section 2.3 was co-
+registered to the mesohabitat grid.
+
+===== PAGE 12 =====
+Predictors were restricted to PlanetScope imagery for this analysis. Landsat-9 and Sentinel-2 
+data were not used because they did not provide consistent, cloud-free coverage for all seven 
+hydraulic model dates and introduced mixed-pixel effeects at 30 m resolution that are unsuitable 
+for resolving narrow channel features. Inclusion of Landsat-9 and Sentinel-2 would have 
+required either dropping dates or resampling mesohabitat labels to a lower resolution to match 
+the coarser spatial resolution of the two sensors.
+A leave-one-date-out (LOO) design was adopted to account for the floow dependence of 
+mesohabitats. For each iteration, one date was held out for testing while models were trained 
+on the remaining six dates and evaluated on the hold-out. Two modeling approaches were 
+compared. Thee finrst approach used semi-supervised clustering. Predictor variables were 
+standardized, and K-means clustering was applied to the training pixels (k = 12; nstart = 10). 
+Each cluster was assigned a mesohabitat label based on majority voting from the training data, 
+and predictions for the held-out date were generated by assigning pixels to the nearest cluster 
+center in standardized feature space. Thee second approach used a supervised random forest 
+classifiner. A class-weighted model with the same hyperparameters described in Section 2.4.2 
+was implemented using the R tidymodels and ranger packages. Class weights were definned as 
+inversely proportional to class frequency in the training data to mitigate imbalance. Predictor 
+variables included the four spectral bands and three derived indices.
+All modeling and evaluation were restricted to the mesohabitat mask (i.e., the river corridor). 
+Model performance was summarized for each fold using overall accuracy and class-balanced 
+metrics (balanced accuracy and macro-averaged recall), and prediction maps for each held-out 
+date were exported as categorical rasters.
+Results
+Optimized Modeling Parameters
+Thee optimized modeling parameters for the unsupervised and semi-supervised methods were 
+determined using the elbow method and random forest hyperparameters, respectively. Thee 
+elbow method indicated diminishing improvements in within-cluster variance reduction 
+beyond k ≈ 6–10 (Fig. 3). Silhouettee analysis identifined k = 6 as the optimal solution, yielding 
+the highest average silhouettee width; this value was therefore adopted for subsequent 
+modeling. Thee K-means algorithm was run with a maximum of 500 iterations and applied to 
+the full image collection to establish baseline landcover conditions. Random forest 
+hyperparameter tuning indicated that performance was consistently high across a broad range 
+of parameter combinations, with AUC values exceeding 0.99928  for both PlanetScope and 
+Landsat-9 datasets (Fig. 4). Model performance was relatively insensitive to small variations in 
+both mi nn and mtry, although optimal performance was generally observed for low values of 
+mi nn and moderate values of mtry. Thee refinned tuning results (Fig. 4b) show a clear region of 
+high performance across both sensors, with the highest AUC values occurring at mtry = 7 and 
+low mi nn. Based on these results, the selected confingurations for the baseline models were mi nn 
+= 2 and mtry = 7 for PlanetScope, and mi nn = 2 and mtry = 13 for Landsat-9 and Sentinel-2. For 
+date-specifinc models for all sensors, mtry was reduced to 2 to re floect the smaller predictor set 
+used in those analyses.
+
+===== PAGE 13 =====
+Evaluation of K-means clustering performance for PlanetScope (: ;  m) and Landsat-9 (3;  m) 
+imagery using the elbow method (total within-cluster sum of squares) and silhouettae analysis 
+(average silhouettae width). Both metrics were used to assess cluster compactness and separation 
+across a range of k values. Red markers and dashed lines indicate the selected number of clusters 
+for each sensor, k = 6, chosen based on a balance between statistical performance and 
+interpretability of landcover classes.
+Random forest hyperparameter tuning results for PlanetScope and Landsat-9 datasets. (a) AUC 
+evaluated across combinations of minimum node size (mi nn) and number of variables sampled at 
+each split (mtry). (b) Reficned parameter space highlighting the region of highest model 
+performance. PlanetScope results are shown as solid lines with ficlled symbols, and Landsat-9 
+results as dashed lines with open symbols. Selected parameter combinations used in model 
+implementation are indicated in the ficgure.
+Model Summary and Performance
+Surfae Water Validation
+Five land-cover classes were mapped (i.e. urban, bare land, herbaceous vegetation, riparian 
+trees/shrubs, and surface water); however, the analysis focused on surface water and bare land 
+as complementary indicators of inundation dynamics (Fig. 5–6]). For this analysis, the bare 
+
+===== PAGE 14 =====
+land class includes pixels classifined as urban and herbaceous vegetation. Thee remaining classes 
+were included to support classifincation but are not considered further in the validation.
+Predicted surface water and bare land extents varied across sensors and modeling approaches 
+(Fig. 7). For Landsat-9, surface water spanned approximately 183–390 acres under the semi-
+supervised model and 249–329 acres under the supervised model, while bare land ranged from 
+372–623 and 268–488 acres, respectively. For Sentinel-2, surface water ranged from 311–386 
+acres (semi-supervised) and 146–332 acres (supervised), with bare land ranging from 111–277 
+and 241–495 acres. PlanetScope showed surface water extents of 161–382 acres for the semi-
+supervised model and 294–341 acres for the supervised model, and bare land ranging from 120
+–241 and 206–288 acres, respectively.
+Thee temporal relationship between surface water and bare land remained inverse across 
+sensors and modeling approaches (Figs. 8 , 9). For Landsat-9, Kendall’s tau values were negative 
+for both semi-supervised and supervised classifincations, ranging from τ=-0.73 to -0.50. Thee 
+semi-supervised model yielded τ=-0.73 for both between-date change and deviations relative to 
+baseline, whereas the supervised model produced τ=-0.55 and -0.50, respectively. Sentinel-2 
+also showed negative associations for both approaches. Thee semi-supervised model yielded τ
+=-0.60 for between-date change and τ=-0.37 relative to baseline, while the supervised model 
+produced τ=-0.73 and -0.51, respectively. PlanetScope likewise showed negative relationships 
+between surface water and bare land. Thee semi-supervised model yielded τ=-0.58 for between-
+date change and τ=-0.49 relative to baseline, whereas the supervised model produced τ=-0.60 
+and -0.62, respectively. Across all three sensors, Kendall’s tau remained negative for both 
+between-date changes and baseline-relative deviations, indicating an inverse temporal 
+relationship between surface water and bare land.
+Thee median mesohabitat distribution derived from the seven 2D hydraulic model dates de finned 
+the baseline surface-water footprint used for validation (Fig. 11). Confusion-matrix results 
+showed that the semi-supervised model identifined more true surface water pixels than the 
+supervised model (304 vs. 235), but also produced more false positives (43 vs.  23; Table 3). Thee 
+supervised model more frequently classifined non-water correctly (183 vs.  163), but also failed to 
+detect a larger number of true water pixels (115 false negatives vs. 46 for the semi-supervised 
+model). Consistent with these patteerns, the semi-supervised model achieved higher balanced 
+accuracy (0.66) and MCC (0.66) than the supervised model (balanced accuracy = 0.56; MCC = 
+0.54), despite the supervised model having a slightly diffeerent balance between sensitivity and 
+specifincity (Table 4). Overall, these results indicate that the semi-supervised approach betteer 
+captured the baseline spatial extent of surface water and more faithfully reproduced the 
+expected inverse relationship between surface water and bare land.
+
+===== PAGE 15 =====
+Semi-supervised land-cover classificcations at the confluuence of the Big Blue and Kansas Rivers 
+derived from Landsat-9, Sentinel-2, and PlanetScope imagery (see Fig. : [b] for location). Panel (a) 
+shows PlanetScope true-color imagery for two representative dates, 2; 22Feb: 2 and 2; 22Jun2; , 
+alongside the map reference panel. Panels (b)–(d) show semi-supervised classificcations for 
+Landsat-9, Sentinel-2, and PlanetScope, respectively. In each row, the left/ panel shows the baseline 
+(time-aggregated) land-cover distribution, and the two right panels show classificcations for 
+2; 22Feb: 2 and 2; 22Jun2; . Classes include surface water, bare land, and riparian treesAshrubs.
+
+===== PAGE 16 =====
+Supervised land-cover classificcations at the confluuence of the Big Blue and Kansas Rivers derived 
+from Landsat-9, Sentinel-2, and PlanetScope imagery (see Fig. : [b] for location). Panel (a) shows 
+PlanetScope true-color imagery for two representative dates, 2; 22Feb: 2 and 2; 22Jun2; , alongside 
+the map reference panel. Panels (b)–(d) show supervised classificcations for Landsat-9, Sentinel-2, 
+and PlanetScope, respectively. In each row, the left/ panel shows the baseline (time-aggregated) 
+land-cover distribution, and the two right panels show classificcations for 2; 22Feb: 2 and 
+2; 22Jun2; . Classes include surface water, bare land, herbaceous vegetation, and riparian 
+treesAshrubs.
+
+===== PAGE 17 =====
+Distribution of predicted land-cover area (acres) across dates for (a) Landsat-9, (b) Sentinel-2, and 
+(c) PlanetScope. Boxplots show median, interquartile range, and outliers for surface water and bare 
+land classes derived from semi-supervised and supervised models.
+Temporal dynamics of land cover change for surface water and bare land derived from semi-
+supervised and supervised classificcation approaches using Landsat-9 and PlanetScope imagery. 
+Values represent signed area change (acres), where bare land is mirrored as negative to emphasize 
+its inverse relationship with surface water. Panels (a) and (b) show changes between consecutive 
+dates, while panels (c) and (d) show deviations relative to baseline conditions. Colors indicate land 
+cover class (surface water and bare land), and line types distinguish sensor resolution (solid = 
+Landsat-9; dashed = PlanetScope). Thee semi-supervised approach exhibits a clear inverse 
+relationship between surface water and bare land, consistent with expected hydrologic dynamics, 
+whereas the supervised model shows weaker and less consistent coupling between classes.
+
+===== PAGE 18 =====
+Relationship between changes in surface water and bare land area for semi-supervised and 
+supervised classificcation approaches using Landsat-9 and PlanetScope imagery. Each point 
+represents a paired observation for a given date, with linear regression lines shown for each sensor. 
+Thee semi-supervised approach exhibits a strong inverse relationship between surface water and 
+bare land (Landsat-9: tau = -; .64; PlanetScope: tau = -; .?7), consistent with expected hydrologic 
+dynamics in the river corridor. In contrast, the supervised model shows weak and inconsistent 
+relationships (Landsat-9: tau = ; .; 4; PlanetScope-9: tau = ; .: : ), indicating reduced sensitivity to 
+physically meaningful land cover transitions.
+Confusion table of the predicted model versus observations of water for classificed mesohabitats.
+Model Prediction Observed: not surface water Observed: surface water
+Semi-Supervised water 43 304
+Supervised water 23 235
+Semi-Supervised not water 163 46
+Supervised not water 183 115
+Performance metrics of the predicted model versus observations of surface water derived from 
+classificed mesohabitats.
+Metric Semi-Supervised Supervised
+Accuracy 0.84 0.75
+Sensitivity 0.79 0.89
+Specifincity 0.87 0.67
+Positive predictive value 0.78 0.61
+Negative predictive value 0.88 0.91
+Mattehews correlation coefficcient 0.66 0.54
+J-index 0.66 0.56
+Balanced accuracy 0.83 0.78
+Detection prevalence 0.38 0.54
+Precision 0.78 0.61
+Recall 0.79 0.89
+
+===== PAGE 19 =====
+Metric Semi-Supervised Supervised
+F-measure 0.79 0.73
+Mesohabitat Label Predition
+Thee LOO evaluation across seven dates demonstrates consistently higher performance for the 
+supervised model relative to the semi-supervised approach in contrast to the landcover 
+classifincation results (Fig. 10). Mean per-pixel accuracy (± SD) was 0.305 ± 0.19 for the semi-
+supervised model and 0.665 ± 0.05 for the supervised model. Balanced accuracy and macro-
+averaged F1 exhibited similar patteerns, with the supervised model maintaining stable 
+performance across all dates, while the semi-supervised model showed greater variability and 
+consistently lower values. Performance varied across folds, particularly for the semi-supervised 
+model (accuracy range: 0.076–0.668), re floecting sensitivity to changes in hydraulic conditions 
+and class distributions. In contrast, the supervised model achieved relatively consistent 
+accuracy (0.605–0.761) and balanced accuracy (0.628–0.660), indicating stronger generalization 
+across temporal variability (Fig. 10).
+Spatial comparisons further illustrate these diffeerences (Fig. 11). Thee supervised model 
+reproduces the overall spatial organization of mesohabitats, including channel-scale structure 
+and transitions between pool and high-velocity units, although predictions exhibit increased 
+pixel-level noise relative to the observed maps. Thee semi-supervised model captures broad 
+spatial patteerns in some cases but shows reduced class diversity and a tendency toward class 
+collapse in others, particularly under low or high floow conditions.
+Leave-one-date-out (LOO) mesohabitat classificcation performance for semi-supervised and 
+supervised models across seven held-out dates. Each panel represents a model, and points denote 
+performance for Accuracy, Balanced Accuracy, and Macro F : . Dates are shown as discrete 
+evaluation periods and are evenly spaced for visual comparison rather than proportional to 
+calendar time.
+
+===== PAGE 20 =====
+Comparison of observed and predicted mesohabitat classificcations for two representative dates. Thee 
+observed maps (top row) are derived from hydraulic modeling, while the middle and bottaom rows 
+show predictions from supervised and semi-supervised models, respectively. Consistent spatial 
+extent and symbology allow direct comparison of class distributions and highlight diffeerences in 
+spatial structure between modeling approaches.
+Discussion
+Theis study was designed to evaluate whether satellite imagery can support two related but 
+distinct increasingly complex riverscape-monitoring tasks: (1) mapping temporal inundation 
+dynamics within the river corridor and (2) predicting hydraulically de finned mesohabitat classes 
+directly from image-derived features. Theese targets diffeer in difficculty and intended use. Thee 
+inundation analysis tests whether satellite products can reliably track broad surface-water and 
+exposed-land dynamics through time, whereas the mesohabitat analysis tests whether finner 
+hydraulic habitat categories can be inferred from spectral information across changing floow 
+conditions.
+
+===== PAGE 21 =====
+For the finrst target, temporal dynamics in inundation, definned as surface water versus exposed 
+bare land, were recovered with strong agreement using the semi-supervised pipeline (accuracy 
+= 0.84; MCC = 0.66), exceeding the supervised baseline in balanced accuracy and MCC (Table 4; 
+Fig. 5-6). Beyond classifincation accuracy, the results demonstrate that satellite-derived products 
+capture a coherent temporal exchange between surface water and exposed land, refloecting 
+expansion and contraction of wetteed channel margins and in-channel bars through time. Theis 
+indicates strong and temporally stable spectral separability of open water at the working scale, 
+consistent with the efficcacy of visible–NIR contrasts and water indices for surface-water 
+mapping (Jin et al., 2021), while also con finrming that these signals can be leveraged to quantify 
+physically meaningful inundation dynamics.
+For the second target, direct prediction of mesohabitat labels using a leave-one-date-out design 
+yielded variable cross-date performance. Thee supervised model consistently outperformed the 
+semi-supervised approach, with mean per-pixel accuracy of approximately 0.67 compared to 
+0.31 for the semi-supervised model, and substantial fold-to-fold variability linked to class 
+composition and discharge state. Although mesohabitat prediction was more difficcult than 
+binary inundation mapping, the prediction maps retained coherent spatial structure, including 
+pool-like classes along the thalweg and high-velocity classes near constrictions (Fig. 11). Theis 
+suggests that four-band PlanetScope imagery contains a learnable mesohabitat signal, but that 
+direct mesohabitat classifincation remains more sensitive to class imbalance, floow dependence, 
+and missing hydraulic or morphological context than the simpler inundation task.
+Interpretation of Inundation Results
+Thee semi-supervised pipeline yielded six clusters that were readily consolidated into finve land-
+cover labels. Within the river corridor, impervious and bare substrates were not reliably 
+separable spectrally; treating mixed/impervious pixels as “bare land” was appropriate given the 
+absence of in-channel infrastructure aside from static bridge decks, which do not affeect 
+temporal comparisons. Choice of the cluster count (k) remains subjective and was finxed for 
+consistency; a formal sensitivity analysis (varying k, band sets, and date combinations) was not 
+undertaken here but would clarify stability versus over-partitioning trade-offes under noisy 
+conditions (Vahidi et al., 2023).
+Across sensors, the semi-supervised change signal was comparatively insensitive to input 
+resolution. PlanetScope at ~3 m captured finner temporal variation in areal change, Sentinel-2 
+provided intermediate spatial detail, and Landsat-9 produced directionally consistent patteerns 
+of similar magnitude. Theis concordance indicates that rapid, lower-resolution deployments can 
+recover robust mesoscale trends, while higher-resolution inputs refinne the amplitude and 
+spatial detail of detected changes. A key outcome of this analysis is that the temporal 
+relationship between surface water and exposed land is both consistent and physically 
+meaningful. Thee expected inverse relationship between these classes was clearly preserved by 
+the semi-supervised workfloow, with Kendall’s τ indicating moderate to strong negative 
+associations (Landsat-9: τ = -0.64 for temporal change and -0.49 relative to baseline; 
+PlanetScope: τ = -0.60 and -0.39, respectively). In contrast, the supervised model exhibited 
+weak to negligible relationships (Landsat-9: τ = -0.03 and 0.03; PlanetScope: τ = 0.16 and 0.20), 
+indicating reduced sensitivity to hydrologically meaningful change.
+
+===== PAGE 22 =====
+Theese results demonstrate that the semi-supervised approach not only classifines surface water 
+effeectively, but also captures the underlying hydrologic dynamics governing channel behavior. 
+Thee observed temporal exchange between surface water and exposed land refloects the shifteing 
+balance between wetteed area and emergent substrates (e.g., bars, shallow margins), which 
+definnes the geomorphic template within which mesohabitats form and reorganize. As such, the 
+inundation analysis represents a substantive outcome of the study in its own right and 
+provides a necessary foundation for interpreting mesohabitat dynamics.
+Interpretation of Mesohabitat Results
+Given mean per-pixel accuracies of 0.305 and 0.665 for the semi-supervised and supervised 
+models, respectively (Fig. 10-11), direct mesohabitat classifincation from four-band PlanetScope 
+features remained substantially more difficcult than binary inundation mapping, with the semi-
+supervised model showing particularly strong fold-to-fold variability. Theis contrast highlights 
+an important distinction: while broad inundation dynamics are spectrally robust and 
+temporally consistent, finner hydraulic habitat classes are more sensitive to floow conditions, 
+spatial scale, and feature representation.
+Theis outcome is consistent with several interacting factors. First, class boundaries are floow-
+dependent and nonstationary: mesohabitats translate, expand, and contract with discharge and 
+local hydraulics, so a given pixel can change label across dates, penalizing cross-date 
+generalization unless hydrodynamic context is reinforced or encoded (Harris et al., 2024; 
+Wegscheider et al., 2020). Second, mesohabitat boundaries o fteen occur over short spatial scales 
+relative to pixel resolution and are inflouenced by finne-scale hydraulic gradients, leading to 
+localized mixing and increased classifincation ambiguity, particularly along rifflee–pool 
+transitions. Theird, several mesohabitat distinctions are spectrally ambiguous at four bands 
+because they are partly morphodynamic states; much of their separability is carried by surface-
+texture and morphological cues (e.g., roughness patteerns, local slope/curvature) not modeled 
+here Moortgat et al. (2022).
+Class imbalance further limits parameter learning; some classes are sparse or absent in 
+particular folds—even with inverse-frequency weighting Ma et al. (2019). Finally, label noise 
+arising from image–model mismatch (e.g., minor timing offesets between imagery and hydraulic 
+simulations, bathymetric uncertainty, and co-registration drifte) propagates into the categorical 
+targets and limits atteainable class-balanced accuracy under stringent cross-date validation. 
+Under these constraints, performance remains limited when relying on a purely spectral 
+feature set. Nonetheless, the predicted maps exhibit coherent spatial organization, indicating 
+the presence of a learnable signal that could be strengthened by incorporating texture metrics 
+and morphological context.
+Sources of Error and Uncertainty
+Theree error modes were most evident: (i) edge confusion at unit boundaries where mixed pixels 
+dominate; (ii) systematic bias toward dominant classes in the semi-supervised cluster-to-label 
+step when clusters straddle multiple units; and (iii) fold-specifinc shocks when rare classes 
+vanish from training or test, producing unstable per-fold metrics. Theese behaviors mirror 
+sensitivities reported in object- and pixel-based riverscape mapping where segmentation 
+parameters, illumination, and turbidity modulate separability (Demarchi et al., 2016; Kutz et al.,  
+
+===== PAGE 23 =====
+2022; Zhang et al., 2023). Uncertainty quanti fincation (e.g., entropy of class probabilities) was not 
+computed here but is recommended to floag ambiguous zones for analyst review.
+Practical implications
+From a monitoring standpoint, the inundation pipeline is deployment-ready for tracking 
+wetteed area and corridor dynamics through time. Importantly, this includes not only static 
+delineation of surface water, but also quantifincation of temporal exchange between water and 
+exposed land, which provides a direct proxy for hydrologic variability and geomorphic activity 
+within the channel. Theis study displayed that even low to moderate-resolution, freely available 
+sensors such as Landsat-9 and Sentinel-2 provide an effeective balance between spatial detail 
+and temporal coverage for operational monitoring. Regardless, the mesohabitat pipeline should 
+be treated as proof-of-concept: it reveals where image-only predictors already align with 
+hydraulic classes and where additional information is required to meet decision thresholds 
+(e.g., habitat suitability modeling, restoration design). Importantly, the results support a tiered 
+product strategy: use surface water maps operationally and generate mesohabitat layers where 
+data richness permits.
+Future considerations
+Targeted enhancements are expected to materially improve mesohabitat prediction accuracy:
+ Restore native spatial support (~3 m) and add texture metrics (e.g., Gray-Level Co-
+occurrence Matrix [GLCM] contrast, entropy, local variance) to encode surface 
+roughness and floow streaking (Farwell et al., 2021).
+ Incorporate morphological context from DEM-derived slope/curvature or shallow 
+bathymetry proxies where available, aligning with evidence that OBIA/terrain fusion 
+improves riverscape unit mapping (Demarchi et al., 2016).
+ Adopt a hierarchical classifiner (i.e. water to unit family to subclass) to reduce 
+confusability among finne classes and stabilize minority categories.
+ Explore spatial models (e.g., shallow CNN on PlanetScope tiles or RF with engineered 
+texture windows) to inject neighborhood context beyond pixel spectra (Ma et al., 2019; 
+Moortgat et al., 2022).
+ Use cost-sensitive learning and focal sampling for rare classes; consider active learning 
+to prioritize annotation where uncertainty is high (Maskey et al., 2018).
+ Where feasible, evaluate hybrid/physics-informed fusion that brings co-registered 
+hydraulic predictors (i.e. depth/velocity rasters) alongside imagery, an approach likely 
+to raise ceiling performance (Harris et al., 2024).
+ Quaantify predictive uncertainty (e.g. calibration), enabling conservative products for 
+management use.
+
+===== PAGE 24 =====
+Conclusion
+Satellite-based workfloows accurately recover inundation within river corridors and, critically, 
+capture the temporal dynamics of surface water and exposed land that definne channel behavior 
+through time. Theese results demonstrate that satellite imagery can be used not only for static 
+mapping, but for quantifying hydrologically meaningful change at the reach scale. Direct 
+mesohabitat prediction from four-band PlanetScope features at aggregated resolution yields 
+lower and more variable cross-date accuracy than inundation mapping but still exhibits 
+meaningful spatial structure, indicating that mesohabitat signal is present and partially 
+learnable. Thee path to decision-grade products is clear: use finne spatial resolution where 
+possible, enrich features with texture and morphology, adopt hierarchical/imbalance-aware 
+learning, and, where available, fuse hydraulics. Together, these steps align with the broader 
+trajectory in high-resolution RS and ecohydraulics toward routine, basin-scale mapping of 
+mesoscale habitat structure (Moortgat et al., 2022; Verma et al., 2021; Wegscheider et al., 2020).
+Author Contributions
+E.C.: conceptualization, methodology, softeware, formal analysis, investigation, data 
+management, writing - original and drafte, visualization, funding acquisition. A.H.: 
+conceptualization, supervision, validation and QAQC, review and editing, resources, writing - 
+review and editing, funding acquisition, and project administration.
+Funding
+US Army Corps of Engineers’ Aquatic and Nuisance Species Research Program focus on Next 
+Generation Ecological Modeling. Theis research was supported in part by an appointment to the 
+Department of Defense (DOD) Research Participation Program administered by the Oak Ridge 
+Institute for Science and Education (ORISE) through an interagency agreement between the 
+U.S. Department of Energy (DOE) and the DOD. ORISE is managed by Oak Ridge Associated 
+Universities (ORAU) under DOE contract number DE-SC080148664. All opinions expressed in 
+this paper are the author’s and do not necessarily refloect the policies and views of DOD, DOE, 
+or ORAU/ORISE.
+Aknowledgements
+E.C. gratefully acknowledges the Environmental Laboratory of the USACE Engineer Research 
+and Development Center (ERDC) and A.H. for funding, data access, and technical support that 
+enabled this research. E.C. also acknowledges the Department of Marine Sciences at the 
+University of Puerto Rico–Mayagüez for logistical and academic support during graduate 
+research and dissertation-related activities.
+Confliit of Interest
+Thee authors declare no competing interests.
+Availability of data and materials
+Thee stream discharge data were obtained from the USGS (De Cicco et al., 2023). Thee Sentinel-2 
+and Landsat-9 satellite imagery is publicly available through the USGS Landsat (USGS, 2023c) 
+
+===== PAGE 25 =====
+and ESA Copernicus programs (European Space Agency, 2023), respectively. Thee PlanetScope 
+satellite imagery was accessed under a research license provided by PlanetScope Labs (Planet 
+Labs PBC, 2024), enabling the use of the data for academic purposes and cannot be 
+redistributed publicly. Thee data that support the finndings of this study are available from the 
+corresponding author upon reasonable request, subject to data-use restrictions. Thee river 
+corridor shapefinle and R code used for this analysis has been uploaded to Github and made 
+publicly available via a General Public Use License. Thee repository can be accessed with the 
+following link: htteps://github.com/el-cordero/meso-change.git
+References
+  Aadland, L., 1993. Stream Habitat Types: Theeir Fish Assemblages and Relationship to Flow. 
+North American Journal of Fisheries Management 13, 790–806. htteps://doi.org/10.15727/1548-
+8675(1993)013%3C0790:SHTTFA%3E2.3.CO;2
+Aggarwal, C.C., 2018. Neural Networks and Deep Learning: A Textbook. Springer International  
+Publishing, Cham. htteps://doi.org/10.10027/978-3-319-948463-0
+Anderson, J.R., Hardy, E.E., Roach, J.T., Witmer, R.E., 1976. A Land Use and Land Cover 
+Classifincation System for Use with Remote Sensor Data (No. 964). United States Geological 
+Survey.
+Aybar, C., Loaiza, D., Barja, A., Herrera, F., Gonzales, A., Espinoza, W., 2024. Combining R and 
+earth engine, in: Cardille, J.A., Crowley, M.A., Saah, D., Clinton, N.E. (Eds.), Cloud-Based 
+Remote Sensing with Google Earth Engine. pp. 629–651. htteps://doi.org/10.10027/978-3-031-
+26 8588-4_31
+Aybar, C., Wu, Q., Bautista, L., Yali, R., Barja, A., 2020. Rgee: An R package for interacting with 
+Google Earth Engine. Journal of Open Source Softeware 5, 2272. 
+htteps://doi.org/10.211 205/joss.022 272
+Brostow, G.J., Fauqueur, J., Cipolla, R., 2009. Semantic object classes in video: A high-de finnition 
+ground truth database. Patteern Recognition Letteers 30, 88–97. 
+htteps://doi.org/10.10126/j.patrec.200 28 .04.005
+Calderon, M.S., An, K.-G., 2016. An in flouence of mesohabitat structures (pool, rifflee, and run) 
+and land-use patteern on the index of biological integrity in the Geum River watershed. Journal 
+of Ecology and Environment 40, 13. htteps://doi.org/10.118 26/s418610-016-0018-8
+Cavender-Bares, J., Schneider, F.D., Santos, M.J., Armstrong, A., Carnaval, A., Dahlin, K.M., 
+Fatoyinbo, L., Hurtte, G.C., Schimel, D., Townsend, P.A., Ustin, S.L., Wang, Z., Wilson, A.M., 
+2022. Integrating remote sensing with ecology and evolution to advance biodiversity 
+conservation. Nature Ecology & Evolution 6, 506–519. htteps://doi.org/10.10328 /s418559-022-
+018702-5
+
+===== PAGE 26 =====
+Choukiker, S.K., Dohare, D., 2021. A Literature Review on Land Use Land Cover Changes 
+Detection using Remote Sensing and GIS. International Journal for Research in Applied Science 
+and Engineering Technology 9, 725–735. htteps://doi.org/10.222 214/ijraset.202 21.333249
+De Cicco, L.A., Hirsch, R.M., Lorenz, D., Watkins, D., Johnson, M., 2023. dataRetrieval: R 
+packages for discovering and retrieving water data available from U.S. Federal hydrologic web 
+services. htteps://doi.org/10.50626/P9X4L3GE
+Demarchi, L., Bizzi, S., Piégay, H., 2016. Hierarchical Object-Based Mapping of Riverscape Units  
+and in-Stream Mesohabitats Using LiDAR and VHR Imagery. Remote Sensing 8, 97. 
+htteps://doi.org/10.33920/rs8 8020 8097
+Demir, I., Koperski, K., Lindenbaum, D., Pang, G., Huang, J., Basu, S., Hughes, F., Tuia, D., 
+Raskar, R., 2018. DeepGlobe 2018: A Challenge to Parse the Earth through Satellite Images, in: 
+2018 IEEE/CVF Conference on Computer Vision and Pa tteern Recognition Workshops 
+(CVPRW). IEEE, Salt Lake City, UT, USA, pp. 172–17 82 09. 
+htteps://doi.org/10.11029/CVPRW.201 28 .000231
+Eltayeb Elmahal, A., Mahmoud Ibrahim Musa, M., 2023. Spatial Cloud Computing Using Google  
+Earth Engine and R Packages, in: Geographic Information Systems - Data Science Approach 
+[Working Title]. IntechOpen. htteps://doi.org/10.57722 /intechopen.10022 686
+European Space Agency, 2023. Copernicus sentinel data terms and conditions.
+Farwell, L.S., Gudex-Cross, D., Anise, I.E., Bosch, M.J., Olah, A.M., Radeloffe, V.C., Razenkova, E., 
+Rogova, N., Silveira, E.M.O., Smith, M.M., Pidgeon, A.M., 2021. Satellite image texture captures 
+vegetation heterogeneity and explains patteerns of bird richness. Remote Sensing of 
+Environment 253, 112 8175. htteps://doi.org/10.10126/j.rse.202 20.112 2175
+Fix, E., Hodges, J.L., 1989. Discriminatory Analysis. Nonparametric Discrimination: 
+Consistency Properties. International Statistical Review / Revue Internationale de Statistique 
+57, 238. htteps://doi.org/10.230 27/184038797
+Ganesh, B., Vincent, S., Pathan, S., Benitez, S.R.G., 2023. Integration of GIS and Machine 
+Learning Techniques for Mapping the Landslide-Prone Areas in the State of Goa, India. Journal 
+of the Indian Society of Remote Sensing 51, 1479–1491. htteps://doi.org/10.10027/s12 8524-023-
+018707-y
+Grifficn, S., Lasko, J.C., 2020. Using Unmanned Aircra fte System (UAS) and Satellite Imagery to 
+Map Aquatic and Terrestrial Vegetation (No. ERDC/GRL TN-20-4). U.S. Army Engineer 
+Research and Development Center, Vicksburg, MS. htteps://doi.org/10.212 236/ADA572 8123
+Harris, A., Porter, M., McKay, S.K., Mulchandani, A., Stone, M., 2024. Hydraulic analysis for 
+assessing environmental floow selection and ecological model formulation. Ecohydrology 17, 
+e2681. htteps://doi.org/10.10022 /eco.268 21
+Hartigan, J.A., Wong, M.A., 1979. Algorithm AS 136: A K-Means Clustering Algorithm. Applied 
+Statistics 28, 100. htteps://doi.org/10.230 27/2 8346883 0
+Hernangómez, D., 2023. Using the tidyverse with terra objects: Thee tidyterrapackage. Journal of 
+Open Source Softeware 8, 5751. htteps://doi.org/10.211 205/joss.057251
+
+===== PAGE 27 =====
+Hijmans, R.J., Brown, A., Barbosa, M., 2026. Terra: Spatial Data Analysis. 
+htteps://doi.org/10.326 214/CRAN.package.terra
+Howard, J., Gugger, S., 2020. Deep learning for coders with fastai and PyTorch: AI applications 
+without a PhD, First edition. ed. O’Reilly, Beijing Boston Farnham Sebastopol Tokyo.
+Jin, S., Liu, Y., Fagherazzi, S., Mi, H., Qiao, G., Xu, W., Sun, C., Liu, Y., Zhao, B., Fichot, C.G., 
+2021. River body extraction from sentinel-2A/B MSI images based on an adaptive multi-scale 
+region growth method. Remote Sensing of Environment 255, 112 82 97. 
+htteps://doi.org/10.10126/j.rse.202 21.112 22 97
+Johansen, R.A., Reif, M.K., Saltus, C.L., Pokrzywinski, K.L., 2022. Using Unmanned Aircra fte 
+System (UAS) and Satellite Imagery to Map Aquatic and Terrestrial Vegetation (No. ERDC/EL 
+SR-22-2). U.S. Army Engineer Research and Development Center Environmental Laboratory, 
+Vicksburg, MS. htteps://doi.org/10.212 236/ADA572 8123
+Kuhn, M., 2008. Building predictive models in R using the caret package. Journal of Statistical 
+Softeware 28, 1–26. htteps://doi.org/10.186 237/jss.v028.i05
+Kuhn, M., Wickham, H., 2020. Tidymodels: A collection of packages for modeling and machine 
+learning using tidyverse principles.
+Kutz, K., Cook, Z., Linderman, M., 2022. Object based classi fincation of a riparian environment 
+using ultra-high resolution imagery, hierarchical landcover structures, and image texture. 
+Scientifinc Reports 12, 11 82 91. htteps://doi.org/10.10328 /s418598-022-14 8757-y
+Lantz, B., 2023. Machine Learning with R, Fourth. ed. Packt Publishing Ltd, Birmingham, U.K.
+Li, Y., Zhang, H., Xue, X., Jiang, Y., Shen, Q., 2018. Deep learning for remote sensing image 
+classifincation: A survey. WIREs Data Mining and Knowledge Discovery 8, e1264. 
+htteps://doi.org/10.10022 /widm.126 24
+Lim, K., Jin, D., Kim, C.-S., 2018. Change Detection in High Resolution Satellite Images Using 
+an Ensemble of Convolutional Neural Networks, in: 2018 Asia-Paci finc Signal and Information 
+Processing Association Annual Summit and Conference (APSIPA ASC). IEEE, Honolulu, HI, 
+USA, pp. 509–515. htteps://doi.org/10.239 219/APSIPA.201 28 .865 29603
+Lindenschmidt, K.-E., Carr, M., 2018. Geospatial Modeling of River Systems. Water 10, 282. 
+htteps://doi.org/10.33920/w108030828 2
+Ma, L., Liu, Y., Zhang, X., Ye, Y., Yin, G., Johnson, B.A., 2019. Deep learning in remote sensing 
+applications: A meta-analysis and review. ISPRS Journal of Photogrammetry and Remote 
+Sensing 152, 166–177. htteps://doi.org/10.10126/j.isprsjprs.201 29.04.015
+Mandlik, G.G., Mundhe, R.N., 2018. A Review of Remote Sensing Techniques For Land Use 
+Land Cover Change Detection Techniques 5.
+Marcus, W.A., Fonstad, M.A., 2010. Remote sensing of rivers: Thee emergence of a subdiscipline 
+in the river sciences. Earth Surface Processes and Landforms 35, 1867–1872. 
+htteps://doi.org/10.10022 /esp.209 24
+
+===== PAGE 28 =====
+Maskey, M., Ramachandran, R., Miller, J.J., Zhang, J., Gurung, I., 2018. Earth Science Deep 
+Learning: Applications and Lessons Learned, in: IGARSS 2018 - 2018 IEEE International 
+Geoscience and Remote Sensing Symposium. IEEE, Valencia, pp. 1760–1763. 
+htteps://doi.org/10.11029/IGARSS.201 28 .851 27346
+McKay, S.K., Mahan, V., Dougherty, M.P., Swannack, T.M., Hall, C., Saltus, C.L., Reif, M.K., 
+Allen, S., 2022. New York Bight Ecological Model (NYBEM), Version 1.0.0. USACE, 
+Environmental Laboratory.
+Moortgat, J., Li, Z., Durand, M., Howat, I., Yadav, B., Dai, C., 2022. Deep learning models for 
+river classifincation at sub-meter resolutions from multispectral and panchromatic commercial 
+satellite imagery. Remote Sensing of Environment 282, 113 82 79. 
+htteps://doi.org/10.10126/j.rse.202 22 .11322 79
+Niedballa, J., Axtner, J., Döbert, T.F., Tilker, A., Nguyen, A., Wong, S.T., Fiderer, C., Heurich, M., 
+Wilting, A., 2022. Imageseg: An R package for deep learning-based image segmentation. 
+Methods in Ecology and Evolution 13, 2363–2371. htteps://doi.org/10.11121/2041-210X.139 28 4
+Planet Labs PBC, 2024. Planet application program interface: In space for life on earth.
+QGIS Development Team, 2024. QGIS Geographic Information System.
+R Core Team, 2026. R: A language and environment for statistical computing.
+Romero, A., Gattea, C., Camps-Valls, G., 2016. Unsupervised Deep Feature Extraction for Remote  
+Sensing Image Classifincation. IEEE Transactions on Geoscience and Remote Sensing 54, 1349–
+1362. htteps://doi.org/10.11029/TGRS.201 25.247 28 379
+Schwartz, J., 2016. Use of Ecohydraulic-Based Mesohabitat Classi fincation and Fish Species 
+Traits for Stream Restoration Design. Water 8, 520. htteps://doi.org/10.33920/w8 8110852 0
+Shabat, A.M., Tapamo, J.-R., 2017. A comparative study of the use of local directional pa tteern 
+for texture-based informal settelement classifincation. Journal of Applied Research and 
+Technology 15, 250–258. htteps://doi.org/10.10126/j.jart.201 26.12.009
+Shashikant, 2019. Convolutional Neural Network: A Step By Step Guide. towards data science.
+Suir, G.M., Jackson, S., Saltus, C., Reif, M., 2023. Multi-Temporal Trend Analysis of Coastal 
+Vegetation Using Metrics Derived from Hyperspectral and LiDAR Data. Remote Sensing 15, 
+2098. htteps://doi.org/10.33920/rs158082 8098
+Sutteidate, N., Pidgeon, A.M., Hobi, M.L., Round, P.D., Dubinin, M., Radeloffe, V.C., 2023. Thee 
+effeects of habitat heterogeneity, as measured by satellite image texture, on tropical forest bird 
+distributions. Biological Conservation 281, 110 8002. htteps://doi.org/10.10126/j.biocon.202 23.1102002
+Theompson, D., Brodrick, P., 2021. Realizing Machine Learning’s Promise in Geoscience Remote 
+Sensing. Eos 102. htteps://doi.org/10.102 29/2021EO160 8605
+USDA, n.d. National Agriculture Imagery Program (NAIP) GeoHub.
+USGS, 2023c. Landsat Collection.
+
+===== PAGE 29 =====
+USGS, 2023a. USGS 1 Meter 14 X71y435 KS_Statewide_2018_A18.
+USGS, 2023b. USGS 1 Meter 14 X71y434 KS_Statewide_2018_A18.
+USGS, 2023d. USGS Watershed Boundary Dataset (WBD) for Kansas.
+USGS, 2011. High Resolution Orthoimagery Manha ttean-Riley Co,KS.
+Vahidi, M., Aghakhani, S., Martín, D., Aminzadeh, H., Kaveh, M., 2023. Optimal band selection 
+using evolutionary machine learning to improve the accuracy of hyper-spectral images 
+classifincation: A novel migration-based particle swarm optimization. Journal of Classifincation 
+40. htteps://doi.org/10.10027/s008357-023-098448-w
+Van Rooijen, E., Lotsari, E., 2024. Thee spatiotemporal distribution of river bank erosion events 
+and their drivers in seasonally frozen regions. Geomorphology 454, 1098140. 
+htteps://doi.org/10.10126/j.geomorph.202 24.1092140
+Verma, U., Chauhan, A., M. M., M.P., Pai, R., 2021. DeepRivWidth : Deep learning based 
+semantic segmentation approach for river identifincation and width measurement in SAR 
+images of Coastal Karnataka. Computers & Geosciences 154, 10488 05. 
+htteps://doi.org/10.10126/j.cageo.202 21.10428 05
+Wang, J., Kuffeer, M., Roy, D., Pfeffeer, K., 2019. Deprivation pockets through the lens of 
+convolutional neural networks. Remote Sensing of Environment 234, 111 8448. 
+htteps://doi.org/10.10126/j.rse.201 29.1112448
+Wegscheider, B., Linnansaari, T., Curry, R.A., 2020. Mesohabitat modelling in finsh ecology: A 
+global synthesis. Fish and Fisheries 21, 927–939. htteps://doi.org/10.11121/faf.124 277
+Wiest, S., Harris, A., Hernandez-Abrams, D., 2024. Hydraulic model (HEC-RAS) of downstream 
+of Tuttele Creek Reservoir at the conflouence of the Big Blue River and the Kansas River near 
+Manhattean, KS. htteps://doi.org/10.50621/DRYAD.K3J9KD5GR
+Wurm, M., Stark, T., Zhu, X.X., Weigand, M., Taubenböck, H., 2019. Semantic segmentation of 
+slums in satellite images using transfer learning on fully convolutional neural networks. ISPRS 
+Journal of Photogrammetry and Remote Sensing 150, 59–69. 
+htteps://doi.org/10.10126/j.isprsjprs.201 29.02.006
+Zaimes, G.N., Tamparopoulos, A.E., Tufekcioglu, M., Schultz, R.C., 2021. Understanding stream 
+bank erosion and deposition in Iowa, USA: A seven year study along streams in diffeerent 
+regions with diffeerent riparian land-uses. Journal of Environmental Management 287, 112 8352. 
+htteps://doi.org/10.10126/j.jenvman.202 21.112 2352
+Zhang, H., Jiang, Z., Zheng, G., Yao, X., 2023. Semantic Segmentation of High-Resolution 
+Remote Sensing Images with Improved U-Net Based on Transfer Learning. International 
+Journal of Computational Intelligence Systems 16, 181. htteps://doi.org/10.10027/s448196-023-
+008364-w
+Zimmermann, N., Washington-Allen, R., Ramsey, R., Schaepman, M., Mathys, L., Koetz, B., 
+Kneubuehler, M., Edwards, T., 2007. Modern Remote Sensing for Environmental Monitoring of 
+Landscape States and Trajectories. pp. 65–91. htteps://doi.org/10.10027/978-1-4020-4436-6_6

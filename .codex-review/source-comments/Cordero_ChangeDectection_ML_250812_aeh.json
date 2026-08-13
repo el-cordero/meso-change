@@ -1,0 +1,190 @@
+{
+  "file": "_docs/Documentation/_written/Comments/Cordero_ChangeDectection_ML_250812_aeh.docx",
+  "comment_count": 8,
+  "comments": [
+    {
+      "id": "49",
+      "author": "Harris, Aubrey E CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-13T08:05:00Z",
+      "initials": "AH",
+      "resolved": false,
+      "text": "Is pipeline a typical term in this field? “Workflows” or “Analysis Frameworks” may also be suitable terms.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Concurrently, machine learning (ML) and deep learning have expanded capabilities by learning features directly from data. Surveys detail gains from (Convolutional Neural Networks) CNNs and other model"
+            },
+            {
+              "where": "end",
+              "text": "Concurrently, machine learning (ML) and deep learning have expanded capabilities by learning features directly from data. Surveys detail gains from (Convolutional Neural Networks) CNNs and other model"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "50",
+      "author": "Harris, Aubrey E CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-13T08:07:00Z",
+      "initials": "AH",
+      "resolved": false,
+      "text": "Alternative term may be “Streamflow”",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Despite substantial advances, an operational gap remains: can mesohabitat labels be predicted directly from satellite features across discharge regimes, without reliance on site-specific LiDAR or dens"
+            },
+            {
+              "where": "end",
+              "text": "Despite substantial advances, an operational gap remains: can mesohabitat labels be predicted directly from satellite features across discharge regimes, without reliance on site-specific LiDAR or dens"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "57",
+      "author": "Harris, Aubrey E CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-13T08:09:00Z",
+      "initials": "AH",
+      "resolved": false,
+      "text": "Date?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Figure 2: Landsat-9 satellite image extracted from Google Earth Engine. Each band represents a different sensor. The legend values indicate normalized surface reflectance (unitless)."
+            },
+            {
+              "where": "end",
+              "text": "Figure 2: Landsat-9 satellite image extracted from Google Earth Engine. Each band represents a different sensor. The legend values indicate normalized surface reflectance (unitless)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "59",
+      "author": "Harris, Aubrey E CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-13T08:10:00Z",
+      "initials": "AH",
+      "resolved": false,
+      "text": "Do you want to highlight the “elbow” discussed in the paper on this figure? Perhaps with a data-callout, or symbology",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Figure 3: K-means cluster quality was reviewed using the (a) elbow and (b) silhouette methods for Landsat-9 versus Planet satellite imagery."
+            },
+            {
+              "where": "end",
+              "text": "Figure 3: K-means cluster quality was reviewed using the (a) elbow and (b) silhouette methods for Landsat-9 versus Planet satellite imagery."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "61",
+      "author": "Harris, Aubrey E CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-13T08:16:00Z",
+      "initials": "AH",
+      "resolved": false,
+      "text": "Calling this “Cropland” takes it out of the riparian/river system and makes it sound like agricultural fields. But this is not how the term is used when looking at the river corridor in Fig 5. Perhaps its “shrubby”; “scattered brush”; “grassland”?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "A supervised approach was used to classify pixels into five general classes - bareland, cropland, forest, urban, and water based off the Anderson land cover classification (Anderson et al., 1976). Lan"
+            },
+            {
+              "where": "end",
+              "text": "A supervised approach was used to classify pixels into five general classes - bareland, cropland, forest, urban, and water based off the Anderson land cover classification (Anderson et al., 1976). Lan"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "71",
+      "author": "Harris, Aubrey E CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-13T08:40:00Z",
+      "initials": "AH",
+      "resolved": false,
+      "text": "I think this would flow better in the paper if the sub-water surface was presented ~Section 2.2.\nIt would be framed as “for the aquatic mesohabitat types..”",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Riverine Distribution"
+            },
+            {
+              "where": "end",
+              "text": "Riverine Distribution"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "80",
+      "author": "Harris, Aubrey E CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-13T08:42:00Z",
+      "initials": "AH",
+      "resolved": false,
+      "text": "Thes figures and tables should be presented in 3.1.1",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Table 1: Summary of average and total area (acres) of bareland and surface water predicted by the ML models."
+            },
+            {
+              "where": "end",
+              "text": "Table 1: Summary of average and total area (acres) of bareland and surface water predicted by the ML models."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "86",
+      "author": "Harris, Aubrey E CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-13T08:46:00Z",
+      "initials": "AH",
+      "resolved": false,
+      "text": "I understand that you may want to wrap this up, and this may be a good stopping point.\nBut from the results I wonder if the ML pipeline would be any more effective at predicting velocity and depths (i.e., shallow v. deep; slow v. fast moving) instead of the combination of the two represented by the mesohabitat class.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Table 4: LOO per-fold mesohabitat classification performance."
+            },
+            {
+              "where": "end",
+              "text": "Table 4: LOO per-fold mesohabitat classification performance."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "file": "_docs/Documentation/_written/Comments/Manuscript_aeh_080826.docx",
+  "comment_count": 8,
+  "comments": [
+    {
+      "id": "16",
+      "author": "Harris, Aubrey E CIV USARMY CEERD-EL (USA)",
+      "date": "2026-08-07T13:44:00Z",
+      "initials": "AH",
+      "resolved": false,
+      "text": "What does median mean here?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Mapping dynamic riverine habitats presents a particular challenge, often requiring high resolution bathymetric measurement and advanced sediment transport and hydraulic computational methods. To bypas"
+            },
+            {
+              "where": "end",
+              "text": "Mapping dynamic riverine habitats presents a particular challenge, often requiring high resolution bathymetric measurement and advanced sediment transport and hydraulic computational methods. To bypas"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "18",
+      "author": "Harris, Aubrey E CIV USARMY CEERD-EL (USA)",
+      "date": "2026-08-07T14:04:00Z",
+      "initials": "AH",
+      "resolved": false,
+      "text": "Now that we have attention of a target journal and know the audience, be wary of overexplaining topics that should be well known to the audience already. While introducing literature themes, rein in limitations that this study tries to address.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Introduction"
+            },
+            {
+              "where": "end",
+              "text": "Introduction"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "20",
+      "author": "Harris, Aubrey E CIV USARMY CEERD-EL (USA)",
+      "date": "2026-08-07T13:59:00Z",
+      "initials": "AH",
+      "resolved": false,
+      "text": "Use of ecosystems here may not contrast enough with “ecological assessment”. Workflows?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "High-resolution remote sensing (RS) has transformed observation of riverscapes by enabling routine, synoptic mapping of water extent, channel morphology, and habitat structure at organism-relevant spa"
+            },
+            {
+              "where": "end",
+              "text": "High-resolution remote sensing (RS) has transformed observation of riverscapes by enabling routine, synoptic mapping of water extent, channel morphology, and habitat structure at organism-relevant spa"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "39",
+      "author": "Harris, Aubrey E CIV USARMY CEERD-EL (USA)",
+      "date": "2026-08-07T14:10:00Z",
+      "initials": "AH",
+      "resolved": false,
+      "text": "This may be better in the discussion.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Change-detection frameworks further enable assessment of temporal dynamics across seasons and events (Choukiker and Dohare, 2021; Lim et al., 2018; Romero et al., 2016; Zimmermann et al., 2007). Senso"
+            },
+            {
+              "where": "end",
+              "text": "Change-detection frameworks further enable assessment of temporal dynamics across seasons and events (Choukiker and Dohare, 2021; Lim et al., 2018; Romero et al., 2016; Zimmermann et al., 2007). Senso"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "118",
+      "author": "Harris, Aubrey E CIV USARMY CEERD-EL (USA)",
+      "date": "2026-08-07T14:32:00Z",
+      "initials": "AH",
+      "resolved": false,
+      "text": "Should this be presented in meters to be consistent with the rest of the paper?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "(a) Stream gauge locations from three USGS sites (Fort Riley #6879100 [orange line], Manhattan # 6887000 [green line], Wamego # 6887500 [blue line]) near the AOI (outlined in red). (b) Continuous mean"
+            },
+            {
+              "where": "end",
+              "text": "(a) Stream gauge locations from three USGS sites (Fort Riley #6879100 [orange line], Manhattan # 6887000 [green line], Wamego # 6887500 [blue line]) near the AOI (outlined in red). (b) Continuous mean"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "144",
+      "author": "Harris, Aubrey E CIV USARMY CEERD-EL (USA)",
+      "date": "2026-08-07T14:56:00Z",
+      "initials": "AH",
+      "resolved": false,
+      "text": "If this is presented in a figure, I don’t think it needs to be spelled out here.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Predicted surface water and bare land extents varied across sensors and modeling approaches (Fig. 7). For Landsat-9, surface water spanned approximately 183–390 acres under the semi-supervised model a"
+            },
+            {
+              "where": "end",
+              "text": "Predicted surface water and bare land extents varied across sensors and modeling approaches (Fig. 7). For Landsat-9, surface water spanned approximately 183–390 acres under the semi-supervised model a"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "145",
+      "author": "Harris, Aubrey E CIV USARMY CEERD-EL (USA)",
+      "date": "2026-08-07T14:57:00Z",
+      "initials": "AH",
+      "resolved": false,
+      "text": "Similarly, it may be more effective to present these results as figures/tables, than to write it out.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "The temporal relationship between surface water and bare land remained inverse across sensors and modeling approaches (Figs. 8, 9). For Landsat-9, Kendall’s tau values were negative for both semi-supe"
+            },
+            {
+              "where": "end",
+              "text": "The median mesohabitat distribution derived from the seven 2D hydraulic model dates defined the baseline surface-water footprint used for validation (Fig. 11). Confusion-matrix results showed that the"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "157",
+      "author": "Harris, Aubrey E CIV USARMY CEERD-EL (USA)",
+      "date": "2026-08-07T15:01:00Z",
+      "initials": "AH",
+      "resolved": false,
+      "text": "Perhaps “novelty” can be defended by comparing to the effectiveness of other literature in delineating land cover or mesohabitat types.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Discussion"
+            },
+            {
+              "where": "end",
+              "text": "Discussion"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

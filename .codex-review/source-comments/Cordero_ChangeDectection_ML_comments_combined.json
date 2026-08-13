@@ -1,0 +1,1708 @@
+{
+  "file": "_docs/Documentation/_written/Comments/Cordero_ChangeDectection_ML_comments_combined.docx",
+  "comment_count": 74,
+  "comments": [
+    {
+      "id": "0",
+      "author": "Swannack, Todd M",
+      "date": "2025-09-26T13:36:00Z",
+      "initials": "TS",
+      "resolved": false,
+      "text": "I think you should be corresponding author.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Elvin Cordero1,2 and Aubrey Harris3"
+            },
+            {
+              "where": "end",
+              "text": "Elvin Cordero1,2 and Aubrey Harris3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17",
+      "author": "Swannack, Todd M",
+      "date": "2025-09-26T13:39:00Z",
+      "initials": "TS",
+      "resolved": false,
+      "text": "Recommend starting with a broader statement here framing the issue.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "High-cadence satellite data creates new opportunities for riverscape assessment provided that analyses are fast, reproducible, and robust to changing flow. This study evaluates open-source workflows f"
+            },
+            {
+              "where": "end",
+              "text": "High-cadence satellite data creates new opportunities for riverscape assessment provided that analyses are fast, reproducible, and robust to changing flow. This study evaluates open-source workflows f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "20",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T09:39:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Add the satellite name (e.g. PlanetScope)",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "High-cadence satellite data creates new opportunities for riverscape assessment provided that analyses are fast, reproducible, and robust to changing flow. This study evaluates open-source workflows f"
+            },
+            {
+              "where": "end",
+              "text": "High-cadence satellite data creates new opportunities for riverscape assessment provided that analyses are fast, reproducible, and robust to changing flow. This study evaluates open-source workflows f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "25",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T09:51:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Change all bareland to two words “bare land”",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "High-cadence satellite data creates new opportunities for riverscape assessment provided that analyses are fast, reproducible, and robust to changing flow. This study evaluates open-source workflows f"
+            },
+            {
+              "where": "end",
+              "text": "High-cadence satellite data creates new opportunities for riverscape assessment provided that analyses are fast, reproducible, and robust to changing flow. This study evaluates open-source workflows f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "29",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T09:52:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Use satellite name here.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "High-cadence satellite data creates new opportunities for riverscape assessment provided that analyses are fast, reproducible, and robust to changing flow. This study evaluates open-source workflows f"
+            },
+            {
+              "where": "end",
+              "text": "High-cadence satellite data creates new opportunities for riverscape assessment provided that analyses are fast, reproducible, and robust to changing flow. This study evaluates open-source workflows f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "42",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T10:02:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "This might be the journals requirements, but I noticed that the first paragraph is not indented, but indention is present in the remaining paragraphs.  Recommend a formatting check.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Introduction"
+            },
+            {
+              "where": "end",
+              "text": "Introduction"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "43",
+      "author": "Swannack, Todd M",
+      "date": "2025-09-26T13:41:00Z",
+      "initials": "TS",
+      "resolved": false,
+      "text": "Same comment. What is the issue? Start by stating the big issue, then work towards how RS has done great things",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "High-resolution remote sensing (RS) has transformed observation of riverscapes by enabling routine, synoptic mapping of water extent, channel morphology, and habitat structure at organism-relevant spa"
+            },
+            {
+              "where": "end",
+              "text": "High-resolution remote sensing (RS) has transformed observation of riverscapes by enabling routine, synoptic mapping of water extent, channel morphology, and habitat structure at organism-relevant spa"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "44",
+      "author": "Swannack, Todd M",
+      "date": "2025-09-26T13:49:00Z",
+      "initials": "TS",
+      "resolved": false,
+      "text": "This statement depends on how quickly mesohabitats shift. Can you provide an example?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Within hierarchical river habitat frameworks, mesohabitats (e.g., pools, riffles/glides, runs/raceways) occupy the intermediate scale between microhabitats and reaches and exert first-order control on"
+            },
+            {
+              "where": "end",
+              "text": "Within hierarchical river habitat frameworks, mesohabitats (e.g., pools, riffles/glides, runs/raceways) occupy the intermediate scale between microhabitats and reaches and exert first-order control on"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "50",
+      "author": "Swannack, Todd M",
+      "date": "2025-09-26T13:47:00Z",
+      "initials": "TS",
+      "resolved": false,
+      "text": "Don’t start sentences with acronymns/abbreviations",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Remote sensing provides an opportunity to upscale mesohabitat assessment by exploiting spectral, textural, and morphological signals. RS tools commonly used in habitat studies include supervised/unsup"
+            },
+            {
+              "where": "end",
+              "text": "Remote sensing provides an opportunity to upscale mesohabitat assessment by exploiting spectral, textural, and morphological signals. RS tools commonly used in habitat studies include supervised/unsup"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "51",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T12:05:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend adding the approach technique (e.g. ML)",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "A large body of work has leveraged Geographic Object-Based Image Analysis (OBIA) to map riverscape units by coupling image segmentation, spectral features, and contextual/topographic constraints. Hier"
+            },
+            {
+              "where": "end",
+              "text": "A large body of work has leveraged Geographic Object-Based Image Analysis (OBIA) to map riverscape units by coupling image segmentation, spectral features, and contextual/topographic constraints. Hier"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "52",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T10:13:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend adding the type of separability you are referring to.  Spectral, feature detection, segmentation?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "A large body of work has leveraged Geographic Object-Based Image Analysis (OBIA) to map riverscape units by coupling image segmentation, spectral features, and contextual/topographic constraints. Hier"
+            },
+            {
+              "where": "end",
+              "text": "A large body of work has leveraged Geographic Object-Based Image Analysis (OBIA) to map riverscape units by coupling image segmentation, spectral features, and contextual/topographic constraints. Hier"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "58",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T11:06:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Suggest adding more detail on what is meant by learning features (e.g. use of algorithms, etc.)",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "machineM learning (ML) and deep learning have expanded capabilities by learning features directly from data. Surveys detail gains from Convolutional Neural Networks (CNN) and other models for RS class"
+            },
+            {
+              "where": "end",
+              "text": "machineM learning (ML) and deep learning have expanded capabilities by learning features directly from data. Surveys detail gains from Convolutional Neural Networks (CNN) and other models for RS class"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "59",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T10:24:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "This sentence is unclear and needs more clarification.  Below is a suggested example.  “Although classical and modern ML methods provide robust baselines and ensembles for tabular and image features, recent research demonstrates that improvements in ML models such as Convolutional Neural Networks (CNN) have advanced RS classification and representation learning.”",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "machineM learning (ML) and deep learning have expanded capabilities by learning features directly from data. Surveys detail gains from Convolutional Neural Networks (CNN) and other models for RS class"
+            },
+            {
+              "where": "end",
+              "text": "machineM learning (ML) and deep learning have expanded capabilities by learning features directly from data. Surveys detail gains from Convolutional Neural Networks (CNN) and other models for RS class"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "65",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T11:15:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend adding a sentence prior to this one  to state the connection between ML, CNN, and deep networks.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "machineM learning (ML) and deep learning have expanded capabilities by learning features directly from data. Surveys detail gains from Convolutional Neural Networks (CNN) and other models for RS class"
+            },
+            {
+              "where": "end",
+              "text": "machineM learning (ML) and deep learning have expanded capabilities by learning features directly from data. Surveys detail gains from Convolutional Neural Networks (CNN) and other models for RS class"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "67",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T12:08:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Suggest stating the definition of labels here since they are mentioned in several portions of the report.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "machineM learning (ML) and deep learning have expanded capabilities by learning features directly from data. Surveys detail gains from Convolutional Neural Networks (CNN) and other models for RS class"
+            },
+            {
+              "where": "end",
+              "text": "machineM learning (ML) and deep learning have expanded capabilities by learning features directly from data. Surveys detail gains from Convolutional Neural Networks (CNN) and other models for RS class"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "68",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T11:20:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "State why it is important here (e.g. the ability to map certain features and feature visibility).  It also needs a link to the prior paragraph.  Recommend adding this as an introduction sentence and include how you will discuss spatial resolution such as coarse/medium resolution (10-30m), high resolution (3-10m), and VHR (submeter to 1m) resolution sensor options. Also recommend adding pros and cons to each sensor type for your research focus.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Sensor choice is important; coarser sensors (10–30 m) incur mixed pixels in narrow channel widths, whereas most VHR constellations trade spatial grain against temporal cadence. PlanetScope (~3 m, near"
+            },
+            {
+              "where": "end",
+              "text": "Sensor choice is important; coarser sensors (10–30 m) incur mixed pixels in narrow channel widths, whereas most VHR constellations trade spatial grain against temporal cadence. PlanetScope (~3 m, near"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "74",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T11:34:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "If this statement is kept, recommend changing the next sentence to denote how Planet is different since it has both VHR spatial grain and temporal collections. (e.g. It is newer, commercial, maybe is doesn’t have as many spectral bands as other VHR constellations, etc.) Therefore, it may not be a resolution and temporal collection issue but a spectral resolution issue.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Sensor choice is important; coarser sensors (10–30 m) incur mixed pixels in narrow channel widths, whereas most VHR constellations trade spatial grain against temporal cadence. PlanetScope (~3 m, near"
+            },
+            {
+              "where": "end",
+              "text": "Sensor choice is important; coarser sensors (10–30 m) incur mixed pixels in narrow channel widths, whereas most VHR constellations trade spatial grain against temporal cadence. PlanetScope (~3 m, near"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "75",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T11:18:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Add satellite name since Planet has many constellations of satellites.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Sensor choice is important; coarser sensors (10–30 m) incur mixed pixels in narrow channel widths, whereas most VHR constellations trade spatial grain against temporal cadence. PlanetScope (~3 m, near"
+            },
+            {
+              "where": "end",
+              "text": "Sensor choice is important; coarser sensors (10–30 m) incur mixed pixels in narrow channel widths, whereas most VHR constellations trade spatial grain against temporal cadence. PlanetScope (~3 m, near"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "78",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T11:42:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend adding additional citations for the adoption of Planet for this use.  Or you could restate that Planet can be used in a wide array of applications for aquatic and terrestrial environments.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Sensor choice is important; coarser sensors (10–30 m) incur mixed pixels in narrow channel widths, whereas most VHR constellations trade spatial grain against temporal cadence. PlanetScope (~3 m, near"
+            },
+            {
+              "where": "end",
+              "text": "Sensor choice is important; coarser sensors (10–30 m) incur mixed pixels in narrow channel widths, whereas most VHR constellations trade spatial grain against temporal cadence. PlanetScope (~3 m, near"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "81",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T11:58:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Class labels?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Despite substantial advances, an operational gap remains: can mesohabitat labels be predicted directly from satellite features across streamflow regimes, without reliance on site-specific LiDAR or den"
+            },
+            {
+              "where": "end",
+              "text": "Despite substantial advances, an operational gap remains: can mesohabitat labels be predicted directly from satellite features across streamflow regimes, without reliance on site-specific LiDAR or den"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "82",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T12:10:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "state what you are evaluating.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Despite substantial advances, an operational gap remains: can mesohabitat labels be predicted directly from satellite features across streamflow regimes, without reliance on site-specific LiDAR or den"
+            },
+            {
+              "where": "end",
+              "text": "Despite substantial advances, an operational gap remains: can mesohabitat labels be predicted directly from satellite features across streamflow regimes, without reliance on site-specific LiDAR or den"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "91",
+      "author": "Swannack, Todd M",
+      "date": "2025-09-26T14:09:00Z",
+      "initials": "TS",
+      "resolved": false,
+      "text": "Does the objective need a separate header?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Objective"
+            },
+            {
+              "where": "end",
+              "text": "Objective"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "92",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T10:06:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "The abstract mentions LandSat and HEC-RAS, but they are not mentioned here.  Suggest making note of these.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Objective"
+            },
+            {
+              "where": "end",
+              "text": "Objective"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "93",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-25T12:15:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Satellite name",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "This study advances riverscape mapping by testing whether mesohabitat classes can be inferred directly from high-resolution satellite features across varying discharges, rather than relying on inundat"
+            },
+            {
+              "where": "end",
+              "text": "This study advances riverscape mapping by testing whether mesohabitat classes can be inferred directly from high-resolution satellite features across varying discharges, rather than relying on inundat"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "102",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T11:20:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "This section seems out of place and does not provide enough detail and flow for each step in the process.  It could be removed and added to specific points in the methods below where it is utilized. Also, recommend adding/moving text  to a section before to first describe the study area and a brief summary to introduce methods that you will be presenting (i.e. supervised, unsupervised classification, image clipping, etc.), throughout this section, then detailing the data inputs and process steps.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Software & Data Requirements"
+            },
+            {
+              "where": "end",
+              "text": "Software & Data Requirements"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "103",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T10:04:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Suggest adding a brief description of the procedure or technique that you were using and the type of statistical analysis",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "The geospatial processing procedure was completed for the data prior to the statistical analysis utilizing the R statistical language (R Core Team, 2023). A suite of R spatial tools including the terr"
+            },
+            {
+              "where": "end",
+              "text": "The geospatial processing procedure was completed for the data prior to the statistical analysis utilizing the R statistical language (R Core Team, 2023). A suite of R spatial tools including the terr"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "110",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T10:30:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend moving the label (b) and removing the red outline border for that image since you mention in the text caption that it is in the study area represented in image a.  Also the red border could cause confusion with the red boundary inside the image.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": ""
+            },
+            {
+              "where": "end",
+              "text": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "119",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T11:50:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend giving this area a name to make it easier to reference it throughout the document.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Figure 1: The red square in left panel (a) represents the study’s area of interest (b) which is adjacent to the city of Manhattan, Kansas, located roughly 200 kilometers west of Kansas City Metropolit"
+            },
+            {
+              "where": "end",
+              "text": "Figure 1: The red square in left panel (a) represents the study’s area of interest (b) which is adjacent to the city of Manhattan, Kansas, located roughly 200 kilometers west of Kansas City Metropolit"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "130",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T11:03:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend adding whether the final selected images had seasonal coverage (or discharge regime) to make sure there wasn’t a bias is the dates observed.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Landsat-9 (30-m) satellite images collected between November 21, 2021 and November 14, 2023 were retrieved via GEE (USGS, 2023c). Images with more than 20% cloud cover were excluded from the collectio"
+            },
+            {
+              "where": "end",
+              "text": "Landsat-9 (30-m) satellite images collected between November 21, 2021 and November 14, 2023 were retrieved via GEE (USGS, 2023c). Images with more than 20% cloud cover were excluded from the collectio"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "146",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T11:01:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend stating that from this point forward you will use PlanetScope to refer to PS2, PS2.SD, and PSB.SD satellites in that constellation. Technical Specification | Planet Documentation",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Landsat-9 (30-m) satellite images collected between November 21, 2021 and November 14, 2023 were retrieved via GEE (USGS, 2023c). Images with more than 20% cloud cover were excluded from the collectio"
+            },
+            {
+              "where": "end",
+              "text": "Landsat-9 (30-m) satellite images collected between November 21, 2021 and November 14, 2023 were retrieved via GEE (USGS, 2023c). Images with more than 20% cloud cover were excluded from the collectio"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "151",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T10:38:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Add satellite name.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Landsat-9 (30-m) satellite images collected between November 21, 2021 and November 14, 2023 were retrieved via GEE (USGS, 2023c). Images with more than 20% cloud cover were excluded from the collectio"
+            },
+            {
+              "where": "end",
+              "text": "Landsat-9 (30-m) satellite images collected between November 21, 2021 and November 14, 2023 were retrieved via GEE (USGS, 2023c). Images with more than 20% cloud cover were excluded from the collectio"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "161",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T11:11:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Are the 22 only LandSat-9 images? How many were PlanetScope images?  This sentence needs clarification.  Is there one stack will all images and bands, two stacks (1 for LandSat and 1 for PlanetScope images), or a stack for each timestamp per satellite type?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Landsat-9 (30-m) satellite images collected between November 21, 2021 and November 14, 2023 were retrieved via GEE (USGS, 2023c). Images with more than 20% cloud cover were excluded from the collectio"
+            },
+            {
+              "where": "end",
+              "text": "Landsat-9 (30-m) satellite images collected between November 21, 2021 and November 14, 2023 were retrieved via GEE (USGS, 2023c). Images with more than 20% cloud cover were excluded from the collectio"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "162",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T11:24:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend adding a table to show the various satellites and bands available for each and possibly the dates of imagery used in the analysis.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Landsat-9 (30-m) satellite images collected between November 21, 2021 and November 14, 2023 were retrieved via GEE (USGS, 2023c). Images with more than 20% cloud cover were excluded from the collectio"
+            },
+            {
+              "where": "end",
+              "text": "Landsat-9 (30-m) satellite images collected between November 21, 2021 and November 14, 2023 were retrieved via GEE (USGS, 2023c). Images with more than 20% cloud cover were excluded from the collectio"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "184",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T11:55:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "State the purpose of performing this analysis and how it will relate to methods described later with the PlanetScope and LandSat-9",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Aquatic mesohabitat types were defined from a 2D HEC-RAS simulation on a 3-m grid using depth–velocity thresholds consistent with mesoscale typologies (Aadland, 1993; Wiest et al., 2024). Classes comp"
+            },
+            {
+              "where": "end",
+              "text": "Aquatic mesohabitat types were defined from a 2D HEC-RAS simulation on a 3-m grid using depth–velocity thresholds consistent with mesoscale typologies (Aadland, 1993; Wiest et al., 2024). Classes comp"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "185",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T14:18:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "What year was the HEC-RAS simulation developed? Were there multiple scenarios available? How does this date relate to the chosen timeframe from LandSat-9 and PlanetScope imagery",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Aquatic mesohabitat types were defined from a 2D HEC-RAS simulation on a 3-m grid using depth–velocity thresholds consistent with mesoscale typologies (Aadland, 1993; Wiest et al., 2024). Classes comp"
+            },
+            {
+              "where": "end",
+              "text": "Aquatic mesohabitat types were defined from a 2D HEC-RAS simulation on a 3-m grid using depth–velocity thresholds consistent with mesoscale typologies (Aadland, 1993; Wiest et al., 2024). Classes comp"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "186",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T15:19:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "How are these classes related to the semi-supervised and supervised habitat classes discussion later in the methods section?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Aquatic mesohabitat types were defined from a 2D HEC-RAS simulation on a 3-m grid using depth–velocity thresholds consistent with mesoscale typologies (Aadland, 1993; Wiest et al., 2024). Classes comp"
+            },
+            {
+              "where": "end",
+              "text": "Aquatic mesohabitat types were defined from a 2D HEC-RAS simulation on a 3-m grid using depth–velocity thresholds consistent with mesoscale typologies (Aadland, 1993; Wiest et al., 2024). Classes comp"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "192",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T11:58:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Appears to be presenting results prior to concluding the methods section which may be necessary to get to the purpose as mentioned in the last comment.  Suggest reviewing.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "2022-05-31, 2022-06-20, 2022-07-18, and 2022-09-28 (Figure 3). For each snapshot, the hydraulic model produced a categorical mesohabitat map. A surface-water baseline mask was then derived as the per-"
+            },
+            {
+              "where": "end",
+              "text": "2022-05-31, 2022-06-20, 2022-07-18, and 2022-09-28 (Figure 3). For each snapshot, the hydraulic model produced a categorical mesohabitat map. A surface-water baseline mask was then derived as the per-"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "210",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T11:43:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "The map labels this station as Big Blue, check for consistency.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Figure 3: (a) Stream gauge data from three USGS sites (Fort Riley No.6879100, Wamego No.6887500, Manhattan No.6887000) near the study area (outlined in red) were used to identify seven dates with dive"
+            },
+            {
+              "where": "end",
+              "text": "Figure 3: (a) Stream gauge data from three USGS sites (Fort Riley No.6879100, Wamego No.6887500, Manhattan No.6887000) near the study area (outlined in red) were used to identify seven dates with dive"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "216",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T11:47:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend adding revising this section and placing on the (b) side of the text to avoid confusion.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Figure 3: (a) Stream gauge data from three USGS sites (Fort Riley No.6879100, Wamego No.6887500, Manhattan No.6887000) near the study area (outlined in red) were used to identify seven dates with dive"
+            },
+            {
+              "where": "end",
+              "text": "Figure 3: (a) Stream gauge data from three USGS sites (Fort Riley No.6879100, Wamego No.6887500, Manhattan No.6887000) near the study area (outlined in red) were used to identify seven dates with dive"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "219",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T11:46:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Add legend or text description of which colored line corresponds to which gauge.  Also state what do the non-filled in circles represent.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Figure 3: (a) Stream gauge data from three USGS sites (Fort Riley No.6879100, Wamego No.6887500, Manhattan No.6887000) near the study area (outlined in red) were used to identify seven dates with dive"
+            },
+            {
+              "where": "end",
+              "text": "Figure 3: (a) Stream gauge data from three USGS sites (Fort Riley No.6879100, Wamego No.6887500, Manhattan No.6887000) near the study area (outlined in red) were used to identify seven dates with dive"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "222",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T14:21:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Results section?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": ""
+            },
+            {
+              "where": "end",
+              "text": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "238",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T14:20:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Check date with label",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Figure 4: Predicted distribution of mesohabitats within the study area between December 2021 and September 2022 (see study area figure for reference location). Left panel displays the median distribut"
+            },
+            {
+              "where": "end",
+              "text": "Figure 4: Predicted distribution of mesohabitats within the study area between December 2021 and September 2022 (see study area figure for reference location). Left panel displays the median distribut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "243",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T11:53:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Check for consistency, label box on right side of figure displays April 1 2022, and text says April 4, 2023.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Figure 4: Predicted distribution of mesohabitats within the study area between December 2021 and September 2022 (see study area figure for reference location). Left panel displays the median distribut"
+            },
+            {
+              "where": "end",
+              "text": "Figure 4: Predicted distribution of mesohabitats within the study area between December 2021 and September 2022 (see study area figure for reference location). Left panel displays the median distribut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "255",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T12:15:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Was this done for both LandSat-9 and PlanetScope?  State that here.  Also include what software/code was used to run this analysis and the classes that you are hoping to identify (i.e. mixed/bare land etc.)",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "A semi-supervised classification approach was used to categorize the imagery into five classes: urban, bare land, non-forest vegetation, forested land, and surface water.  This ensemble approach invol"
+            },
+            {
+              "where": "end",
+              "text": "A semi-supervised classification approach was used to categorize the imagery into five classes: urban, bare land, non-forest vegetation, forested land, and surface water.  This ensemble approach invol"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "260",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T12:19:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "More clarification is needed for this sentence such as number of classes, method for clustering, etc.).  Please check my rewording for accuracy.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "A semi-supervised classification approach was used to categorize the imagery into five classes: urban, bare land, non-forest vegetation, forested land, and surface water.  This ensemble approach invol"
+            },
+            {
+              "where": "end",
+              "text": "A semi-supervised classification approach was used to categorize the imagery into five classes: urban, bare land, non-forest vegetation, forested land, and surface water.  This ensemble approach invol"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "276",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T12:25:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend clarifying this sentence",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "A semi-supervised classification approach was used to categorize the imagery into five classes: urban, bare land, non-forest vegetation, forested land, and surface water.  This ensemble approach invol"
+            },
+            {
+              "where": "end",
+              "text": "A semi-supervised classification approach was used to categorize the imagery into five classes: urban, bare land, non-forest vegetation, forested land, and surface water.  This ensemble approach invol"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "277",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T12:33:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Explain what this method is and why it is important to use. Also explain how the K between 2-15 was considered ideal.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "A semi-supervised classification approach was used to categorize the imagery into five classes: urban, bare land, non-forest vegetation, forested land, and surface water.  This ensemble approach invol"
+            },
+            {
+              "where": "end",
+              "text": "A semi-supervised classification approach was used to categorize the imagery into five classes: urban, bare land, non-forest vegetation, forested land, and surface water.  This ensemble approach invol"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "283",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T12:42:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Was the silhouette method used to determine K or the elbow method? A little confusing here since there may be some intermediate steps.  Suggest clarifying.  See comment for figure 5",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "A semi-supervised classification approach was used to categorize the imagery into five classes: urban, bare land, non-forest vegetation, forested land, and surface water.  This ensemble approach invol"
+            },
+            {
+              "where": "end",
+              "text": "A semi-supervised classification approach was used to categorize the imagery into five classes: urban, bare land, non-forest vegetation, forested land, and surface water.  This ensemble approach invol"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "286",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T14:49:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend stating what the baseline condition represents.  Early in section 2.2.1, there is mention of a surface-water baseline mask.  How does this differ? If it does, how was the surface-water baseline used in the classification process?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "similarity between an object and the objects in its own cluster versus the other clusters. Six clusters produced the highest average silhouette width and was therefore chosen as the optimal value of k"
+            },
+            {
+              "where": "end",
+              "text": "similarity between an object and the objects in its own cluster versus the other clusters. Six clusters produced the highest average silhouette width and was therefore chosen as the optimal value of k"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "309",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T14:14:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Need more clarification here",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Each cluster produced from the K-means model was treated as a distinct class. Next,  the K-Nearest Neighbors (KNN) classification algorithm was used to transition from unsupervised to supervised learn"
+            },
+            {
+              "where": "end",
+              "text": "Each cluster produced from the K-means model was treated as a distinct class. Next,  the K-Nearest Neighbors (KNN) classification algorithm was used to transition from unsupervised to supervised learn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "310",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T14:15:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend stating what software, etc. was used to visualize and assign classes.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "The classified pixels were named based on visual identification, such as non-forest vegetation, forest, water, and mixed/bare land (either bare land or urban) (Figure 6)."
+            },
+            {
+              "where": "end",
+              "text": "The classified pixels were named based on visual identification, such as non-forest vegetation, forest, water, and mixed/bare land (either bare land or urban) (Figure 6)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "319",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T12:45:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend adding the caption description here to the main body of the text.  This clarifies a lot based on my previous comments.  Also on image b, text box at top right was PlanetScope imagery resampled to 20m resolution?  If so, recommend expanded on that in the text.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": ""
+            },
+            {
+              "where": "end",
+              "text": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "324",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T14:19:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend adding an outline to the left panel to distinguish it from the right panel. Same for all figures.  Also, I believe this figure should be in the results section.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": ""
+            },
+            {
+              "where": "end",
+              "text": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "338",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T14:28:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Were the manual delineations the training samples used in the supervised classification?  Need to clarify.  Not sure what is meant by unchanged pixels? Please expand further. Also include software/code used for this classification",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "A supervised approach was used to classify pixels into five general classes – bare land, non-forest vegetation (i.e. shrubby, scattered brush, or grasslands, etc.), forest, urban, and water based off "
+            },
+            {
+              "where": "end",
+              "text": "A supervised approach was used to classify pixels into five general classes – bare land, non-forest vegetation (i.e. shrubby, scattered brush, or grasslands, etc.), forest, urban, and water based off "
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "339",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T14:40:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "What is meant by average conditions? Suggest stating the difference between this average raster vs the individual classification rasters.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "The trained random forest model was used to predict the pixels across the AOI for the raster stacks, creating a classified raster representing the average conditions within the two-year period of imag"
+            },
+            {
+              "where": "end",
+              "text": "The trained random forest model was used to predict the pixels across the AOI for the raster stacks, creating a classified raster representing the average conditions within the two-year period of imag"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "342",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T14:36:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Was this done separately for LandSat vs PlanetScope? If not, how was the image resolution differences handled?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "The trained random forest model was used to predict the pixels across the AOI for the raster stacks, creating a classified raster representing the average conditions within the two-year period of imag"
+            },
+            {
+              "where": "end",
+              "text": "The trained random forest model was used to predict the pixels across the AOI for the raster stacks, creating a classified raster representing the average conditions within the two-year period of imag"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "348",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T14:43:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Suggest adding a sentence or two to introduce what you will be discussing.  Software used for the analysis and data type (LandSat-09 vs PlanetScope)  Since pixel area is ~900m2, was PlanetScope imagery evaluated? Was it resampled to 30m?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "The ML-classified rasters were masked to the river corridor to limit the noise in the results. The average cell size (~900 m2) was converted to acres (1m2 = 0.00024711 acres) and was multiplied by the"
+            },
+            {
+              "where": "end",
+              "text": "The ML-classified rasters were masked to the river corridor to limit the noise in the results. The average cell size (~900 m2) was converted to acres (1m2 = 0.00024711 acres) and was multiplied by the"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "349",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T14:47:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Raster or rasters? Is there more than one baseline or one baseline for planetscope and one for landsat-9?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "The ML-classified rasters were masked to the river corridor to limit the noise in the results. The average cell size (~900 m2) was converted to acres (1m2 = 0.00024711 acres) and was multiplied by the"
+            },
+            {
+              "where": "end",
+              "text": "The ML-classified rasters were masked to the river corridor to limit the noise in the results. The average cell size (~900 m2) was converted to acres (1m2 = 0.00024711 acres) and was multiplied by the"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "352",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T14:46:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "I do not see this notation in the equation.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "𝑎𝑟𝑒𝑎𝛿2 is the change relative to the baseline condition, 𝑡0 is the baseline condition, 𝑡𝑛 represents a sampling date, and 𝑡𝑛+1 is the following sampling date."
+            },
+            {
+              "where": "end",
+              "text": "𝑎𝑟𝑒𝑎𝛿2 is the change relative to the baseline condition, 𝑡0 is the baseline condition, 𝑡𝑛 represents a sampling date, and 𝑡𝑛+1 is the following sampling date."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "357",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T14:51:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Inferred how? Visually, etc..  Also, a version of this sentence would be extremely useful at the beginning of the methods section.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "To evaluate whether mesohabitat types can be predicted directly from satellite data, rather than inferring inundation, HEC-RAS–derived mesohabitat maps (Aadland, 1993; Wiest et al., 2024) were used as"
+            },
+            {
+              "where": "end",
+              "text": "To evaluate whether mesohabitat types can be predicted directly from satellite data, rather than inferring inundation, HEC-RAS–derived mesohabitat maps (Aadland, 1993; Wiest et al., 2024) were used as"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "358",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T14:54:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend adding this as a separate section prior to this one since it is a new method that has not yet been discussed.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "To evaluate whether mesohabitat types can be predicted directly from satellite data, rather than inferring inundation, HEC-RAS–derived mesohabitat maps (Aadland, 1993; Wiest et al., 2024) were used as"
+            },
+            {
+              "where": "end",
+              "text": "To evaluate whether mesohabitat types can be predicted directly from satellite data, rather than inferring inundation, HEC-RAS–derived mesohabitat maps (Aadland, 1993; Wiest et al., 2024) were used as"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "382",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T15:37:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "The discussion focuses mainly on the bare land and water classes, however, the other classes are not mentioned as frequently. Recommend discussing them as frequently or provide a reason at the beginning of this section as to why these two classes are more important.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Surface Water Validation"
+            },
+            {
+              "where": "end",
+              "text": "Surface Water Validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "415",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T15:20:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "In all figures, change bareland to bare land.  Also, the acres triangle symbol on the legend is not on the graph.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": ""
+            },
+            {
+              "where": "end",
+              "text": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "433",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T15:41:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Consider revising.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Due to the non-normality and limited data points, a Kendall’s tau correlation coefficient was computed to test the relationship between the bare land and surface water landcover types. The results rev"
+            },
+            {
+              "where": "end",
+              "text": "Due to the non-normality and limited data points, a Kendall’s tau correlation coefficient was computed to test the relationship between the bare land and surface water landcover types. The results rev"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "437",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T15:46:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend using Figure 8a to remove some of the parenthesis for easier reading. Same as with other figures",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "correlated (-0.49 and -0.39 in the Landsat and PlanetScope datasets, respectively) for the semi-supervised model (Figures 8(a)-9(a)). Positive changes in surface water area led to negative changes in "
+            },
+            {
+              "where": "end",
+              "text": "correlated (-0.49 and -0.39 in the Landsat and PlanetScope datasets, respectively) for the semi-supervised model (Figures 8(a)-9(a)). Positive changes in surface water area led to negative changes in "
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "447",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T15:54:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Is this the classes defined by the HEC-RAS analysis?  If so, suggest clarifying here.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "A confusion matrix comparing the baseline surface-water condition predicted by the unsupervised and supervised learning models against the median mesohabitat distribution showed that the semi-supervis"
+            },
+            {
+              "where": "end",
+              "text": "A confusion matrix comparing the baseline surface-water condition predicted by the unsupervised and supervised learning models against the median mesohabitat distribution showed that the semi-supervis"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "448",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T15:56:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Does this total represent both LandSat and Planet derived totals or just one? Clarify",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "A confusion matrix comparing the baseline surface-water condition predicted by the unsupervised and supervised learning models against the median mesohabitat distribution showed that the semi-supervis"
+            },
+            {
+              "where": "end",
+              "text": "A confusion matrix comparing the baseline surface-water condition predicted by the unsupervised and supervised learning models against the median mesohabitat distribution showed that the semi-supervis"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "454",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T15:44:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Recommend adding the ML model reference in the description of the classification approach for consistency",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Table 1: Summary of average and total area (acres) of bare land and surface water predicted by the ML models."
+            },
+            {
+              "where": "end",
+              "text": "Table 1: Summary of average and total area (acres) of bare land and surface water predicted by the ML models."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "468",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T16:11:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Methods for this analysis are not clear or well represented in the methods section.  Recommend strengthening the process in that section by detailing how the mesohabitat features were derived from satellite imagery.\nFor the figure, recommend changing the order of display for semi-supervised and supervised to match the consistency for other figures in the report.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": ""
+            },
+            {
+              "where": "end",
+              "text": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "502",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T16:31:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Is there a citation here?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "in narrow channels and along riffle pool transitions, attenuating spectral contrast and blurring boundaries. Third, several mesohabitat distinctions are spectrally ambiguous at four bands because they"
+            },
+            {
+              "where": "end",
+              "text": "in narrow channels and along riffle pool transitions, attenuating spectral contrast and blurring boundaries. Third, several mesohabitat distinctions are spectrally ambiguous at four bands because they"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "503",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T16:30:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Is there a citation here?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "in narrow channels and along riffle pool transitions, attenuating spectral contrast and blurring boundaries. Third, several mesohabitat distinctions are spectrally ambiguous at four bands because they"
+            },
+            {
+              "where": "end",
+              "text": "in narrow channels and along riffle pool transitions, attenuating spectral contrast and blurring boundaries. Third, several mesohabitat distinctions are spectrally ambiguous at four bands because they"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "525",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T16:35:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "What is the intended meaning here?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Quantify predictive uncertainty (e.g. calibration), enabling thresholded, conservative products for management use."
+            },
+            {
+              "where": "end",
+              "text": "Quantify predictive uncertainty (e.g. calibration), enabling thresholded, conservative products for management use."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "531",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T16:38:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Wording?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Satellite-based workflows accurately recover inundation within river corridors and offer a scalable foundation for riverscape monitoring. Direct mesohabitat prediction from four-band PlanetScope featu"
+            },
+            {
+              "where": "end",
+              "text": "Satellite-based workflows accurately recover inundation within river corridors and offer a scalable foundation for riverscape monitoring. Direct mesohabitat prediction from four-band PlanetScope featu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "545",
+      "author": "Saltus, Christina L CIV USARMY CEERD-EL (USA)",
+      "date": "2025-08-26T17:15:00Z",
+      "initials": "CS",
+      "resolved": false,
+      "text": "Not cited in report",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Kneubuehler, M., Edwards, T., 2007. Modern Remote Sensing for Environmental Monitoring of Landscape States and Trajectories. pp. 65–91. https://doi.org/10.1007/978-1-4020-4436- 6_6"
+            },
+            {
+              "where": "end",
+              "text": "Kneubuehler, M., Edwards, T., 2007. Modern Remote Sensing for Environmental Monitoring of Landscape States and Trajectories. pp. 65–91. https://doi.org/10.1007/978-1-4020-4436- 6_6"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

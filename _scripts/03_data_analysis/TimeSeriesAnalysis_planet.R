@@ -21,7 +21,9 @@ names(rfRaster) == names(kmRaster)
 
 # 1 = water, 2 = mixed (urban/bareland), 3 = urban 
 # 4 = cropland, 5 = forest, 6 = mixed (urban/bareland)
-rcl <- cbind(c(1,2,3,4,5,6),c(2,1,1,4,3,1))
+# rcl <- cbind(c(1,2,3,4,5,6),c(2,1,1,4,3,1))
+rcl <- cbind(c(1,2,3,4,5,6), c(1,3,2,4,1,1))
+
 kmRaster <- classify(kmRaster,rcl)
 kmRaster <- as.factor(kmRaster)
 kmValues <- list(data.frame(1:4,c('bareland','water','forest','cropland')))

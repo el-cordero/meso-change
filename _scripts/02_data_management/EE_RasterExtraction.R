@@ -37,15 +37,15 @@ task_img <- ee_imagecollection_to_local(
   dsn = "/Users/EC13/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/Raster/Landsat/Raw/"
 )
 
-# extract image data
-images <- ee$ImageCollection('LANDSAT/LC09/C02/T1') %>%
-  ee$ImageCollection$filterBounds(aoi) %>%
-  ee$ImageCollection$filterDate('2022-08-08', '2023-12-01') %>%
-  ee$ImageCollection$filter(ee$Filter$lt('CLOUD_COVER',20)) %>%
-  ee$ImageCollection$select('B[2-4]')
-
-task_img <- ee_imagecollection_to_local(
-  ic = images,
-  region = aoi,
-  dsn = "/Users/EC13/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/Raster/Landsat/Color/"
-)
+# # extract image data
+# images <- ee$ImageCollection('LANDSAT/LC09/C02/T1') %>%
+#   ee$ImageCollection$filterBounds(aoi) %>%
+#   ee$ImageCollection$filterDate('2022-08-08', '2023-12-01') %>%
+#   ee$ImageCollection$filter(ee$Filter$lt('CLOUD_COVER',20)) %>%
+#   ee$ImageCollection$select('B[2-4]')
+# 
+# task_img <- ee_imagecollection_to_local(
+#   ic = images,
+#   region = aoi,
+#   dsn = "/Users/EC13/Documents/Projects/USACE/ML Mesohabitats/Data/GIS/Kansas/Raster/Landsat/Color/"
+# )

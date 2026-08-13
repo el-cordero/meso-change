@@ -1,0 +1,144 @@
+{
+  "file": "_docs/Documentation/_written/Comments/Cordero_ChangeDectection_ML_TS.docx",
+  "comment_count": 6,
+  "comments": [
+    {
+      "id": "0",
+      "author": "Swannack, Todd M",
+      "date": "2025-09-26T13:36:00Z",
+      "initials": "TS",
+      "resolved": false,
+      "text": "I think you should be corresponding author.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Elvin Cordero1,2 and Aubrey Harris3"
+            },
+            {
+              "where": "end",
+              "text": "Elvin Cordero1,2 and Aubrey Harris3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "author": "Swannack, Todd M",
+      "date": "2025-09-26T13:39:00Z",
+      "initials": "TS",
+      "resolved": false,
+      "text": "Recommend starting with a broader statement here framing the issue.",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "High-cadence satellite data creates new opportunities for riverscape assessment provided that analyses are fast, reproducible, and robust to changing flow. This study evaluates open-source workflows f"
+            },
+            {
+              "where": "end",
+              "text": "High-cadence satellite data creates new opportunities for riverscape assessment provided that analyses are fast, reproducible, and robust to changing flow. This study evaluates open-source workflows f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "author": "Swannack, Todd M",
+      "date": "2025-09-26T13:41:00Z",
+      "initials": "TS",
+      "resolved": false,
+      "text": "Same comment. What is the issue? Start by stating the big issue, then work towards how RS has done great things",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "High-resolution remote sensing (RS) has transformed observation of riverscapes by enabling routine, synoptic mapping of water extent, channel morphology, and habitat structure at organism-relevant spa"
+            },
+            {
+              "where": "end",
+              "text": "High-resolution remote sensing (RS) has transformed observation of riverscapes by enabling routine, synoptic mapping of water extent, channel morphology, and habitat structure at organism-relevant spa"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "author": "Swannack, Todd M",
+      "date": "2025-09-26T13:49:00Z",
+      "initials": "TS",
+      "resolved": false,
+      "text": "This statement depends on how quickly mesohabitats shift. Can you provide an example?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Within hierarchical river habitat frameworks, mesohabitats (e.g., pools, riffles/glides, runs/raceways) occupy the intermediate scale between microhabitats and reaches and exert first-order control on"
+            },
+            {
+              "where": "end",
+              "text": "Within hierarchical river habitat frameworks, mesohabitats (e.g., pools, riffles/glides, runs/raceways) occupy the intermediate scale between microhabitats and reaches and exert first-order control on"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "18",
+      "author": "Swannack, Todd M",
+      "date": "2025-09-26T13:47:00Z",
+      "initials": "TS",
+      "resolved": false,
+      "text": "Don’t start sentences with acronymns/abbreviations",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Remote sensing provides an opportunity to upscale mesohabitat assessment by exploiting spectral, textural, and morphological signals. RS tools commonly used in habitat studies include supervised/unsup"
+            },
+            {
+              "where": "end",
+              "text": "Remote sensing provides an opportunity to upscale mesohabitat assessment by exploiting spectral, textural, and morphological signals. RS tools commonly used in habitat studies include supervised/unsup"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "23",
+      "author": "Swannack, Todd M",
+      "date": "2025-09-26T14:09:00Z",
+      "initials": "TS",
+      "resolved": false,
+      "text": "Does the objective need a separate header?",
+      "anchors": [
+        {
+          "part": "word/document.xml",
+          "paragraphs": [
+            {
+              "where": "start",
+              "text": "Objective"
+            },
+            {
+              "where": "end",
+              "text": "Objective"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
