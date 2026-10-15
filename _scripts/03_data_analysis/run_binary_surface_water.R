@@ -1,0 +1,15 @@
+source("_scripts/03_data_analysis/08_binary_config.R")
+source("_scripts/03_data_analysis/09_binary_helpers.R")
+source("_scripts/03_data_analysis/10_binary_landcover_models.R")
+source("_scripts/03_data_analysis/11_binary_postprocess.R")
+source("_scripts/03_data_analysis/12_validate_binary_outputs.R")
+source("_scripts/03_data_analysis/13_verify_surface_water_spearman.R")
+source("_scripts/03_data_analysis/14_multisensor_surface_water_spearman.R")
+
+run_binary_landcover_models()
+run_binary_postprocessing()
+verify_surface_water_spearman()
+calculate_multisensor_surface_water_spearman()
+validate_binary_outputs()
+
+message("All binary land and surface-water analyses completed successfully.")

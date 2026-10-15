@@ -1,0 +1,17 @@
+source("_scripts/03_data_analysis/00_config.R")
+source("_scripts/03_data_analysis/01_helpers.R")
+source("_scripts/03_data_analysis/02_landcover_random_forest.R")
+source("_scripts/03_data_analysis/03_mesohabitat_classification.R")
+source("_scripts/03_data_analysis/04_postprocess_results.R")
+source("_scripts/03_data_analysis/05_validate_outputs.R")
+source("_scripts/03_data_analysis/06_finalize_multiclass_metrics.R")
+source("_scripts/03_data_analysis/07_pool_mesohabitat_confusion.R")
+
+run_landcover_analysis()
+run_mesohabitat_analysis()
+finalize_multiclass_metrics()
+pool_mesohabitat_confusion()
+run_postprocessing()
+validate_balanced_outputs()
+
+message("All balanced analyses completed successfully.")
